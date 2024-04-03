@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kvdemy.Web.Data
 {
-	public class ApplicationDbContext : IdentityDbContext
+	public class KvdemyDbContext : IdentityDbContext
 	{
-		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+		public KvdemyDbContext(DbContextOptions<KvdemyDbContext> options)
 			: base(options)
 		{
 		}
