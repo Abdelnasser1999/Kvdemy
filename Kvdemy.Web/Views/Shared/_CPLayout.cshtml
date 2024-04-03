@@ -1,0 +1,505 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+
+@{
+    string Action = null;
+    string Controller = null;
+    string currentURL = null;
+    string activePage = null;
+    try
+    {
+        Action = ViewContext.RouteData.Values["action"].ToString().ToLower();
+        Controller = ViewContext.RouteData.Values["Controller"].ToString().ToLower();
+        currentURL = Controller + "/" + Action;
+
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
+}
+
+<html lang="en" direction="rtl" style="direction: rtl;">
+<head>
+    <base href="../../../">
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] </title>
+    <link rel="icon" href="~/ThemImages/logo.png"
+          type="image/x-icon">ا
+
+    <meta name="description" content="Initialized via remote ajax json data" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="canonical" href="https://keenthemes.com/metronic" />
+
+    <link href="~/assets/plugins/global/plugins.bundle.rtl.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/plugins/custom/prismjs/prismjs.bundle.rtl.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/style.bundle.rtl.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/themes/layout/header/base/light.rtl.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/themes/layout/header/menu/light.rtl.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/themes/layout/brand/light.rtl.css" rel="stylesheet" type="text/css" />
+    <link href="~/assets/css/themes/layout/aside/light.rtl.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="/LogoIcon.jpg" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
+          rel="stylesheet">
+    <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="~/css/custome/fontawesome.css">
+    <link href="~/css/Elghad.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+    <style>
+
+       
+
+        .datatable.datatable-default.datatable-head-custom > .datatable-table > .datatable-foot .datatable-row > .datatable-cell > span, .datatable.datatable-default.datatable-head-custom > .datatable-table > .datatable-head .datatable-row > .datatable-cell > span {
+            color: #3699FF !important;
+            font-size: 1rem !important;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: .1rem;
+        }
+
+        .datatable-cell {
+            padding: 5px !important;
+        }
+
+        .d-flex flex-column flex-row-fluid wrapper {
+            padding-top: 40px !important;
+        }
+
+        .content d-flex flex-column flex-column-fluid {
+            padding-top: 0px !important;
+        }
+
+        .menu-text {
+            margin-right: 15px !important;
+            font-size: 14px !important;
+        }
+
+        .menu-link {
+            padding-bottom: 10px !important;
+        }
+
+        #kt_wrapper {
+            padding-top: 70px !important;
+        }
+
+        .card-body {
+            padding-top: 5px !important;
+        }
+    </style>
+
+</head>
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+    <div class="page-loader page-loader-logo">
+        <img  alt="Logo" class="max-h-90px" src="~/ThemImages/cms_logo.png" />
+        <div class="spinner spinner-primary"></div>
+    </div>
+    <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
+        <a href="/">
+            <img alt="Logo" width="65%" src="~/ThemImages/cms_logo.png" />
+        </a>
+        <div class="d-flex align-items-center">
+            <button class="btn p-0 burger-icon burger-icon-left" id="kt_aside_mobile_toggle">
+                <span></span>
+            </button>
+            <button class="btn p-0 burger-icon ml-4" id="kt_header_mobile_toggle">
+                <span></span>
+            </button>
+            <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
+                <span class="svg-icon svg-icon-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <polygon points="0 0 24 0 24 24 0 24" />
+                            <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                            <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                        </g>
+                    </svg>
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="d-flex flex-column flex-root">
+        <div class="d-flex flex-row flex-column-fluid page">
+            <div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
+                <div class="brand flex-column-auto" id="kt_brand">
+                    <a class="header-logo" href="/Home/index" class="brand-logo">
+                        <h1 class="header-logo">Kvdemy</h1>
+                    </a>
+                    <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
+                        <span class="svg-icon svg-icon svg-icon-xl">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <polygon points="0 0 24 0 24 24 0 24" />
+                                    <path d="M5.29288961,6.70710318 C4.90236532,6.31657888 4.90236532,5.68341391 5.29288961,5.29288961 C5.68341391,4.90236532 6.31657888,4.90236532 6.70710318,5.29288961 L12.7071032,11.2928896 C13.0856821,11.6714686 13.0989277,12.281055 12.7371505,12.675721 L7.23715054,18.675721 C6.86395813,19.08284 6.23139076,19.1103429 5.82427177,18.7371505 C5.41715278,18.3639581 5.38964985,17.7313908 5.76284226,17.3242718 L10.6158586,12.0300721 L5.29288961,6.70710318 Z" fill="#000000" fill-rule="nonzero" transform="translate(8.999997, 11.999999) scale(-1, 1) translate(-8.999997, -11.999999)" />
+                                    <path d="M10.7071009,15.7071068 C10.3165766,16.0976311 9.68341162,16.0976311 9.29288733,15.7071068 C8.90236304,15.3165825 8.90236304,14.6834175 9.29288733,14.2928932 L15.2928873,8.29289322 C15.6714663,7.91431428 16.2810527,7.90106866 16.6757187,8.26284586 L22.6757187,13.7628459 C23.0828377,14.1360383 23.1103407,14.7686056 22.7371482,15.1757246 C22.3639558,15.5828436 21.7313885,15.6103465 21.3242695,15.2371541 L16.0300699,10.3841378 L10.7071009,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(15.999997, 11.999999) scale(-1, 1) rotate(-270.000000) translate(-15.999997, -11.999999)" />
+                                </g>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+                <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+                    <div id="kt_aside_menu" class="aside-menu my-4" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
+                        <ul class="menu-nav">
+                            @if (Controller == "home" || Controller == null)
+                            {
+                                activePage = "menu-item menu-item-active";
+                            }
+                            else
+                            {
+                                activePage = "menu-item menu-item";
+                            }
+                            <li class="@activePage" aria-haspopup="true">
+                                <a href="~/Home/Index" class="menu-link">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Home/Home-heart.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="3.072"></g><g id="SVGRepo_iconCarrier"> <polygon style="fill:#12204C;" points="501.802,249.853 256.001,36.912 10.201,249.853 82.194,249.853 82.194,475.088 429.808,475.088 429.808,249.853 "></polygon> <path style="fill:#E76F2A;" d="M256.001,213.001L256.001,213.001c-42.927,0-77.726,34.8-77.726,77.726v183.634h155.452V290.727 C333.727,247.799,298.928,213.001,256.001,213.001z"></path> <circle style="fill:#12204C;" cx="287.322" cy="349.363" r="17.812"></circle> <g> <path style="fill:#12204C;" d="M508.479,242.144l-245.8-212.941c-3.833-3.321-9.524-3.321-13.357,0L3.522,242.144 c-3.219,2.788-4.366,7.283-2.878,11.273c1.488,3.99,5.297,6.636,9.557,6.636h61.794v215.035c0,5.632,4.566,10.199,10.199,10.199 h347.614c5.633,0,10.199-4.567,10.199-10.199V260.053H501.8c4.258,0,8.069-2.646,9.557-6.636 C512.844,249.427,511.698,244.933,508.479,242.144z M188.475,464.162V290.727c0-37.234,30.293-67.527,67.527-67.527 c37.234,0,67.527,30.293,67.527,67.527v173.435L188.475,464.162L188.475,464.162z M429.808,239.654 c-5.633,0-10.199,4.567-10.199,10.199v215.036h-75.683V290.727c0-48.482-39.443-87.925-87.925-87.925s-87.925,39.443-87.925,87.925 v174.162H92.393V249.853c0-5.632-4.566-10.199-10.199-10.199H37.55L256.001,50.406l218.451,189.248H429.808z"></path> <path style="fill:#12204C;" d="M287.32,321.351c-15.446,0-28.011,12.565-28.011,28.011c0,15.446,12.565,28.011,28.011,28.011 c15.446,0,28.011-12.565,28.011-28.011C315.331,333.916,302.766,321.351,287.32,321.351z M287.32,356.974 c-4.198,0-7.613-3.416-7.613-7.613c0-4.197,3.416-7.613,7.613-7.613c4.197,0,7.613,3.416,7.613,7.613 C294.933,353.559,291.518,356.974,287.32,356.974z"></path> <path style="fill:#12204C;" d="M227.969,92.392l-4.79,4.08c-4.289,3.652-4.803,10.09-1.15,14.378 c2.017,2.368,4.884,3.586,7.769,3.586c2.339,0,4.69-0.8,6.608-2.436l4.79-4.08c4.289-3.652,4.803-10.09,1.15-14.378 C238.694,89.254,232.257,88.74,227.969,92.392z"></path> <path style="fill:#12204C;" d="M198.036,117.89L90.28,209.683c-4.288,3.652-4.803,10.09-1.149,14.378 c2.017,2.368,4.884,3.586,7.769,3.586c2.339,0,4.69-0.8,6.609-2.436l107.756-91.793c4.288-3.652,4.803-10.09,1.149-14.378 C208.762,114.752,202.324,114.237,198.036,117.89z"></path> </g> </g></svg>                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-text">الرئيسية </span>
+                                </a>
+                            </li>
+
+                            @if (Controller == "product")
+                            {
+                                activePage = "menu-item menu-item-active";
+                            }
+                            else
+                            {
+                                activePage = "menu-item menu-item";
+                            }
+                            <li class="@activePage" aria-haspopup="true">
+                                <a href="~/Product/Index" class="menu-link">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Files/User-folder.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 256 256" xml:space="preserve">
+                                                <defs>
+                                                </defs>
+                                                <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
+	                                                <polygon points="47.59,25.9 43.86,6.01 19.55,10.57 22.43,25.9 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
+	                                                <path d="M 47.594 26.9 H 22.426 c -0.481 0 -0.894 -0.343 -0.983 -0.815 l -2.878 -15.325 c -0.049 -0.261 0.008 -0.53 0.157 -0.749 c 0.15 -0.219 0.38 -0.37 0.641 -0.418 l 24.311 -4.565 c 0.544 -0.102 1.065 0.256 1.167 0.798 l 3.734 19.89 c 0.056 0.292 -0.022 0.594 -0.213 0.823 C 48.174 26.768 47.892 26.9 47.594 26.9 z M 23.255 24.9 h 23.133 L 43.061 7.177 l -22.345 4.196 L 23.255 24.9 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+	                                                <polygon points="66.01,25.9 69.04,11.35 55.72,8.58 52.12,25.9 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
+	                                                <path d="M 66.012 26.9 H 52.115 c -0.301 0 -0.586 -0.136 -0.775 -0.369 c -0.19 -0.233 -0.265 -0.54 -0.203 -0.835 l 3.607 -17.323 c 0.054 -0.259 0.209 -0.487 0.431 -0.632 s 0.494 -0.197 0.752 -0.143 l 13.319 2.774 c 0.54 0.113 0.888 0.642 0.774 1.183 l -3.03 14.548 C 66.895 26.567 66.485 26.9 66.012 26.9 z M 53.345 24.9 h 11.854 l 2.661 -12.773 L 56.498 9.76 L 53.345 24.9 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+	                                                <polygon points="58.53,9.16 58.53,1 37.79,1 37.79,7.15 43.86,6.01 47.59,25.9 52.12,25.9 55.72,8.58 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(69,83,127); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
+	                                                <path d="M 52.115 26.9 h -4.521 c -0.481 0 -0.894 -0.343 -0.982 -0.815 L 43.061 7.177 l -5.085 0.955 c -0.294 0.053 -0.594 -0.023 -0.823 -0.213 c -0.229 -0.19 -0.361 -0.472 -0.361 -0.77 V 1 c 0 -0.552 0.448 -1 1 -1 h 20.735 c 0.553 0 1 0.448 1 1 v 8.161 c 0 0.301 -0.136 0.586 -0.369 0.776 c -0.233 0.191 -0.542 0.265 -0.835 0.203 l -1.824 -0.38 l -3.404 16.344 C 52.998 26.567 52.589 26.9 52.115 26.9 z M 48.424 24.9 h 2.878 l 3.442 -16.527 c 0.054 -0.259 0.209 -0.487 0.431 -0.632 s 0.494 -0.197 0.752 -0.143 l 1.6 0.333 V 2 H 38.791 v 3.944 l 4.883 -0.917 c 0.544 -0.102 1.065 0.256 1.167 0.798 L 48.424 24.9 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+	                                                <polyline points="14.33,25.9 9.77,89 80.23,89 75.67,25.9 14.33,25.9 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) "/>
+	                                                <path d="M 80.235 90 H 9.765 c -0.278 0 -0.543 -0.115 -0.732 -0.319 c -0.189 -0.203 -0.286 -0.476 -0.266 -0.753 l 4.563 -63.1 c 0.038 -0.523 0.473 -0.928 0.998 -0.928 h 61.344 c 0.524 0 0.96 0.405 0.997 0.928 l 4.563 63.1 c 0.021 0.277 -0.076 0.55 -0.265 0.753 C 80.778 89.885 80.513 90 80.235 90 z M 10.839 88 H 79.16 l -4.419 -61.1 H 15.258 L 10.839 88 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+	                                                <path d="M 45 71.738 c -8.55 0 -15.506 -6.956 -15.506 -15.506 V 41.727 c 0 -0.552 0.448 -1 1 -1 s 1 0.448 1 1 v 14.506 c 0 7.447 6.059 13.506 13.506 13.506 s 13.506 -6.059 13.506 -13.506 V 41.727 c 0 -0.552 0.447 -1 1 -1 s 1 0.448 1 1 v 14.506 C 60.506 64.782 53.55 71.738 45 71.738 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+	                                                <path d="M 34.604 42.727 h -8.291 c -0.552 0 -1 -0.448 -1 -1 s 0.448 -1 1 -1 h 8.291 c 0.552 0 1 0.448 1 1 S 35.156 42.727 34.604 42.727 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+	                                                <path d="M 63.651 42.727 H 55.36 c -0.553 0 -1 -0.448 -1 -1 s 0.447 -1 1 -1 h 8.291 c 0.553 0 1 0.448 1 1 S 64.204 42.727 63.651 42.727 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                </g>
+                                            </svg>                                              
+                                            <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-text"> ادارة المنتجات </span>
+                                </a>
+                            </li>
+                            @if (Controller == "user")
+                            {
+                                activePage = "menu-item menu-item-active";
+                            }
+                            else
+                            {
+                                activePage = "menu-item menu-item";
+                            }
+                            <li class="@activePage" aria-haspopup="true">
+                                <a href="~/User/Index" class="menu-link">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Files/User-folder.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 256 256" xml:space="preserve">
+
+                                                    <defs>
+                                                    </defs>
+                                                    <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                            <path d="M 45 88 c -11.049 0 -21.18 -2.003 -29.021 -8.634 C 6.212 71.105 0 58.764 0 45 C 0 20.187 20.187 0 45 0 c 24.813 0 45 20.187 45 45 c 0 13.765 -6.212 26.105 -15.979 34.366 C 66.181 85.998 56.049 88 45 88 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 45 60.71 c -11.479 0 -20.818 -9.339 -20.818 -20.817 c 0 -11.479 9.339 -20.818 20.818 -20.818 c 11.479 0 20.817 9.339 20.817 20.818 C 65.817 51.371 56.479 60.71 45 60.71 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 45 90 c -10.613 0 -20.922 -3.773 -29.028 -10.625 c -0.648 -0.548 -0.88 -1.444 -0.579 -2.237 C 20.034 64.919 31.933 56.71 45 56.71 s 24.966 8.209 29.607 20.428 c 0.301 0.793 0.069 1.689 -0.579 2.237 C 65.922 86.227 55.613 90 45 90 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                    </g>
+                                                    </svg>                                            
+                                                    <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-text"> ادارة المستخدمين </span>
+                                </a>
+                            </li>
+
+                            @if (Controller == "category")
+                            {
+                                activePage = "menu-item menu-item-active";
+                            }
+                            else
+                            {
+                                activePage = "menu-item menu-item";
+                            }
+                            <li class="@activePage" aria-haspopup="true">
+                                <a href="~/Category/Index" class="menu-link">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/General/Duplicate.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 256 256" xml:space="preserve">
+
+                                            <defs>
+                                            </defs>
+                                            <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                            <path d="M 32.613 0 H 7.267 C 3.26 0 0 3.26 0 7.267 v 25.346 c 0 4.007 3.26 7.267 7.267 7.267 h 25.346 c 4.007 0 7.267 -3.26 7.267 -7.267 V 7.267 C 39.88 3.26 36.62 0 32.613 0 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 82.733 0 H 57.387 C 53.38 0 50.12 3.26 50.12 7.267 v 25.346 c 0 4.007 3.26 7.267 7.267 7.267 h 25.347 c 4.007 0 7.267 -3.26 7.267 -7.267 V 7.267 C 90 3.26 86.74 0 82.733 0 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 32.613 50.12 H 7.267 C 3.26 50.12 0 53.38 0 57.387 v 25.347 C 0 86.74 3.26 90 7.267 90 h 25.346 c 4.007 0 7.267 -3.26 7.267 -7.267 V 57.387 C 39.88 53.38 36.62 50.12 32.613 50.12 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 82.733 50.12 H 57.387 c -4.007 0 -7.267 3.26 -7.267 7.267 v 25.347 c 0 4.007 3.26 7.267 7.267 7.267 h 25.347 C 86.74 90 90 86.74 90 82.733 V 57.387 C 90 53.38 86.74 50.12 82.733 50.12 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                                </g>
+                                                </svg>                                        
+                                                <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-text"> ادارة التصنيفات </span>
+                                </a>
+                            </li>
+                            @if (Controller == "slider")
+                            {
+                                activePage = "menu-item menu-item-active";
+                            }
+                            else
+                            {
+                                activePage = "menu-item menu-item";
+                            }
+                            <li class="@activePage" aria-haspopup="true">
+                                <a href="~/Slider/Index" class="menu-link">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Design/Layers.svg-->
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 256 256" xml:space="preserve">
+
+                                        <defs>
+                                        </defs>
+                                        <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                        <path d="M 89.421 71.448 l -5.67 -5.67 l 2.396 -2.396 c 0.494 -0.494 0.691 -1.211 0.518 -1.888 c -0.173 -0.676 -0.69 -1.212 -1.36 -1.408 l -16.053 -4.707 c -0.691 -0.203 -1.443 -0.014 -1.955 0.499 c -0.512 0.511 -0.703 1.261 -0.499 1.955 l 4.707 16.054 c 0.196 0.67 0.732 1.187 1.408 1.36 c 0.676 0.172 1.394 -0.024 1.888 -0.518 l 2.396 -2.397 l 5.67 5.67 c 0.386 0.386 0.892 0.579 1.399 0.579 s 1.012 -0.193 1.399 -0.579 l 3.756 -3.756 C 90.193 73.473 90.193 72.221 89.421 71.448 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                        <path d="M 54.644 57.384 h -7.316 c -1.639 0 -2.967 -1.328 -2.967 -2.967 V 27.719 c 0 -1.639 1.328 -2.967 2.967 -2.967 h 7.316 c 6.398 0 11.603 5.205 11.603 11.602 v 9.427 C 66.246 52.179 61.041 57.384 54.644 57.384 z M 50.295 51.45 h 4.349 c 3.125 0 5.668 -2.543 5.668 -5.668 v -9.427 c 0 -3.125 -2.543 -5.668 -5.668 -5.668 h -4.349 V 51.45 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                        <path d="M 27.164 24.752 c -6.217 0 -11.274 5.058 -11.274 11.274 v 18.391 c 0 1.639 1.329 2.967 2.967 2.967 s 2.967 -1.328 2.967 -2.967 v -7.578 h 10.68 v 7.578 c 0 1.639 1.328 2.967 2.967 2.967 c 1.639 0 2.967 -1.328 2.967 -2.967 V 36.026 C 38.438 29.809 33.381 24.752 27.164 24.752 z M 21.824 40.905 v -4.879 c 0 -2.944 2.396 -5.34 5.34 -5.34 s 5.34 2.396 5.34 5.34 v 4.879 H 21.824 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                        <path d="M 56.267 70.717 H 11.241 C 5.043 70.717 0 65.675 0 59.476 V 22.66 c 0 -6.199 5.043 -11.241 11.241 -11.241 h 59.653 c 6.199 0 11.241 5.043 11.241 11.241 v 24.393 c 0 1.639 -1.328 2.967 -2.967 2.967 s -2.967 -1.328 -2.967 -2.967 V 22.66 c 0 -2.926 -2.381 -5.307 -5.307 -5.307 H 11.241 c -2.926 0 -5.307 2.381 -5.307 5.307 v 36.816 c 0 2.926 2.381 5.307 5.307 5.307 h 45.026 c 1.639 0 2.967 1.328 2.967 2.967 S 57.906 70.717 56.267 70.717 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                        </g>
+                                        </svg>                                        
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-text"> ادارة الاعلانات </span>
+                                </a>
+                            </li>
+                            @if (Controller == "order")
+                            {
+                                activePage = "menu-item menu-item-active";
+                            }
+                            else
+                            {
+                                activePage = "menu-item menu-item";
+                            }
+                            <li class="@activePage" aria-haspopup="true">
+                                <a href="~/Order/Index" class="menu-link">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/Music-cloud.svg-->
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 256 256" xml:space="preserve">
+                                            <defs>
+                                            </defs>
+                                            <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                            <path d="M 74.084 64.099 H 28.258 c -3.995 0 -7.448 -2.787 -8.291 -6.692 l -6.817 -31.571 H 89 l -6.614 31.523 C 81.561 61.286 78.098 64.099 74.084 64.099 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <circle cx="27.994" cy="77.964" r="6.354" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) " />
+                                            <circle cx="73.584" cy="77.964" r="6.354" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) " />
+                                            <rect x="24" y="14.53" rx="0" ry="0" width="20.18" height="11.3" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " />
+                                            <polygon points="66.63,25.84 66.63,5.69 36.38,5.69 36.38,14.53 44.19,14.53 44.19,25.84 " style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform="  matrix(1 0 0 1 0 0) " />
+                                            <path d="M 78.376 25.836 c 0 -6.485 -5.257 -11.743 -11.743 -11.743 v 11.743 H 78.376 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 74.084 65.099 H 28.258 c -4.435 0 -8.333 -3.146 -9.269 -7.48 l -6.816 -31.571 c -0.064 -0.295 0.01 -0.604 0.199 -0.839 c 0.19 -0.235 0.476 -0.372 0.778 -0.372 H 89 c 0.301 0 0.587 0.136 0.776 0.37 s 0.265 0.541 0.202 0.836 l -6.614 31.522 C 82.448 61.93 78.545 65.099 74.084 65.099 z M 14.39 26.836 l 6.555 30.36 c 0.739 3.42 3.814 5.902 7.313 5.902 h 45.826 c 3.521 0 6.601 -2.501 7.323 -5.945 l 6.361 -30.317 H 14.39 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 27.99 85.313 c -4.055 0 -7.354 -3.299 -7.354 -7.354 c 0 -4.056 3.299 -7.354 7.354 -7.354 c 4.055 0 7.354 3.299 7.354 7.354 C 35.344 82.014 32.045 85.313 27.99 85.313 z M 27.99 72.604 c -2.952 0 -5.354 2.402 -5.354 5.354 s 2.401 5.354 5.354 5.354 s 5.354 -2.401 5.354 -5.354 S 30.942 72.604 27.99 72.604 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 73.587 85.313 c -4.056 0 -7.354 -3.299 -7.354 -7.354 c 0 -4.056 3.299 -7.354 7.354 -7.354 c 4.055 0 7.354 3.299 7.354 7.354 C 80.94 82.014 77.642 85.313 73.587 85.313 z M 73.587 72.604 c -2.952 0 -5.354 2.402 -5.354 5.354 s 2.402 5.354 5.354 5.354 s 5.354 -2.401 5.354 -5.354 S 76.539 72.604 73.587 72.604 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 13.15 26.836 c -0.461 0 -0.875 -0.32 -0.977 -0.789 l -1.328 -6.149 c -0.579 -2.679 -2.988 -4.624 -5.729 -4.624 H 1 c -0.552 0 -1 -0.448 -1 -1 s 0.448 -1 1 -1 h 4.117 c 3.676 0 6.907 2.608 7.684 6.202 l 1.328 6.149 c 0.117 0.54 -0.227 1.072 -0.767 1.188 C 13.291 26.829 13.22 26.836 13.15 26.836 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 44.188 26.836 H 24.004 c -0.552 0 -1 -0.448 -1 -1 V 14.53 c 0 -0.552 0.448 -1 1 -1 h 20.184 c 0.552 0 1 0.448 1 1 v 11.306 C 45.188 26.388 44.741 26.836 44.188 26.836 z M 25.004 24.836 h 18.184 V 15.53 H 25.004 V 24.836 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 66.633 26.836 H 44.188 c -0.552 0 -1 -0.448 -1 -1 V 15.53 h -6.807 c -0.552 0 -1 -0.448 -1 -1 V 5.688 c 0 -0.552 0.448 -1 1 -1 h 30.251 c 0.553 0 1 0.448 1 1 v 20.148 C 67.633 26.388 67.186 26.836 66.633 26.836 z M 45.188 24.836 h 20.444 V 6.688 H 37.381 v 6.843 h 6.807 c 0.552 0 1 0.448 1 1 V 24.836 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 78.376 26.836 c -0.553 0 -1 -0.448 -1 -1 c 0 -5.924 -4.819 -10.743 -10.743 -10.743 c -0.553 0 -1 -0.448 -1 -1 s 0.447 -1 1 -1 c 7.026 0 12.743 5.717 12.743 12.743 C 79.376 26.388 78.929 26.836 78.376 26.836 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 51.075 54.654 c -0.553 0 -1 -0.447 -1 -1 V 34.595 c 0 -0.552 0.447 -1 1 -1 s 1 0.448 1 1 v 19.059 C 52.075 54.207 51.628 54.654 51.075 54.654 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 66.668 54.654 c -0.038 0 -0.077 -0.002 -0.117 -0.007 c -0.549 -0.064 -0.941 -0.561 -0.877 -1.109 l 2.228 -19.059 c 0.064 -0.547 0.549 -0.944 1.109 -0.877 c 0.549 0.064 0.941 0.561 0.877 1.109 L 67.66 53.771 C 67.601 54.279 67.169 54.654 66.668 54.654 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 35.482 54.654 c -0.477 0 -0.899 -0.342 -0.984 -0.827 l -3.341 -19.059 c -0.096 -0.544 0.268 -1.063 0.812 -1.158 c 0.55 -0.096 1.063 0.269 1.158 0.812 l 3.341 19.059 c 0.096 0.544 -0.268 1.063 -0.812 1.158 C 35.598 54.649 35.54 54.654 35.482 54.654 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(0,0,0); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            </g>
+                                            </svg>
+                                            <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-text"> ادارة الطلبات </span>
+                                </a>
+                            </li>
+                            @if (Controller == "settings")
+                            {
+                                activePage = "menu-item menu-item-active";
+                            }
+                            else
+                            {
+                                activePage = "menu-item menu-item";
+                            }
+                            <li class="@activePage" aria-haspopup="true">
+                                <a href="~/Settings/Index" class="menu-link">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                        <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Media/Music-cloud.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 256 256" xml:space="preserve">
+
+                                            <defs>
+                                            </defs>
+                                            <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                            <path d="M 87.878 37.043 h -6.768 c -1.712 0 -3.253 -1.04 -3.894 -2.628 l -1.944 -4.818 c -0.63 -1.562 -0.266 -3.349 0.925 -4.54 l 4.749 -4.749 c 0.825 -0.825 0.825 -2.176 0 -3.001 l -8.252 -8.252 c -0.825 -0.825 -2.176 -0.825 -3.001 0 l -4.786 4.786 c -1.211 1.211 -3.036 1.565 -4.611 0.895 l -4.781 -2.032 c -1.55 -0.659 -2.556 -2.18 -2.556 -3.864 V 2.122 C 52.957 0.955 52.002 0 50.835 0 h -11.67 c -1.167 0 -2.122 0.955 -2.122 2.122 v 6.768 c 0 1.712 -1.04 3.253 -2.628 3.894 l -4.818 1.944 c -1.562 0.63 -3.349 0.266 -4.54 -0.925 l -4.749 -4.749 c -0.825 -0.825 -2.176 -0.825 -3.001 0 l -8.252 8.252 c -0.825 0.825 -0.825 2.176 0 3.001 l 4.786 4.786 c 1.211 1.211 1.565 3.036 0.895 4.611 l -2.032 4.782 c -0.659 1.55 -2.18 2.556 -3.864 2.556 H 2.122 C 0.955 37.043 0 37.998 0 39.165 v 11.67 c 0 1.167 0.955 2.122 2.122 2.122 h 6.768 c 1.712 0 3.253 1.04 3.894 2.628 l 1.944 4.818 c 0.63 1.562 0.266 3.349 -0.925 4.54 l -4.749 4.749 c -0.825 0.825 -0.825 2.176 0 3.001 l 8.252 8.252 c 0.825 0.825 2.176 0.825 3.001 0 l 4.786 -4.786 c 1.211 -1.211 3.036 -1.565 4.611 -0.895 l 4.781 2.032 c 1.55 0.659 2.556 2.18 2.556 3.864 v 6.717 c 0 1.167 0.955 2.122 2.122 2.122 h 11.67 c 1.167 0 2.122 -0.955 2.122 -2.122 v -6.768 c 0 -1.712 1.04 -3.253 2.628 -3.894 l 4.818 -1.944 c 1.562 -0.63 3.349 -0.266 4.54 0.925 l 4.749 4.75 c 0.825 0.825 2.176 0.825 3.001 0 l 8.252 -8.252 c 0.825 -0.825 0.825 -2.176 0 -3.001 l -4.786 -4.786 c -1.211 -1.211 -1.565 -3.036 -0.895 -4.611 l 2.032 -4.782 c 0.659 -1.55 2.18 -2.556 3.864 -2.556 h 6.717 c 1.167 0 2.122 -0.955 2.122 -2.122 v -11.67 C 90 37.998 89.045 37.043 87.878 37.043 z M 45 66.931 c -12.112 0 -21.931 -9.819 -21.931 -21.931 S 32.888 23.069 45 23.069 S 66.931 32.888 66.931 45 S 57.112 66.931 45 66.931 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(18,32,76); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            <path d="M 45 28.623 c 9.03 0 16.377 7.347 16.377 16.377 S 54.03 61.377 45 61.377 S 28.623 54.03 28.623 45 S 35.97 28.623 45 28.623 M 45 21.315 c -13.081 0 -23.685 10.604 -23.685 23.685 S 31.919 68.685 45 68.685 S 68.685 58.081 68.685 45 S 58.081 21.315 45 21.315 L 45 21.315 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(231,111,42); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
+                                            </g>
+                                            </svg>                                            
+                                            <!--end::Svg Icon-->
+                                    </span>
+                                    <span class="menu-text"> الاعدادات </span>
+                                </a>
+                            </li>
+          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                <div id="kt_header" class="header header-fixed">
+                    <div class="container-fluid d-flex align-items-stretch justify-content-between">
+                        <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+                            <div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
+                            </div>
+                        </div>
+                        <div class="topbar">
+                            <div class="topbar-item">
+                                <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
+                                    <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">أهلا بك يا,</span>
+                                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">@User.Identity.Name </span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+                    <div class="d-flex flex-column-fluid">
+                        <div class="container">
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+                <div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
+                    <div class="container-fluid d-flex flex-column flex-md-row align-items-center justify-content-between">
+                        <div class="text-dark order-2 order-md-1">
+                            <span class="text-muted font-weight-bold mr-2">@DateTime.Now.Year©</span>
+                            <a href="" target="_blank" class="text-dark-75 text-hover-primary">Krooti</a>
+                        </div>
+                        <div class="nav nav-dark">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- begin::User Panel-->
+    <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
+        <!--begin::Header-->
+        <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
+            <h3 class="font-weight-bold m-0">
+                معلومات المستخدم
+            </h3>
+            <a class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
+                <i class="ki ki-close icon-xs text-muted"></i>
+            </a>
+        </div>
+        <!--end::Header-->
+        <!--begin::Content-->
+        <div class="offcanvas-content pr-5 mr-n5">
+            <!--begin::Header-->
+            <div class="d-flex align-items-center mt-5">
+                <div class="symbol symbol-100 mr-5">
+                    <div class="symbol-label" style="background-image: url('https://localhost:44373/ThemImages/logo2.png');background-color: transparent;background-size: contain;  background-position: center;"></div>
+                    <i class="symbol-badge bg-success"></i>
+                </div>
+                <div class="d-flex flex-column">
+                    <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">Name</a>
+                    <div class="text-muted mt-1">Admin</div>
+                    <div class="navi mt-2">
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="/Identity/Account/Login" )">
+                            <button type="submit" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">تسجيل الخروج</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--end::Header-->
+        </div>
+        <!--end::Content-->
+    </div>
+
+    <!-- end::User Panel-->
+    <!--begin::Modal-->
+    <div class="modal fade" data-toggle="PopUp" data-target="modal" id="PopUp" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select2 Examples</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="Confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">تحذير !</h3>
+                </div>
+                <div class="modal-body">
+                    <p style="font-size: 18px">هل انت متاكد من العملية ؟</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                    <button type="submit" id="Confirm" class="btn btn-danger">نعم</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--end::Modal-->
+    <script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#3699FF", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#E4E6EF", "dark": "#181C32" }, "light": { "white": "#ffffff", "primary": "#E1F0FF", "secondary": "#EBEDF3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#3F4254", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#EBEDF3", "gray-300": "#E4E6EF", "gray-400": "#D1D3E0", "gray-500": "#B5B5C3", "gray-600": "#7E8299", "gray-700": "#5E6278", "gray-800": "#3F4254", "gray-900": "#181C32" } }, "font-family": "Poppins" };</script>
+    <script src="~/assets/plugins/global/plugins.bundle.js"></script>
+    <script src="~/assets/plugins/custom/prismjs/prismjs.bundle.js"></script>
+    <script src="~/assets/js/vendors.bundle.js" type="text/javascript"></script>
+    <script src="~/nprogress-master/nprogress.js"></script>
+    <script src="~/assets/js/scripts.bundle.js"></script>
+    <script src="~/assets/js/MainLayout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <script>
+        const permissions = {
+            0: { 'name': 'Dashboard' },
+            1: { 'name': 'Supervisor' },
+            2: { 'name': 'Role' },
+        };
+    </script>
+    <script>
+        document.querySelector('.logout-link').addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent the default link behavior
+
+            // Perform logout action
+            fetch('/Identity/Account/Logout', {
+                method: 'POST', // Or 'GET' based on your server implementation
+                headers: {
+                    'Content-Type': 'application/json', // Adjust based on your server's expectations
+                },
+            }).then(response => {
+                if (response.ok) {
+                    // Redirect or perform any other action upon successful logout
+                    window.location.href = '/Identity/Account/Login'; // Redirect to login page after logout
+                } else {
+                    console.error('Logout failed'); // Handle logout failure
+                }
+            }).catch(error => {
+                console.error('Error during logout:', error); // Handle network or other errors
+            });
+        });
+    </script>
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
