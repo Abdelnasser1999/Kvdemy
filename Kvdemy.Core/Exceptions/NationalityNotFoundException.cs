@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Kvdemy.Core.Exceptions
 {
-    public class CityNotFoundException : Exception
+    public class NationalityNotFoundException : Exception
     {
-        public CityNotFoundException() : base("المدينة غير موجودة")
+        public NationalityNotFoundException() : base("المدينة غير موجودة")
         {
 
         }

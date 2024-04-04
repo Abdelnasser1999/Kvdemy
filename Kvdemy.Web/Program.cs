@@ -1,3 +1,4 @@
+using Kvdemy.Infrastructure.Middlewares;
 using Kvdemy.Web.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//use middlware exception handler
+app.UseExceptionHandler(options => options.UseMiddleware<ExceptionHandler>());
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
