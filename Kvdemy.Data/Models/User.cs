@@ -52,24 +52,24 @@ namespace Kvdemy.Data.Models
 
         public float? StartingPrice { get; set; }
 
-        public List<Experience> Experiences { get; set; }
+        public List<Experience>? Experiences { get; set; }
 
-        public List<Education> Educations { get; set; }
+        public List<Education>? Educations { get; set; }
 
-        public List<Award> Awards { get; set; }
+        public List<Award>? Awards { get; set; }
 
-        public List<Download> Downloads { get; set; }
+        public List<Download>? Downloads { get; set; }
 
-        public int RegistrationInfoId { get; set; }
-        public RegistrationInfo RegistrationInfo { get; set; }
+        public int? RegistrationInfoId { get; set; }
+        public RegistrationInfo? RegistrationInfo { get; set; }
 
-        public List<UserSpecialty> UserSpecialties { get; set; }
+        public List<UserSpecialty>? UserSpecialties { get; set; }
 
-        public List<Gallery> Gallery { get; set; }
+        public List<Gallery>? Gallery { get; set; }
 
-        public List<Video> Video { get; set; }
+        public List<Video>? Video { get; set; }
 
-        public List<ContactPhoneNumber> ContactPhoneNumbers { get; set; }
+        public List<ContactPhoneNumber>? ContactPhoneNumbers { get; set; }
 
         public string? BookingDetails { get; set; }
         public string? AdditionalInformation { get; set; }

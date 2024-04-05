@@ -19,6 +19,7 @@ using Kvdemy.Core.Dtos;
 using Krooti.Core.Enums;
 using Kvdemy.Core.Exceptions;
 using Kvdemy.Core.Constants;
+using Krooti.Infrastructure.Services.Auth;
 
 
 
@@ -36,11 +37,14 @@ namespace Kvdemy.Infrastructure.Services.Users
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMemoryCache _memoryCache;
 
-       private readonly IFileService _fileService;
- 
+        private readonly IAuthService _authService;
+
+        private readonly IFileService _fileService;
+
         public UserService(
              IMapper mapper,
              KvdemyDbContext db,
+            IAuthService authService,
             IMemoryCache memoryCache,
             IHttpContextAccessor httpContextAccessor,
             UserManager<User> userManager,
@@ -57,8 +61,9 @@ namespace Kvdemy.Infrastructure.Services.Users
 
             _httpContextAccessor = httpContextAccessor;
             _memoryCache = memoryCache;
+            _authService = authService;
             //_interfaceServices = interfaceServices;
-          _fileService = fileService;
+            _fileService = fileService;
         }
 
         public async Task<dynamic> CreateStudent(CreateStudentDto dto)

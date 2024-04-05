@@ -13,6 +13,8 @@ using Kvdemy.Web.Services;
 using Kvdemy.Core.Options;
 using Kvdemy.Core.Resourses;
 using Kvdemy.Infrastructure.Services.Users;
+using Kvdemy.Infrastructure.Services.Auth;
+using Krooti.Infrastructure.Services.Auth;
 
 
 namespace Krooti.Infrastructure.Services.Interfaces
@@ -52,9 +54,13 @@ namespace Krooti.Infrastructure.Services.Interfaces
             _signInManager = signInManager;
             _memoryCache = memoryCache;
             fileService = new FileService(_env);
-            userService = new UserService(_mapper, _db, _memoryCache, _httpContextAccessor, _userManager, _env, _localizedMessages, fileService);
+            userService = new UserService(_mapper, _db, authService, _memoryCache, _httpContextAccessor, _userManager, _env, _localizedMessages, fileService);
+            authService = new AuthService(_mapper, _db, _roleManger, _httpContextAccessor, _userManager, _options, _localizedMessages, _signInManager, fileService);
+
         }
         public IFileService fileService { get; private set; }
         public IUserService userService { get; private set; }
+        public IAuthService authService { get; private set; }
+
     }
 }

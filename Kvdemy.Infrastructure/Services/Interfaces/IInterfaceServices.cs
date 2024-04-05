@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Kvdemy.Web.Services;
 using Kvdemy.Infrastructure.Services.Users;
+using Krooti.Infrastructure.Services.Auth;
 
 
 namespace Krooti.Infrastructure.Services.Interfaces
@@ -19,6 +20,7 @@ namespace Krooti.Infrastructure.Services.Interfaces
         IFileService fileService { get; }
         IUserService userService { get; }
 
+        IAuthService authService { get; }
 
     }
 }

@@ -32,7 +32,7 @@ namespace Kvdemy.Core.Dtos
         [Display(Name = Message.UserNationality)]
         public int? NationalityId { get; set; }
 
-
+        [Required(ErrorMessage = Message.RequiredField)]
         [Display(Name = Message.UserEmail)]
         [DataType(DataType.EmailAddress)]
         public string? Email { get; set; }
@@ -56,7 +56,6 @@ namespace Kvdemy.Core.Dtos
         public string? AdditionalInformation { get; set; }
 
         public string? FCMToken { get; set; }
-
 
 
 

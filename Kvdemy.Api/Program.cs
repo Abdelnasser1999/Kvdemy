@@ -62,25 +62,25 @@ builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 
 builder.Services.AddOptions<JwtOptions>(builder.Configuration["Jwt"]);
 
-//builder.Services.AddAuthentication(config =>
-//{
-//    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-//    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//})
-//        .AddJwtBearer(options =>
-//        {
-//            options.TokenValidationParameters = new TokenValidationParameters
-//            {
-//                ValidateIssuer = true,
-//                ValidateAudience = true,
-//                ValidateLifetime = true,
-//                ValidateIssuerSigningKey = true,
-//                ValidIssuer = builder.Configuration["Jwt:Issure"],
-//                ValidAudience = builder.Configuration["Jwt:Issure"],
-//                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecurityKey"]))
-//            };
-//        });
+builder.Services.AddAuthentication(config =>
+{
+    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    config.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issure"],
+                ValidAudience = builder.Configuration["Jwt:Issure"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecurityKey"]))
+            };
+        });
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Kvdemy API", Version = "v1" });
@@ -177,6 +177,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
