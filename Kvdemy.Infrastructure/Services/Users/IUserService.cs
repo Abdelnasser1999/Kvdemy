@@ -1,4 +1,5 @@
-﻿using Kvdemy.Core.Dtos;
+﻿using Krooti.Core.ViewModels;
+using Kvdemy.Core.Dtos;
 using Kvdemy.Core.Dtos.Helpers;
 using Kvdemy.Core.ViewModels;
 using System;
@@ -19,11 +20,12 @@ namespace Kvdemy.Infrastructure.Services.Users
 
         Task<dynamic> CreateStudent(CreateStudentDto dto);
         Task<dynamic> CreateTeacher(CreateTeacherDto dto);
+        Task<RegisterHelperViewModel> GetRegisterHelper();
 
         //Task<dynamic> Update(UpdateUserDto dto);
         //Task<dynamic> Update(UpdateUserDto dto, string language);
         //Task<dynamic> Delete(string id);
 
         //Task<UserViewModel> Get(string Id);
-	}
+    }
 }

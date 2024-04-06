@@ -218,6 +218,35 @@ namespace Kvdemy.Infrastructure.Services.Users
             
         }
 
+        public async Task<RegisterHelperViewModel> GetRegisterHelper()
+        {
+            var response = new RegisterHelperViewModel();
+            ////Nationalities
+            var queryNationalities = _db.Nationalities.Where(x => !x.IsDelete);
+            if (queryNationalities == null)
+            {
+                throw new EntityNotFoundException();
+            }
+            var nationalitiesList = await queryNationalities.ToListAsync();
+            response.nationalities = _mapper.Map<List<NationalityViewModel>>(nationalitiesList);
+            ////Languages
+            var queryLanguages = _db.Languages.Where(x => !x.IsDelete);
+            if (queryLanguages == null)
+            {
+                throw new EntityNotFoundException();
+            }
+            var LanguagesList = await queryLanguages.ToListAsync();
+            response.languages = _mapper.Map<List<LanguageViewModel>>(LanguagesList);
+            ////LanguageLevels
+            var queryLevels = _db.LanguageLevels.Where(x => !x.IsDelete);
+            if (queryLevels == null)
+            {
+                throw new EntityNotFoundException();
+            }
+            var LevelsList = await queryLevels.ToListAsync();
+            response.levels = _mapper.Map<List<LanguageLevelViewModel>>(LevelsList);
+            return response;
+        }
 
         //public async Task<dynamic> UserExist(string searchKey)
         //{

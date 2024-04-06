@@ -25,6 +25,17 @@ namespace Kvdemy.infrastructure.Mapper
 
             //CreateMap<UserViewModel, UpdateUserDto>();
 
+            ///// Nationality
+            CreateMap<Nationality, NationalityViewModel>();
+
+            ///// Language
+            CreateMap<Language, LanguageViewModel>();
+
+            ///// LanguageLevel
+            CreateMap<LanguageLevel, LanguageLevelViewModel>();
+
+
+
             ///// Category
             //CreateMap<Category, CategoryViewModel>();
 

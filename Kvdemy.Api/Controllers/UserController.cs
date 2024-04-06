@@ -39,5 +39,14 @@ namespace Kvdemy.Api.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetRegisterHelper()
+        {
+            var result = await _interfaceServices.userService.GetRegisterHelper();
+
+            return Ok(result);
+        }
+
     }
 }
