@@ -58,6 +58,7 @@
         public const string FirstName = "الاسم الاول";
         public const string LastName = "الاسم الاخير";
         public const string UserEmail = "البريد الالكتروني";
+        public const string UserPassword = "كلمة المرور";
         public const string UserPhoneNumber = "رقم الهاتف";
         public const string UserNationality = "الجنسية";
         public const string UserGender = "الجنس";

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Kvdemy.Core.Dtos
 {
-    public class CreateStudentDto
+    public class CreateTeacherDto
     {
         [Required(ErrorMessage = Message.RequiredField)]
         [Display(Name = Message.FirstName)]
@@ -51,14 +51,8 @@ namespace Kvdemy.Core.Dtos
         [Display(Name = Message.UserLocation)]
         public string? Location { get; set; }
 
-
-        public string? StudentLanguages { get; set; }
-
-
         [Display(Name = Message.UserProfileImage)]
         public IFormFile? ProfileImage { get; set; }
-
-        public string? AdditionalInformation { get; set; }
 
         public string? FCMToken { get; set; }
 

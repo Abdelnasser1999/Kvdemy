@@ -24,15 +24,25 @@ namespace Kvdemy.API.Controllers
             Language = Thread.CurrentThread.CurrentUICulture.Name;
         }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> Login([FromForm] LoginDto dto)
-        //{
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> StudentLogin([FromForm] LoginDto dto)
+        {
 
-        //    var response = await _interfaceServices.authService.Login(dto);
-        //    return Ok(response);
+            var response = await _interfaceServices.authService.StudentLogin(dto);
+            return Ok(response);
 
-        //}
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> TeacherLogin([FromForm] LoginDto dto)
+        {
+
+            var response = await _interfaceServices.authService.TeacherLogin(dto);
+            return Ok(response);
+
+        }
 
 
         [HttpPost]

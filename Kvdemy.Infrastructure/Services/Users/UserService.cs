@@ -20,6 +20,7 @@ using Krooti.Core.Enums;
 using Kvdemy.Core.Exceptions;
 using Kvdemy.Core.Constants;
 using Krooti.Infrastructure.Services.Auth;
+using Krooti.Core.ViewModels;
 
 
 
@@ -108,12 +109,87 @@ namespace Kvdemy.Infrastructure.Services.Users
 
             try
             {
-                var result =   _userManager.CreateAsync(user).GetAwaiter().GetResult();
+                var result =   _userManager.CreateAsync(user, dto.Password).GetAwaiter().GetResult();
 				if (result.Succeeded)
                 {
                  
                     return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.OtpSuccess], user.OtpCode);
 				}
+                else
+                {
+
+                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                    var resultMsg = $"User creation failed. Errors: {errors}";
+                    return new ApiResponseFailedViewModel(resultMsg);
+
+
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                // Check if the exception is related to a unique constraint violation
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 2601)
+                {
+                    // Handle the duplicate key violation for the 'Email' column
+                    return new ApiResponseFailedViewModel( "Email address is already in use. Please choose a different email.");
+                }
+                else
+                {
+                    // Handle other types of DbUpdateException or rethrow the exception
+                    throw;
+                }
+            }
+          
+            
+        }
+        public async Task<dynamic> CreateTeacher(CreateTeacherDto dto)
+        {
+            var user = _mapper.Map<User>(dto);
+            Random random = new Random();
+            var generatedOtp   = random.Next(1000, 10000);
+            user.OtpCode = generatedOtp.ToString();
+
+          
+        
+            user.UserName = dto.Email;
+            user.UserType = UserType.Teacher;
+            if (dto.Email != null) 
+            {
+                bool emailIsExist = await _db.Users.AnyAsync(x => x.Email == dto.Email);
+                if (emailIsExist)
+                {
+                        return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.DuplicateEmail]);
+                }
+            }
+
+            
+
+            bool phoneIsExist = await _db.Users.AnyAsync(x => x.PhoneNumber == dto.PhoneNumber);
+            if (phoneIsExist)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.DuplicatePhone]);
+            }
+
+
+            if (dto.ProfileImage != null)
+            {
+                user.ProfileImage = await _fileService.SaveFile(dto.ProfileImage, FolderNames.ImagesFolder);
+            }
+
+            var NationalityExist = await _db.Nationalities.AnyAsync(x=>x.Id == dto.NationalityId);
+            if (!NationalityExist)
+            {
+                throw new NationalityNotFoundException();
+            }
+
+            try
+            {
+                var result =   _userManager.CreateAsync(user, dto.Password).GetAwaiter().GetResult();
+				if (result.Succeeded)
+                {
+                    var Teacher = _mapper.Map<TeacherViewModel>(user);
+                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss], Teacher);
+                }
                 else
                 {
 
@@ -162,8 +238,8 @@ namespace Kvdemy.Infrastructure.Services.Users
         //        return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], false);
         //    }
 
-          
-          
+
+
         //}
 
         //public async Task<PaginationWebViewModel> GetAll(Pagination pagination, Query query)
@@ -246,7 +322,7 @@ namespace Kvdemy.Infrastructure.Services.Users
         //        {
         //            dto.Name = user.Name;
         //        }
-              
+
         //        if (dto.Email == null)
         //        {
         //            dto.Email = user.Email;
@@ -277,14 +353,14 @@ namespace Kvdemy.Infrastructure.Services.Users
         //        {
         //            dto.FCMToken = user.FCMToken;
         //        }
-             
-            
+
+
         //        if (dto.Status == null)
         //        {
         //            dto.Status = user.Status;
         //        }
 
-              
+
         //        if (dto.ProfileImage == null)
         //        {
         //            img = user.ProfileImage;
@@ -294,12 +370,12 @@ namespace Kvdemy.Infrastructure.Services.Users
 
 
         //        var updatedUser = _mapper.Map(dto, user);
-               
+
 
         //        if (dto.ProfileImage != null)
         //        {
         //            user.ProfileImage = await _fileService.SaveFile(dto.ProfileImage, FolderNames.ImagesFolder);
-           
+
         //        }else
         //        {
         //            updatedUser.ProfileImage = img;
@@ -311,14 +387,14 @@ namespace Kvdemy.Infrastructure.Services.Users
         //        {
 
         //            var userVm = _mapper.Map<UserViewModel>(updatedUser);
-                
+
         //            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss], userVm);
         //        }else
         //        {
         //            return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserUpdatedFailed]);
         //        }
 
-           
+
         //    }
         //}
         //public async Task<dynamic> Update(UpdateUserDto dto, string language)
@@ -422,7 +498,7 @@ namespace Kvdemy.Infrastructure.Services.Users
 
         //    }
 
-           
+
 
         //}
 

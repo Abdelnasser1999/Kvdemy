@@ -18,6 +18,7 @@ namespace Kvdemy.Infrastructure.Services.Users
 
 
         Task<dynamic> CreateStudent(CreateStudentDto dto);
+        Task<dynamic> CreateTeacher(CreateTeacherDto dto);
 
         //Task<dynamic> Update(UpdateUserDto dto);
         //Task<dynamic> Update(UpdateUserDto dto, string language);

@@ -67,28 +67,64 @@ namespace Kvdemy.Infrastructure.Services.Auth
             _fileService = fileService;
         }
 
-        //public async Task<dynamic> Login(LoginDto dto)
-        //{
-        //    var user = _db.Users.SingleOrDefault(x => x.PhoneNumber == dto.PhoneNumber);
-        //    if (user == null)
-        //    {
-        //        return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+        public async Task<dynamic> StudentLogin(LoginDto dto)
+        {
+            var user = _db.Users.SingleOrDefault(x => x.Email == dto.Email && x.UserType == UserType.Student);
+            if (user == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+            }
+            else
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
 
-        //    }
-        //    else
-        //    {
-        //        Random random = new Random();
-        //        var generatedOtp = random.Next(1000, 10000);
-        //        user.OtpCode = generatedOtp.ToString();
-        //        _db.Users.Update(user);
-        //        _db.SaveChanges();
-        //        //await _emailService.Send(user.Email, "Otp Code !", $"Otp is : {user.OtpCode}");
-        //    }
-        //    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.OtpSuccess], user.OtpCode);
+                if (result.Succeeded)
+                {
+                    var response = new StudentLoginResponseViewModel();
+                    await AddUserToRole(user, UserType.Student);
+
+                    response.AcessToken = await GenerateAccessToken(user, UserType.Student);
+                    response.student = _mapper.Map<StudentViewModel>(user);
 
 
+                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.LoginSuccess], response);
+                }
+                else
+                {
+                    return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.InvalidCredentials]);
+                }
 
-        //}
+            }
+        }
+        public async Task<dynamic> TeacherLogin(LoginDto dto)
+        {
+            var user = _db.Users.SingleOrDefault(x => x.Email == dto.Email && x.UserType == UserType.Teacher);
+            if (user == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+            }
+            else
+            {
+                var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password, false);
+
+                if (result.Succeeded)
+                {
+                    var response = new TeacherLoginResponseViewModel();
+                    await AddUserToRole(user, UserType.Teacher);
+
+                    response.AcessToken = await GenerateAccessToken(user, UserType.Teacher);
+                    response.Teacher = _mapper.Map<TeacherViewModel>(user);
+
+
+                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.LoginSuccess], response);
+                }
+                else
+                {
+                    return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.InvalidCredentials]);
+                }
+
+            }
+        }
 
         public async Task<dynamic> CheckOtpCode(OtpCodeDto dto)
         {
@@ -105,7 +141,7 @@ namespace Kvdemy.Infrastructure.Services.Auth
 
             }
 
-            var response = new LoginResponseViewModel();
+            var response = new StudentLoginResponseViewModel();
             await AddUserToRole(user, UserType.Student);
 
             response.AcessToken = await GenerateAccessToken(user, UserType.Student);
