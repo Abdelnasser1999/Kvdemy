@@ -1,5 +1,4 @@
-﻿using Krooti.Core.ViewModels;
-using Kvdemy.Core.ViewModels;
+﻿using Kvdemy.Core.ViewModels;
 
 
 namespace Kvdemy.Core.ViewModels

@@ -1,4 +1,4 @@
-﻿using Krooti.Core.Enums;
+﻿using Kvdemy.Core.Enums;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -74,6 +74,15 @@ namespace Kvdemy.Data.Models
         public string? BookingDetails { get; set; }
         public string? AdditionalInformation { get; set; }
         public string? FCMToken { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public bool IsDelete { get; set; }
+        public UserStatus Status { get; set; }
+        public User()
+        {
+            CreatedAt = DateTime.Now;
+            IsDelete = false;
+            Status = UserStatus.inActive;
+        }
 
     }
 }

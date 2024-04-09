@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Krooti.Core.ViewModels;
 using Kvdemy.Core.Dtos;
+using Kvdemy.Core.ViewModels;
 using Kvdemy.Data.Models;
 
 namespace Kvdemy.infrastructure.Mapper
@@ -13,6 +13,7 @@ namespace Kvdemy.infrastructure.Mapper
 
             /// User
             CreateMap<User, StudentViewModel>();
+            CreateMap<StudentViewModel, User>();
             CreateMap<User, TeacherViewModel>();
             //CreateMap<User, AdminViewModel>().ForMember(x => x.UserType, x => x.MapFrom(x => x.UserType.ToString()));
 

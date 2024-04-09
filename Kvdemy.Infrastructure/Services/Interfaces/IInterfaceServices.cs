@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Kvdemy.Web.Services;
 using Kvdemy.Infrastructure.Services.Users;
-using Krooti.Infrastructure.Services.Auth;
+using Kvdemy.Infrastructure.Services.Auth;
 
 
 namespace Krooti.Infrastructure.Services.Interfaces

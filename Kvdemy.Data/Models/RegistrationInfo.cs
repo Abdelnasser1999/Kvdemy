@@ -20,7 +20,6 @@ namespace Kvdemy.Data.Models
         [Required]
         public bool isVerified { get; set; }
 
-        public int UserId { get; set; }
         public User User { get; set; }
 
     }

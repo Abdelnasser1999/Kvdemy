@@ -14,7 +14,6 @@ using Kvdemy.Core.Options;
 using Kvdemy.Core.Resourses;
 using Kvdemy.Infrastructure.Services.Users;
 using Kvdemy.Infrastructure.Services.Auth;
-using Krooti.Infrastructure.Services.Auth;
 
 
 namespace Krooti.Infrastructure.Services.Interfaces

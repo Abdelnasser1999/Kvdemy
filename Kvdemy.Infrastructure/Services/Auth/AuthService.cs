@@ -16,12 +16,10 @@ using Kvdemy.Core.Options;
 using Kvdemy.Core.Resourses;
 using Kvdemy.Web.Services;
 using Kvdemy.Core.ViewModels;
-using Krooti.Core.Enums;
 using Kvdemy.Core.Constant;
 using Kvdemy.Core.Exceptions;
-using Krooti.Infrastructure.Services.Auth;
 using Kvdemy.Core.Dtos;
-using Krooti.Core.ViewModels;
+using Kvdemy.Core.Enums;
 
 
 

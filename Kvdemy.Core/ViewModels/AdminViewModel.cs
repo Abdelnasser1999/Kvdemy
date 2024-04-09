@@ -1,4 +1,4 @@
-﻿using Krooti.Core.Enums;
+﻿using Kvdemy.Core.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

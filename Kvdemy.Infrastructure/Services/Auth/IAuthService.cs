@@ -1,5 +1,5 @@
-﻿using Krooti.Core.Enums;
-using Kvdemy.Core.Dtos;
+﻿using Kvdemy.Core.Dtos;
+using Kvdemy.Core.Enums;
 using Kvdemy.Core.ViewModels;
 using Kvdemy.Data.Models;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Krooti.Infrastructure.Services.Auth
+namespace Kvdemy.Infrastructure.Services.Auth
 {
     public interface IAuthService
     {

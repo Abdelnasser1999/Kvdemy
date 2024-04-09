@@ -1,7 +1,11 @@
+using Krooti.Infrastructure.Services.Interfaces;
+using Kvdemy.Data.Models;
 using Kvdemy.Infrastructure.Middlewares;
 using Kvdemy.Web.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +15,75 @@ builder.Services.AddDbContext<KvdemyDbContext>(options =>
 	options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-	.AddEntityFrameworkStores<KvdemyDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IInterfaceServices, InterfaceServices>();
+builder.Services.AddSession(options => {
+    options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time
+});
+builder.Services.AddIdentity<User, IdentityRole>(config =>
+{
+
+    config.User.RequireUniqueEmail = false;
+    config.Password.RequireDigit = false;
+    config.Password.RequiredLength = 6;
+    config.Password.RequireLowercase = false;
+    config.Password.RequireNonAlphanumeric = false;
+    config.Password.RequireUppercase = false;
+    config.SignIn.RequireConfirmedEmail = false;
+}).AddEntityFrameworkStores<KvdemyDbContext>()
+                   .AddDefaultTokenProviders().AddDefaultUI();
+builder.Services.AddMemoryCache();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+builder.Services.AddLocalization();
+
+builder.Services.Configure<RequestLocalizationOptions>(
+    opts =>
+    {
+        var supportedCultures = new List<CultureInfo>
+        {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("en"),
+                        new CultureInfo("ar-SA"),
+                        new CultureInfo("ar")
+        };
+
+        opts.DefaultRequestCulture = new RequestCulture("en-US");
+        opts.SupportedCultures = new List<CultureInfo>
+        {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("en")
+        };
+        opts.SupportedUICultures = supportedCultures;
+        opts.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(context =>
+        {
+            var defaultLang = "en-US";
+            var userLanguages = context.Request.GetTypedHeaders().AcceptLanguage;
+            if (userLanguages.Any() && !string.IsNullOrWhiteSpace(userLanguages.FirstOrDefault()?.ToString()))
+            {
+                var passedLanguage = userLanguages.FirstOrDefault()?.ToString();
+                if (!string.IsNullOrWhiteSpace(passedLanguage) &&
+                    passedLanguage.StartsWith("ar", StringComparison.OrdinalIgnoreCase))
+                {
+                    defaultLang = "ar-SA";
+                }
+            }
+
+            return Task.FromResult(new ProviderCultureResult(defaultLang));
+        }));
+
+    });
+
+builder.Services.AddAutoMapper(typeof(Kvdemy.infrastructure.Mapper.AutoMapper).Assembly);
 
 var app = builder.Build();
 

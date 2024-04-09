@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Krooti.Core.Enums
+namespace Kvdemy.Core.Enums
 {
     public enum UserType
     {

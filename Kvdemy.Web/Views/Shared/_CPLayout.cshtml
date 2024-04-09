@@ -123,8 +123,8 @@
         <div class="d-flex flex-row flex-column-fluid page">
             <div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
                 <div class="brand flex-column-auto" id="kt_brand">
-                    <a class="header-logo" href="/Home/index" class="brand-logo">
-                        <h1 class="header-logo">Kvdemy</h1>
+                    <a class="header-logo" style="margin-left 55px;" href="/Home/index" class="brand-logo">
+                        <img class="img-fluid"  alt="Logo" src="~/ThemImages/cms_logo.png" />
                     </a>
                     <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
                         <span class="svg-icon svg-icon svg-icon-xl">
@@ -159,7 +159,7 @@
                                 </a>
                             </li>
 
-                            @if (Controller == "product")
+                            @if (Controller == "student")
                             {
                                 activePage = "menu-item menu-item-active";
                             }
@@ -168,7 +168,7 @@
                                 activePage = "menu-item menu-item";
                             }
                             <li class="@activePage" aria-haspopup="true">
-                                <a href="~/Product/Index" class="menu-link">
+                                <a href="~/student/Index" class="menu-link">
                                     <span class="svg-icon svg-icon-primary svg-icon-2x">
                                         <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Files/User-folder.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 256 256" xml:space="preserve">
@@ -190,7 +190,7 @@
                                             </svg>                                              
                                             <!--end::Svg Icon-->
                                     </span>
-                                    <span class="menu-text"> ادارة المنتجات </span>
+                                    <span class="menu-text"> ادارة الطلاب </span>
                                 </a>
                             </li>
                             @if (Controller == "user")

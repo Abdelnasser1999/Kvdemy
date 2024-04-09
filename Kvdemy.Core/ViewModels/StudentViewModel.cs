@@ -1,5 +1,5 @@
-﻿using Krooti.Core.Enums;
-using Kvdemy.Core.Constants;
+﻿using Kvdemy.Core.Constants;
+using Kvdemy.Core.Enums;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Krooti.Core.ViewModels
+namespace Kvdemy.Core.ViewModels
 {
     public class StudentViewModel
     {
@@ -19,11 +19,12 @@ namespace Krooti.Core.ViewModels
         public Gender Gender { get; set; }
         public DateTime DOB { get; set; }
         public int NationalityId { get; set; }
+        public NationalityViewModel Nationality { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string? Location { get; set; }
         public string? StudentLanguages { get; set; }
-        public IFormFile? ProfileImage { get; set; }
+        public string? ProfileImage { get; set; }
         public string? AdditionalInformation { get; set; }
         public string? FCMToken { get; set; }
         public DateTime CreatedAt { get; set; }

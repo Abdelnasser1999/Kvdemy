@@ -1,5 +1,4 @@
-﻿using Krooti.Core.Enums;
-using Kvdemy.Core.Constants;
+﻿using Kvdemy.Core.Constants;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Krooti.Core.ViewModels
+namespace Kvdemy.Core.ViewModels
 {
     public class AwardViewModel
     {
@@ -16,6 +15,6 @@ namespace Krooti.Core.ViewModels
         public string Title { get; set; }
         public DateTime Year { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

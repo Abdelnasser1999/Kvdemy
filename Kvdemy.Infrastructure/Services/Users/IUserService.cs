@@ -1,5 +1,4 @@
-﻿using Krooti.Core.ViewModels;
-using Kvdemy.Core.Dtos;
+﻿using Kvdemy.Core.Dtos;
 using Kvdemy.Core.Dtos.Helpers;
 using Kvdemy.Core.ViewModels;
 using System;
@@ -14,8 +13,8 @@ namespace Kvdemy.Infrastructure.Services.Users
     {
 
 
-        //Task<PagingAPIViewModel> GetAll(string searchKey, int page);
-        //Task<PaginationWebViewModel> GetAll(Pagination pagination, Query query);
+        //Task<PagingAPIViewModel> GetStudent(string searchKey, int page);
+        Task<PaginationWebViewModel> GetAllStudent(Pagination pagination, Query query);
 
 
         Task<dynamic> CreateStudent(CreateStudentDto dto);
@@ -26,6 +25,6 @@ namespace Kvdemy.Infrastructure.Services.Users
         //Task<dynamic> Update(UpdateUserDto dto, string language);
         //Task<dynamic> Delete(string id);
 
-        //Task<UserViewModel> Get(string Id);
+        Task<StudentViewModel> GetStudent(string Id);
     }
 }

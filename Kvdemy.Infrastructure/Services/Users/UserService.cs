@@ -16,11 +16,10 @@ using Kvdemy.Core.ViewModels;
 using Kvdemy.Core.Constant;
 using Kvdemy.Core.Dtos.Helpers;
 using Kvdemy.Core.Dtos;
-using Krooti.Core.Enums;
 using Kvdemy.Core.Exceptions;
 using Kvdemy.Core.Constants;
-using Krooti.Infrastructure.Services.Auth;
-using Krooti.Core.ViewModels;
+using Kvdemy.Infrastructure.Services.Auth;
+using Kvdemy.Core.Enums;
 
 
 
@@ -217,7 +216,6 @@ namespace Kvdemy.Infrastructure.Services.Users
           
             
         }
-
         public async Task<RegisterHelperViewModel> GetRegisterHelper()
         {
             var response = new RegisterHelperViewModel();
@@ -247,303 +245,338 @@ namespace Kvdemy.Infrastructure.Services.Users
             response.levels = _mapper.Map<List<LanguageLevelViewModel>>(LevelsList);
             return response;
         }
+        public async Task<PaginationWebViewModel> GetAllStudent(Pagination pagination, Query query)
+        {
+
+            var queryString = _db.Users.Where(x => !x.IsDelete && x.UserType == UserType.Student && (x.FirstName.Contains(query.GeneralSearch) ||x.LastName.Contains(query.GeneralSearch) || x.PhoneNumber.Contains(query.GeneralSearch) || x.Email.Contains(query.GeneralSearch) || string.IsNullOrWhiteSpace(query.GeneralSearch))).AsQueryable();
+
+            var dataCount = queryString.Count();
+            pagination.Total = dataCount;
+            var skipValue = pagination.GetSkipValue();
+            var dataList = await queryString.Skip(skipValue).Take(pagination.PerPage).ToListAsync();
+            var users = _mapper.Map<List<StudentViewModel>>(dataList);
+            var pages = pagination.GetPages(dataCount);
+
+            var result = new PaginationWebViewModel
+            {
+                data = users,
+                meta = new Meta
+                {
+                    page = pagination.Page,
+                    perpage = pagination.PerPage,
+                    pages = pages,
+                    total = dataCount
+                }
+            };
+
+            return result;
+        }
+		public async Task<StudentViewModel> GetStudent(string Id)
+		{
+			var model = await _db.Users.Include(x => x.Nationality).SingleOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
+			if (model == null)
+			{
+				throw new EntityNotFoundException();
+			}
+
+			var modelViewModel = _mapper.Map<StudentViewModel>(model);
+			return modelViewModel;
+		}
+
+		//public async Task<PagingAPIViewModel> GetStudent(string searchKey, int page)
+		//{
+		//    var pageSize = 10;
+		//    var totalmodels = _db.Users.Count(x => !x.IsDelete && x.FirstName.Contains(searchKey) || x.LastName.Contains(searchKey)|| x.Email.Contains(searchKey) || x.PhoneNumber.Contains(searchKey) || string.IsNullOrWhiteSpace(searchKey));
+		//    var totalPages = (int)Math.Ceiling(totalmodels / (double)pageSize);
+		//    if (totalPages != 0)
+		//    {
+		//        // Ensure page number is within valid range
+		//        page = Math.Clamp(page, 1, totalPages);
+		//    }
+		//    var skipCount = (page - 1) * pageSize;
+
+		//    IQueryable<User> query = _db.Users
+
+		//        .Where(x => !x.IsDelete && x.FirstName.Contains(searchKey) || x.LastName.Contains(searchKey) || x.Email.Contains(searchKey) || x.PhoneNumber.Contains(searchKey) || string.IsNullOrWhiteSpace(searchKey))
+		//        .OrderByDescending(x => x.CreatedAt)
+		//        .Skip(skipCount)
+		//        .Take(pageSize);
+		//    var modelquery = await query.ToListAsync();
+		//    var modelViewModels = _mapper.Map<List<StudentViewModel>>(modelquery);
+
+		//    var pagingResult = new PagingAPIViewModel
+		//    {
+		//        Data = modelViewModels,
+		//        NumberOfPages = totalPages,
+		//        CureentPage = page
+		//    };
+
+		//    return pagingResult;
+		//}
+
+		//public async Task<dynamic> UserExist(string searchKey)
+		//{
+		//    if (!searchKey.IsNullOrEmpty())
+		//    {
+		//        var IsExist = await _db.Users.AnyAsync(x => x.Email.Contains(searchKey) || x.PhoneNumber.Contains(searchKey) );
+		//        if (IsExist)
+		//        {
+		//            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], true);
+		//        }
+		//        else
+		//        {
+		//            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], false);
+		//        }
+		//    }
+		//    else
+		//    {
+		//        return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], false);
+		//    }
 
-        //public async Task<dynamic> UserExist(string searchKey)
-        //{
-        //    if (!searchKey.IsNullOrEmpty())
-        //    {
-        //        var IsExist = await _db.Users.AnyAsync(x => x.Email.Contains(searchKey) || x.PhoneNumber.Contains(searchKey) );
-        //        if (IsExist)
-        //        {
-        //            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], true);
-        //        }
-        //        else
-        //        {
-        //            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], false);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], false);
-        //    }
 
 
+		//}
 
-        //}
+		//public async Task<PaginationWebViewModel> GetAll(Pagination pagination, Query query)
+		//{
 
-        //public async Task<PaginationWebViewModel> GetAll(Pagination pagination, Query query)
-        //{
+		//    var queryString = _db.Users.Where(x => !x.IsDelete && x.UserType==UserType.Client && (x.Name.Contains(query.GeneralSearch) || x.PhoneNumber.Contains(query.GeneralSearch) || x.Email.Contains(query.GeneralSearch) || string.IsNullOrWhiteSpace(query.GeneralSearch))).AsQueryable();
 
-        //    var queryString = _db.Users.Where(x => !x.IsDelete && x.UserType==UserType.Client && (x.Name.Contains(query.GeneralSearch) || x.PhoneNumber.Contains(query.GeneralSearch) || x.Email.Contains(query.GeneralSearch) || string.IsNullOrWhiteSpace(query.GeneralSearch))).AsQueryable();
+		//    var dataCount = queryString.Count();
+		//    pagination.Total = dataCount;
+		//    var skipValue = pagination.GetSkipValue();
+		//    var dataList = await queryString.Skip(skipValue).Take(pagination.PerPage).ToListAsync();
+		//    var users = _mapper.Map<List<UserViewModel>>(dataList);
+		//    var pages = pagination.GetPages(dataCount);
 
-        //    var dataCount = queryString.Count();
-        //    pagination.Total = dataCount;
-        //    var skipValue = pagination.GetSkipValue();
-        //    var dataList = await queryString.Skip(skipValue).Take(pagination.PerPage).ToListAsync();
-        //    var users = _mapper.Map<List<UserViewModel>>(dataList);
-        //    var pages = pagination.GetPages(dataCount);
+		//    var result = new PaginationWebViewModel
+		//    {
+		//        data = users,
+		//        meta = new Meta
+		//        {
+		//            page = pagination.Page,
+		//            perpage = pagination.PerPage,
+		//            pages = pages,
+		//            total = dataCount
+		//        }
+		//    };
 
-        //    var result = new PaginationWebViewModel
-        //    {
-        //        data = users,
-        //        meta = new Meta
-        //        {
-        //            page = pagination.Page,
-        //            perpage = pagination.PerPage,
-        //            pages = pages,
-        //            total = dataCount
-        //        }
-        //    };
+		//    return result;
+		//}
 
-        //    return result;
-        //}
-        //public async Task<PagingAPIViewModel> GetAll(string searchKey, int page)
-        //{
-        //    var pageSize = 10;
-        //    var totalmodels = _db.Users.Count(x => !x.IsDelete && x.Name.Contains(searchKey) || x.Email.Contains(searchKey) || x.PhoneNumber.Contains(searchKey) || string.IsNullOrWhiteSpace(searchKey));
-        //    var totalPages = (int)Math.Ceiling(totalmodels / (double)pageSize);
-        //    if (totalPages != 0)
-        //    {
-        //        // Ensure page number is within valid range
-        //        page = Math.Clamp(page, 1, totalPages);
-        //    }
-        //    var skipCount = (page - 1) * pageSize;
 
-        //    IQueryable<User> query = _db.Users
 
-        //        .Where(x => !x.IsDelete && x.Name.Contains(searchKey) || x.Email.Contains(searchKey) || x.PhoneNumber.Contains(searchKey) || string.IsNullOrWhiteSpace(searchKey))
-        //        .OrderByDescending(x => x.CreatedAt)
-        //        .Skip(skipCount)
-        //        .Take(pageSize);
 
 
+		//public async Task<dynamic> Update(UpdateUserDto dto)
+		//{
 
-        //    var modelquery = await query.ToListAsync();
-        //    var modelViewModels = _mapper.Map<List<UserViewModel>>(modelquery);
+		//    var user = _db.Users.SingleOrDefault(x => x.Id == dto.Id);
 
-        //    var pagingResult = new PagingAPIViewModel
-        //    {
-        //        Data = modelViewModels,
-        //        NumberOfPages = totalPages,
-        //        CureentPage = page
-        //    };
+		//    if (user == null)
+		//    {
+		//        return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+		//    }else {
 
-        //    return pagingResult;
+		//        string img = null;
 
-        //}
+		//        if (dto.Name == null)
+		//        {
+		//            dto.Name = user.Name;
+		//        }
 
+		//        if (dto.Email == null)
+		//        {
+		//            dto.Email = user.Email;
+		//        }
 
 
+		//        if (dto.CityId == null)
+		//        {
+		//            dto.CityId = user.CityId;
+		//        }
 
-        //public async Task<dynamic> Update(UpdateUserDto dto)
-        //{
 
-        //    var user = _db.Users.SingleOrDefault(x => x.Id == dto.Id);
 
-        //    if (user == null)
-        //    {
-        //        return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
-        //    }else {
 
-        //        string img = null;
+		//        if (dto.Gender == null)
+		//        {
+		//            dto.Gender = user.Gender;
+		//        }
 
-        //        if (dto.Name == null)
-        //        {
-        //            dto.Name = user.Name;
-        //        }
+		//        if (dto.PhoneNumber == null)
+		//        {
+		//            dto.PhoneNumber = user.PhoneNumber;
+		//        }
 
-        //        if (dto.Email == null)
-        //        {
-        //            dto.Email = user.Email;
-        //        }
 
 
-        //        if (dto.CityId == null)
-        //        {
-        //            dto.CityId = user.CityId;
-        //        }
+		//        if (dto.FCMToken == null)
+		//        {
+		//            dto.FCMToken = user.FCMToken;
+		//        }
 
 
+		//        if (dto.Status == null)
+		//        {
+		//            dto.Status = user.Status;
+		//        }
 
 
-        //        if (dto.Gender == null)
-        //        {
-        //            dto.Gender = user.Gender;
-        //        }
+		//        if (dto.ProfileImage == null)
+		//        {
+		//            img = user.ProfileImage;
+		//        }
 
-        //        if (dto.PhoneNumber == null)
-        //        {
-        //            dto.PhoneNumber = user.PhoneNumber;
-        //        }
 
 
 
-        //        if (dto.FCMToken == null)
-        //        {
-        //            dto.FCMToken = user.FCMToken;
-        //        }
+		//        var updatedUser = _mapper.Map(dto, user);
 
 
-        //        if (dto.Status == null)
-        //        {
-        //            dto.Status = user.Status;
-        //        }
+		//        if (dto.ProfileImage != null)
+		//        {
+		//            user.ProfileImage = await _fileService.SaveFile(dto.ProfileImage, FolderNames.ImagesFolder);
 
+		//        }else
+		//        {
+		//            updatedUser.ProfileImage = img;
+		//        }
+		//        _db.Users.Update(updatedUser);
+		//        int affectedRow =   _db.SaveChanges();
 
-        //        if (dto.ProfileImage == null)
-        //        {
-        //            img = user.ProfileImage;
-        //        }
+		//        if(affectedRow > 0)
+		//        {
 
+		//            var userVm = _mapper.Map<UserViewModel>(updatedUser);
 
+		//            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss], userVm);
+		//        }else
+		//        {
+		//            return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserUpdatedFailed]);
+		//        }
 
 
-        //        var updatedUser = _mapper.Map(dto, user);
+		//    }
+		//}
+		//public async Task<dynamic> Update(UpdateUserDto dto, string language)
+		//{
 
+		//    var user = _db.Users.SingleOrDefault(x => x.Id == dto.Id);
 
-        //        if (dto.ProfileImage != null)
-        //        {
-        //            user.ProfileImage = await _fileService.SaveFile(dto.ProfileImage, FolderNames.ImagesFolder);
+		//    if (user == null)
+		//    {
+		//        return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+		//    }
+		//    else
+		//    {
 
-        //        }else
-        //        {
-        //            updatedUser.ProfileImage = img;
-        //        }
-        //        _db.Users.Update(updatedUser);
-        //        int affectedRow =   _db.SaveChanges();
+		//        string img = null;
 
-        //        if(affectedRow > 0)
-        //        {
+		//        if (dto.Name == null)
+		//        {
+		//            dto.Name = user.Name;
+		//        }
 
-        //            var userVm = _mapper.Map<UserViewModel>(updatedUser);
+		//        if (dto.Email == null)
+		//        {
+		//            dto.Email = user.Email;
+		//        }
 
-        //            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss], userVm);
-        //        }else
-        //        {
-        //            return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserUpdatedFailed]);
-        //        }
+		//        //if (dto.PhoneNumber == null)
+		//        //{
+		//        //    dto.PhoneNumber = user.PhoneNumber;
+		//        //}
 
 
-        //    }
-        //}
-        //public async Task<dynamic> Update(UpdateUserDto dto, string language)
-        //{
 
-        //    var user = _db.Users.SingleOrDefault(x => x.Id == dto.Id);
+		//        if (dto.FCMToken == null)
+		//        {
+		//            dto.FCMToken = user.FCMToken;
+		//        }
 
-        //    if (user == null)
-        //    {
-        //        return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
-        //    }
-        //    else
-        //    {
 
-        //        string img = null;
+		//        if (dto.Status == null)
+		//        {
+		//            dto.Status = user.Status;
+		//        }
 
-        //        if (dto.Name == null)
-        //        {
-        //            dto.Name = user.Name;
-        //        }
 
-        //        if (dto.Email == null)
-        //        {
-        //            dto.Email = user.Email;
-        //        }
+		//        if (dto.ProfileImage == null)
+		//        {
+		//            img = user.ProfileImage;
+		//        }
 
-        //        //if (dto.PhoneNumber == null)
-        //        //{
-        //        //    dto.PhoneNumber = user.PhoneNumber;
-        //        //}
 
 
 
-        //        if (dto.FCMToken == null)
-        //        {
-        //            dto.FCMToken = user.FCMToken;
-        //        }
+		//        var updatedUser = _mapper.Map(dto, user);
 
 
-        //        if (dto.Status == null)
-        //        {
-        //            dto.Status = user.Status;
-        //        }
+		//        if (dto.ProfileImage != null)
+		//        {
+		//            user.ProfileImage = await _fileService.SaveFile(dto.ProfileImage, FolderNames.ImagesFolder);
 
+		//        }
+		//        else
+		//        {
+		//            updatedUser.ProfileImage = img;
+		//        }
+		//        _db.Users.Update(updatedUser);
+		//        int affectedRow = _db.SaveChanges();
 
-        //        if (dto.ProfileImage == null)
-        //        {
-        //            img = user.ProfileImage;
-        //        }
+		//        if (affectedRow > 0)
+		//        {
 
+		//            var userVm = _mapper.Map<UserViewModel>(updatedUser);
 
+		//            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss], userVm);
+		//        }
+		//        else
+		//        {
+		//            return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserUpdatedFailed]);
+		//        }
 
 
-        //        var updatedUser = _mapper.Map(dto, user);
+		//    }
+		//}
 
 
-        //        if (dto.ProfileImage != null)
-        //        {
-        //            user.ProfileImage = await _fileService.SaveFile(dto.ProfileImage, FolderNames.ImagesFolder);
 
-        //        }
-        //        else
-        //        {
-        //            updatedUser.ProfileImage = img;
-        //        }
-        //        _db.Users.Update(updatedUser);
-        //        int affectedRow = _db.SaveChanges();
+		//public async Task<dynamic> Delete(string id)
+		//{
+		//    var user = _db.Users.SingleOrDefault(x => x.Id == id);
+		//    if (user == null)
+		//    {
+		//        return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+		//    }else
+		//    {
 
-        //        if (affectedRow > 0)
-        //        {
+		//        user.IsDelete = true;
+		//        user.Status = UserStatus.deleted;
+		//        _db.Users.Remove(user);
+		//        _db.SaveChanges();
+		//        return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserDeletedSuccss], user.Id);
 
-        //            var userVm = _mapper.Map<UserViewModel>(updatedUser);
+		//    }
 
-        //            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss], userVm);
-        //        }
-        //        else
-        //        {
-        //            return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserUpdatedFailed]);
-        //        }
 
 
-        //    }
-        //}
+		//}
 
+		//public async Task<UserViewModel> Get(string Id)
+		//{
+		//    var model = await _db.Users.Include(x=>x.City).SingleOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
+		//    if (model == null)
+		//    {
+		//        throw new EntityNotFoundException();
+		//    }
 
+		//    var modelViewModel = _mapper.Map<UserViewModel>(model);
+		//    return modelViewModel;
+		//}
 
-        //public async Task<dynamic> Delete(string id)
-        //{
-        //    var user = _db.Users.SingleOrDefault(x => x.Id == id);
-        //    if (user == null)
-        //    {
-        //        return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
-        //    }else
-        //    {
 
-        //        user.IsDelete = true;
-        //        user.Status = UserStatus.deleted;
-        //        _db.Users.Remove(user);
-        //        _db.SaveChanges();
-        //        return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserDeletedSuccss], user.Id);
 
-        //    }
-
-
-
-        //}
-
-        //public async Task<UserViewModel> Get(string Id)
-        //{
-        //    var model = await _db.Users.Include(x=>x.City).SingleOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
-        //    if (model == null)
-        //    {
-        //        throw new EntityNotFoundException();
-        //    }
-
-        //    var modelViewModel = _mapper.Map<UserViewModel>(model);
-        //    return modelViewModel;
-        //}
-
-
-
-    }
+	}
 }

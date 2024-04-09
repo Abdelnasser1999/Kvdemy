@@ -1,5 +1,4 @@
-﻿using Krooti.Core.Enums;
-using Kvdemy.Core.Constants;
+﻿using Kvdemy.Core.Constants;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Krooti.Core.ViewModels
+namespace Kvdemy.Core.ViewModels
 {
     public class EducationViewModel
     {
@@ -19,7 +18,7 @@ namespace Krooti.Core.ViewModels
         public string DegreeTitle { get; set; }
         public string? Description { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
     }
 }

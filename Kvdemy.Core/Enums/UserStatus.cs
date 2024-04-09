@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Kvdemy.Core.Enums
 {
-    public enum Gender
+    public enum UserStatus
     {
-        Male = 1,
-        Female = 2
+
+        inActive = 1,
+        active = 2,
+        deleted = 3 
+
     }
 }
