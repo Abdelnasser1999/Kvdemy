@@ -56,8 +56,36 @@ namespace Kvdemy.Core.Dtos
 
         public string? FCMToken { get; set; }
 
+		public string? NameBase { get; set; }
 
+		public string? Description { get; set; }
 
+		public float? StartingPrice { get; set; }
 
-    }
+		public List<ExperienceDto>? Experiences { get; set; }
+
+		public List<EducationDto>? Educations { get; set; }
+
+		public List<CreateAwardDto>? Awards { get; set; }
+
+		public List<DownloadDto>? Downloads { get; set; }
+
+		public int? RegistrationInfoId { get; set; }
+
+		public List<UserSpecialtyDto>? UserSpecialties { get; set; }
+
+		public List<GalleryDto>? Gallery { get; set; }
+
+		public List<VideoDto>? Video { get; set; }
+
+		public List<ContactPhoneNumberDto>? ContactPhoneNumbers { get; set; }
+
+		public string? BookingDetails { get; set; }
+
+		public DateTime CreatedAt { get; set; }
+
+		public UserStatus Status { get; set; }
+	}
+
 }
+

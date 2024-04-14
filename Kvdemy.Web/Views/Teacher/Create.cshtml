@@ -1,0 +1,160 @@
+﻿@using Kvdemy.Core.Enums
+@model CreateTeacherDto
+
+
+@{
+    ViewData["Title"] = "اضافة معلم جديد";
+    Layout = null;
+}
+<section id="configuration">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-content collapse show">
+                    <div class="card-body card-dashboard">
+                        <form asp-action="Create" class="form form_gray ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="ProfileImage" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="ProfileImage" type="file" class="form-control control-label" />
+                                            <span asp-validation-for="ProfileImage" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="FirstName" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="FirstName" class="form-control control-label" />
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="LastName" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="LastName" class="form-control control-label" />
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="LastName" style="font-size: large;" class="control-label"></label>
+                                            <select asp-for="Gender" class="form-control">
+                                                <option value="">اختر الجنس</option>
+                                                <option value="@Gender.Male">ذكر</option>
+                                                <option value="@Gender.Female">أنثى</option>
+                                            </select>
+                                            <span asp-validation-for="Gender" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="DOB" style="font-size: large;" class="control-label"></label>
+                                            <input type="date" asp-for="DOB" class="form-control" />
+                                            <span asp-validation-for="DOB" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Email" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="Email" class="form-control control-label" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Password" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="Password" class="form-control control-label" />
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="NationalityId" style="font-size: large;" class="control-label"></label>
+                                            <select asp-for="NationalityId" class="form-control">
+                                                <option value="">اختر الجنسية</option>
+                                                @foreach (var nationality in ViewBag.Nationality)
+                                                {
+                                                    <option value="@nationality.Id">@nationality.Name</option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="NationalityId" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="PhoneNumber" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="PhoneNumber" class="form-control control-label" />
+                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Location" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="Location" class="form-control control-label" />
+                                            <span asp-validation-for="Location" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="NameBase" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="NameBase" class="form-control control-label" />
+                                            <span asp-validation-for="NameBase" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Description" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="Description" class="form-control control-label" />
+                                            <span asp-validation-for="Description" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="StartingPrice" style="font-size: large;" class="control-label"></label>
+                                            <input asp-for="StartingPrice" class="form-control control-label" />
+                                            <span asp-validation-for="StartingPrice" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+           
+                                <div class="row">
+                                    <div class="form-group">
+                                        <input type="submit" value="اضافة" class="btn btn-primary" />
+                                        <a data-dismiss="modal" aria-label="Close" class="btn btn-danger">الغاء</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        
+
+<script>
+    PageLoadActions();
+</script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

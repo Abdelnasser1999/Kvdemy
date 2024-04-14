@@ -12,7 +12,7 @@ var KTDatatableAutoColumnHideDemo = function () {
                 type: 'remote',
                 source: {
                     read: {
-                        url: 'Student/GetData',
+                        url: 'Teacher/GetData',
                     },
                 },
                 pagination: {
@@ -85,7 +85,7 @@ var KTDatatableAutoColumnHideDemo = function () {
                 overflow: 'visible',
                 autoHide: false,
                 template: function (data) {
-                    return '\<a  href ="/Student/StudentInfo/' + data.id + '"  title="تفاصيل الطالب ' + data.firstName + ' ">\
+                    return '\<a  href ="/Teacher/TeacherInfo/' + data.id + '"  title="تفاصيل المعلم   ' + data.firstName + ' ">\
                             <span class="svg-icon svg-icon-warning svg-icon-md">\
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\
                                 <rect x="2.99658" y="3.78906" width="18.0075" height="16.0067" rx="3.6" stroke="#215CA8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\
@@ -93,9 +93,9 @@ var KTDatatableAutoColumnHideDemo = function () {
                                 <path d="M8.24836 11.7922C8.24836 11.9303 8.13638 12.0423 7.99826 12.0423C7.86013 12.0423 7.74815 11.9303 7.74815 11.7922C7.74815 11.6541 7.86013 11.5421 7.99826 11.5421C8.13638 11.5421 8.24836 11.6541 8.24836 11.7922" stroke="#215CA8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\
                                 <path d="M16.2518 11.7824C16.2518 11.9206 16.1398 12.0325 16.0017 12.0325C15.8635 12.0325 15.7516 11.9206 15.7516 11.7824C15.7516 11.6443 15.8635 11.5323 16.0017 11.5323C16.1398 11.5323 16.2518 11.6443 16.2518 11.7824" stroke="#215CA8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\
                                 </svg>\
-                            </span>\
+                            </span >\
                         </a>\
-                        <a href ="/Student/Delete/' + data.id + '" tname="#kt_datatable" class="Confirm btn btn-sm btn-clean btn-icon" title="حذف">\
+                        <a href ="/Teacher/Delete/' + data.id + '" tname="#kt_datatable" class="Confirm btn btn-sm btn-clean btn-icon" title="حذف">\
                             <span class="svg-icon svg-icon-danger svg-icon-danger svg-icon-md">\
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\
                                 <path d="M18 6V18.75C18 19.993 16.973 21 15.731 21H8.231C6.988 21 6 19.993 6 18.75V6" stroke="#F80202" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\

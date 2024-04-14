@@ -91,10 +91,6 @@
 
 </head>
 <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
-    <div class="page-loader page-loader-logo">
-        <img  alt="Logo" class="max-h-90px" src="~/ThemImages/cms_logo.png" />
-        <div class="spinner spinner-primary"></div>
-    </div>
     <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
         <a href="/">
             <img alt="Logo" width="65%" src="~/ThemImages/cms_logo.png" />
@@ -193,7 +189,7 @@
                                     <span class="menu-text"> ادارة الطلاب </span>
                                 </a>
                             </li>
-                            @if (Controller == "user")
+                            @if (Controller == "teacher")
                             {
                                 activePage = "menu-item menu-item-active";
                             }
@@ -202,7 +198,7 @@
                                 activePage = "menu-item menu-item";
                             }
                             <li class="@activePage" aria-haspopup="true">
-                                <a href="~/User/Index" class="menu-link">
+                                <a href="~/Teacher/Index" class="menu-link">
                                     <span class="svg-icon svg-icon-primary svg-icon-2x">
                                         <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Files/User-folder.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24px" height="24px" viewBox="0 0 256 256" xml:space="preserve">
@@ -217,7 +213,7 @@
                                                     </svg>                                            
                                                     <!--end::Svg Icon-->
                                     </span>
-                                    <span class="menu-text"> ادارة المستخدمين </span>
+                                    <span class="menu-text"> ادارة المعلمين </span>
                                 </a>
                             </li>
 

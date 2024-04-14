@@ -13,7 +13,6 @@ namespace Kvdemy.infrastructure.Mapper
 
             /// User
             CreateMap<User, StudentViewModel>();
-            CreateMap<StudentViewModel, User>();
             CreateMap<User, TeacherViewModel>();
             //CreateMap<User, AdminViewModel>().ForMember(x => x.UserType, x => x.MapFrom(x => x.UserType.ToString()));
 

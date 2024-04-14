@@ -13,18 +13,21 @@ namespace Kvdemy.Infrastructure.Services.Users
     {
 
 
-        //Task<PagingAPIViewModel> GetStudent(string searchKey, int page);
-        Task<PaginationWebViewModel> GetAllStudent(Pagination pagination, Query query);
+		//Task<PagingAPIViewModel> GetStudent(string searchKey, int page);
+		Task<dynamic> CreateStudent(CreateStudentDto dto);
+		Task<dynamic> CreateTeacher(CreateTeacherDto dto);
+		Task<RegisterHelperViewModel> GetRegisterHelper();
+		Task<PaginationWebViewModel> GetAllStudents(Pagination pagination, Query query);
+		Task<PaginationWebViewModel> GetAllTeachers(Pagination pagination, Query query);
+		Task<StudentViewModel> GetStudent(string Id);
+		Task<TeacherViewModel> GetTeacher(string Id);
+
+		//Task<dynamic> Update(UpdateUserDto dto);
+		//Task<dynamic> Update(UpdateUserDto dto, string language);
+		Task<dynamic> Delete(string id);
+		Task<List<NationalityViewModel>> GetNationalities();
 
 
-        Task<dynamic> CreateStudent(CreateStudentDto dto);
-        Task<dynamic> CreateTeacher(CreateTeacherDto dto);
-        Task<RegisterHelperViewModel> GetRegisterHelper();
 
-        //Task<dynamic> Update(UpdateUserDto dto);
-        //Task<dynamic> Update(UpdateUserDto dto, string language);
-        //Task<dynamic> Delete(string id);
-
-        Task<StudentViewModel> GetStudent(string Id);
     }
 }

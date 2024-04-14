@@ -1,4 +1,5 @@
 ﻿using Krooti.Infrastructure.Services.Interfaces;
+using Kvdemy.Core.Constants;
 using Kvdemy.Core.Dtos.Helpers;
 using Kvdemy.Core.Resourses;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace Kvdemy.Web.Controllers
 		[HttpPost]
 		public async Task<JsonResult> GetData(Pagination pagination, Query query)
 		{
-			var result = await _interfaceServices.userService.GetAllStudent(pagination, query);
+			var result = await _interfaceServices.userService.GetAllStudents(pagination, query);
 			return Json(result);
 		}
 		[HttpGet]
@@ -39,11 +40,11 @@ namespace Kvdemy.Web.Controllers
 			return View(student);
 		}
 
-		//[HttpGet]
-		//public async Task<IActionResult> Delete(string id)
-		//{
-		//	await _interfaceServices.userService.Delete(id);
-		//	return Ok(MyResults.DeleteSuccessResult());
-		//}
+		[HttpGet]
+		public async Task<IActionResult> Delete(string id)
+		{
+			await _interfaceServices.userService.Delete(id);
+			return Ok(MyResults.DeleteSuccessResult());
+		}
 	}
 }
