@@ -1,4 +1,4 @@
-﻿using Krooti.Infrastructure.Services.Interfaces;
+﻿using Kvdemy.Infrastructure.Services.Interfaces;
 using Kvdemy.Core.Dtos;
 using Kvdemy.Core.Resourses;
 using Microsoft.AspNetCore.Authorization;

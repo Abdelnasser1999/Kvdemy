@@ -1,4 +1,4 @@
-using Krooti.Infrastructure.Services.Interfaces;
+using Kvdemy.Infrastructure.Services.Interfaces;
 using Kvdemy.Core.Options;
 using Kvdemy.Data.Models;
 using Kvdemy.Infrastructure.Middlewares;

@@ -1,4 +1,4 @@
-﻿using Krooti.Infrastructure.Services.Interfaces;
+﻿using Kvdemy.Infrastructure.Services.Interfaces;
 using Kvdemy.Core.Constants;
 using Kvdemy.Core.Dtos.Helpers;
 using Kvdemy.Core.Resourses;

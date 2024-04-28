@@ -6,14 +6,16 @@ var KTDatatableAutoColumnHideDemo = function () {
 
     // basic demo
     var demo = function () {
-
+        var FID = getFID();
+        console.error("iddddddddddd = ", FID)
+        var url = 'Category/GetSubCategories/' + FID;
         var datatable = $('#kt_datatable').KTDatatable({
             // datasource definition
             data: {
                 type: 'remote',
                 source: {
                     read: {
-                        url: 'Category/GetCategoryData',
+                        url: url,
                     },
                 },
                 pageSize: 10,
@@ -63,16 +65,7 @@ var KTDatatableAutoColumnHideDemo = function () {
                     overflow: 'visible',
                     autoHide: false,
                     template: function (data) {
-                        return '\<a  href ="/Category/SubCategories/' + data.id + '"  title="الاقسام الداخلية ' + data.name + ' ">\
-                            <span class="svg-icon svg-icon-warning svg-icon-md">\
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M17.3816 4.61828V4.61828C18.21 5.44721 18.21 6.7906 17.3816 7.61953L7.39041 17.6107C7.13402 17.8671 6.81278 18.049 6.46102 18.1369L2.99658 19.0033L3.86294 15.5388C3.9509 15.1871 4.13279 14.8658 4.38916 14.6094L14.3813 4.61828C15.2099 3.79 16.553 3.79 17.3816 4.61828Z" stroke="#323232" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\
-                                <path d="M15.5017 9.4993L12.5005 6.49805" stroke="#323232" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\
-                                <path d="M21.0039 18.0029L19.9094 19.0974C18.7007 20.3058 16.7413 20.3058 15.5326 19.0974V19.0974C14.3224 17.8916 12.365 17.8916 11.1548 19.0974" stroke="#323232" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\
-                                </svg>\
-                            </span>\
-                        </a>\
-                        <a  href ="/Category/Update/' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="تعديل  بيانات ' + data.name + ' ">\
+                        return '\<a  href ="/Category/Update/' + data.id + '" class="PopUp btn btn-sm btn-clean btn-icon mr-2" title="تعديل  بيانات ' + data.name + ' ">\
                             <span class="svg-icon svg-icon-warning svg-icon-md">\
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\
                                 <path fill-rule="evenodd" clip-rule="evenodd" d="M17.3816 4.61828V4.61828C18.21 5.44721 18.21 6.7906 17.3816 7.61953L7.39041 17.6107C7.13402 17.8671 6.81278 18.049 6.46102 18.1369L2.99658 19.0033L3.86294 15.5388C3.9509 15.1871 4.13279 14.8658 4.38916 14.6094L14.3813 4.61828C15.2099 3.79 16.553 3.79 17.3816 4.61828Z" stroke="#323232" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>\
@@ -139,3 +132,7 @@ $('#excelBtn').on('click', function () {
             a.remove();
         });
 });
+function getFID() {
+    // Retrieve FID from the data attribute
+    return $('#userIdInput').data('userid');
+}

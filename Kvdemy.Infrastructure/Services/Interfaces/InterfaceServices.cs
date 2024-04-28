@@ -1,4 +1,4 @@
-﻿using Krooti.Data;
+﻿using Kvdemy.Data;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -14,9 +14,10 @@ using Kvdemy.Core.Options;
 using Kvdemy.Core.Resourses;
 using Kvdemy.Infrastructure.Services.Users;
 using Kvdemy.Infrastructure.Services.Auth;
+using Kvdemy.Infrastructure.Services.Categories;
 
 
-namespace Krooti.Infrastructure.Services.Interfaces
+namespace Kvdemy.Infrastructure.Services.Interfaces
 {
     public class InterfaceServices : IInterfaceServices
     {
@@ -55,11 +56,13 @@ namespace Krooti.Infrastructure.Services.Interfaces
             fileService = new FileService(_env);
             userService = new UserService(_mapper, _db, authService, _memoryCache, _httpContextAccessor, _userManager, _env, _localizedMessages, fileService);
             authService = new AuthService(_mapper, _db, _roleManger, _httpContextAccessor, _userManager, _options, _localizedMessages, _signInManager, fileService);
+			categoryService = new CategroyService(_db, _mapper, fileService);
 
-        }
-        public IFileService fileService { get; private set; }
+		}
+		public IFileService fileService { get; private set; }
         public IUserService userService { get; private set; }
         public IAuthService authService { get; private set; }
+		public ICategoryService categoryService { get; private set; }
 
-    }
+	}
 }

@@ -36,12 +36,12 @@ namespace Kvdemy.infrastructure.Mapper
 
 
 
-            ///// Category
-            //CreateMap<Category, CategoryViewModel>();
+            /// Category
+            CreateMap<Category, CategoryViewModel>();
 
-            //CreateMap<CreateCategoryDto, Category>();
+            CreateMap<CreateCategoryDto, Category>();
 
-            //CreateMap<UpdateCategoryDto, Category>().ReverseMap().ForMember(x => x.Image, x => x.Ignore());
+            CreateMap<UpdateCategoryDto, Category>().ReverseMap().ForMember(x => x.Image, x => x.Ignore());
 
             ///// Product
             //CreateMap<Product, ProductViewModel>();

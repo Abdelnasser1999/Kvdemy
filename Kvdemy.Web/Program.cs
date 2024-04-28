@@ -1,4 +1,4 @@
-using Krooti.Infrastructure.Services.Interfaces;
+using Kvdemy.Infrastructure.Services.Interfaces;
 using Kvdemy.Data.Models;
 using Kvdemy.Infrastructure.Middlewares;
 using Kvdemy.Web.Data;
@@ -113,6 +113,9 @@ app.UseAuthorization();
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
 app.MapRazorPages();
 
 app.Run();

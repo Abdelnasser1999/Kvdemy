@@ -56,7 +56,8 @@ namespace Kvdemy.Web.Data
         public DbSet<Specialty> Specialties { get; set; }
         public DbSet<StudentLanguage> StudentLanguages { get; set; }
         public DbSet<Video> Videos { get; set; }
+		public DbSet<Category> Categories { get; set; }
 
 
-    }
+	}
 }
