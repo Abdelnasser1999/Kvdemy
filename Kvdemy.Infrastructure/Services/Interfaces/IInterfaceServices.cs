@@ -10,6 +10,9 @@ using Kvdemy.Web.Services;
 using Kvdemy.Infrastructure.Services.Users;
 using Kvdemy.Infrastructure.Services.Auth;
 using Kvdemy.Infrastructure.Services.Categories;
+using Kvdemy.Infrastructure.Services.Cities;
+using Kvdemy.Infrastructure.Services.Sliders;
+using Kvdemy.Infrastructure.Services.Teachers;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -22,6 +25,9 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
 
         IAuthService authService { get; }
 		ICategoryService categoryService { get; }
+		ISettingsService settingsService { get; }
+		ISliderService sliderService { get; }
+		ITeacherService teacherService { get; }
 
 	}
 }

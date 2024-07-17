@@ -14,7 +14,7 @@ namespace Kvdemy.Infrastructure.Services.Auth
     {
 
         Task<dynamic> StudentLogin(LoginDto dto);
-        Task<dynamic> TeacherLogin(LoginDto dto);
+        Task<dynamic> Login(LoginDto dto);
         Task<dynamic> CheckOtpCode(OtpCodeDto dto);
         //Task<dynamic> LoginAdmin(LoginAdminDto dto);
         Task<AccessTokenViewModel> GenerateAccessToken(User user, UserType userType);

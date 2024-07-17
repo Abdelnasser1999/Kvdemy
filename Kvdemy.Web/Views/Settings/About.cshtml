@@ -1,0 +1,66 @@
+﻿@model SettingsViewModel
+@{
+    ViewData["Title"] = "من نحن";
+}
+
+<!-- BEGIN ckeditor5-->
+<script src="~/ckeditor5-build-classic/ckeditor.js"></script>
+<!-- END ckeditor5-->
+
+<!-- BEGIN: Body-->
+<body class="vertical-layout vertical-menu 2-columns fixed-navbar  menu-expanded pace-done" data-open="click" data-menu="vertical-menu" data-col="2-columns">
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <section class="application">
+                    <form asp-action="About" class="ajaxForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="container">
+                            <!-- Basic CKEditor start -->
+                            <section id="basic">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h1 class="card-title">من نحن</h1>
+                                            </div>
+                                                <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <textarea asp-for="About" id="ckeditor" cols="30" rows="15" class="ckeditor" style="visibility: visible; display: block;">@Model.About</textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <input type="submit" value="اضافة" class="btn btn-primary" />
+                                                        </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                    </form>
+
+                            <!-- Basic CKEditor end -->
+                        </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+<!-- END: Body-->
+
+</html>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#ckeditor'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+

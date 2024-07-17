@@ -20,6 +20,7 @@ using Kvdemy.Core.Constant;
 using Kvdemy.Core.Exceptions;
 using Kvdemy.Core.Dtos;
 using Kvdemy.Core.Enums;
+using Newtonsoft.Json;
 
 
 
@@ -94,9 +95,9 @@ namespace Kvdemy.Infrastructure.Services.Auth
 
             }
         }
-        public async Task<dynamic> TeacherLogin(LoginDto dto)
+        public async Task<dynamic> Login(LoginDto dto)
         {
-            var user = _db.Users.SingleOrDefault(x => x.Email == dto.Email && x.UserType == UserType.Teacher);
+            var user = _db.Users.SingleOrDefault(x => x.Email == dto.Email);
             if (user == null)
             {
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
@@ -107,14 +108,36 @@ namespace Kvdemy.Infrastructure.Services.Auth
 
                 if (result.Succeeded)
                 {
-                    var response = new TeacherLoginResponseViewModel();
-                    await AddUserToRole(user, UserType.Teacher);
-
-                    response.AcessToken = await GenerateAccessToken(user, UserType.Teacher);
-                    response.Teacher = _mapper.Map<TeacherViewModel>(user);
+                    var response = new UserLoginResponseViewModel();
+                    if (user.UserType == UserType.Teacher)
+                    {
+                        await AddUserToRole(user, UserType.Teacher);
+                        response.AcessToken = await GenerateAccessToken(user, UserType.Teacher);
+                    }
+                    else
+                    {
+                        await AddUserToRole(user, UserType.Student);
+                        response.AcessToken = await GenerateAccessToken(user, UserType.Student);
+                    }
+                    response.User = _mapper.Map<UserViewModel>(user);
+                    // Attempt to deserialize the AdditionalInformation string to a dynamic object
+                    if (!string.IsNullOrEmpty(response.User.AdditionalInformation))
+                    {
+                        try
+                        {
+                            response.User.AdditionalInformation = JsonConvert.DeserializeObject<dynamic>(response.User.AdditionalInformation);
+                        }
+                        catch (JsonReaderException ex)
+                        {
+                            // Log the exception and handle the invalid JSON case
+                            // For example, you can log the error and set additionalInfo to null
+                            Console.WriteLine($"Error deserializing AdditionalInformation: {ex.Message}");
+                        }
+                    }
 
 
                     return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.LoginSuccess], response);
+                    
                 }
                 else
                 {
@@ -139,11 +162,33 @@ namespace Kvdemy.Infrastructure.Services.Auth
 
             }
 
-            var response = new StudentLoginResponseViewModel();
-            await AddUserToRole(user, UserType.Student);
+            var response = new UserLoginResponseViewModel();
+            if (user.UserType == UserType.Teacher)
+            {
+                await AddUserToRole(user, UserType.Teacher);
+                response.AcessToken = await GenerateAccessToken(user, UserType.Teacher);
+            }
+            else
+            {
+                await AddUserToRole(user, UserType.Student);
+                response.AcessToken = await GenerateAccessToken(user, UserType.Student);
+            }
+            response.User = _mapper.Map<UserViewModel>(user);
+            // Attempt to deserialize the AdditionalInformation string to a dynamic object
+            if (!string.IsNullOrEmpty(response.User.AdditionalInformation))
+            {
+                try
+                {
+                    response.User.AdditionalInformation = JsonConvert.DeserializeObject<dynamic>(response.User.AdditionalInformation);
+                }
+                catch (JsonReaderException ex)
+                {
+                    // Log the exception and handle the invalid JSON case
+                    // For example, you can log the error and set additionalInfo to null
+                    Console.WriteLine($"Error deserializing AdditionalInformation: {ex.Message}");
+                }
+            }
 
-            response.AcessToken = await GenerateAccessToken(user, UserType.Student);
-            response.student = _mapper.Map<StudentViewModel>(user);
 
 
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.LoginSuccess], response);

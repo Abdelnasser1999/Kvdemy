@@ -1,0 +1,73 @@
+﻿@model SettingsViewModel
+@{
+    ViewData["Title"] = "العملات";
+}
+
+<!-- BEGIN: Body-->
+<body class="vertical-layout vertical-menu 2-columns fixed-navbar  menu-expanded pace-done" data-open="click" data-menu="vertical-menu" data-col="2-columns">
+    <div class="pace  pace-inactive">
+        <div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+            <div class="pace-progress-inner"></div>
+        </div>
+        <div class="pace-activity"></div>
+    </div>
+    <div class="app-content content">
+        <div class="content-wrapper">
+            <div class="content-body">
+                <section class="application">
+                    <form asp-action="Currencies" class="ajaxForm">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="container">
+                            <section id="basic">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h1 class="card-title">اسعار العملات</h1>
+                                            </div>
+                                                <div class="card-body">
+                                                        <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label asp-for="Dollar" class="control-label"></label>
+                                                            <input asp-for="Dollar" class="form-control" value="@Model.Dollar"/>
+                                                            <span asp-validation-for="Dollar" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label asp-for="Euro" class="control-label"></label>
+                                                            <input asp-for="Euro" class="form-control" value="@Model.Euro" />
+                                                            <span asp-validation-for="Euro" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label asp-for="Pound" class="control-label"></label>
+                                                            <input asp-for="Pound" class="form-control" value="@Model.Pound" />
+                                                            <span asp-validation-for="Pound" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                        <div class="form-group">
+                                                            <input type="submit" value="اضافة" class="btn btn-primary" />
+                                                        </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                    </form>
+                        </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+
+
+</body>
+<!-- END: Body-->

@@ -1,0 +1,92 @@
+﻿@using Kvdemy.Core.Enums
+@model UpdateSliderDto
+
+
+@{
+    ViewData["Title"] = "تعديل تصنيف ";
+    Layout = null;
+}
+
+        <form asp-action="Update" class="ajaxForm" tname="#kt_datatable" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" type="hidden" />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+		        <div class="col-md-4">
+			        <div class="form-group">
+				        <label asp-for="Image" class="control-label"></label>
+                        <input asp-for="Image" class="form-control" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+			        </div>
+		        </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Url" class="control-label"></label>
+                        <input asp-for="Url" class="form-control" />
+                        <span asp-validation-for="Url" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Type" class="control-label"></label>
+                        <select id="typeSelect" asp-for="Type" class="form-control">
+                        <option value="@SliderType.Internal">داخلي</option>
+                        <option value="@SliderType.External">خارجي</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="internalIdField" class="col-md-4" style="display: none;">
+                    <div class="form-group">
+                                <label asp-for="InternalId" class="control-label"></label>
+                                <input asp-for="InternalId" class="form-control" />
+                                <span asp-validation-for="InternalId" class="text-danger"></span>
+                            </div>
+                        </div>
+                     </div>
+            
+           
+            <div class="form-group">
+                <input type="submit" value="تعديل" class="btn btn-primary" />
+                <a data-dismiss="modal" aria-label="Close" class="btn btn-danger">الغاء</a>
+            </div>
+        </form>
+
+
+
+@if (@Model.Type == @SliderType.Internal) {
+    <script>
+        internalIdField.style.display = 'block';
+        </script>
+}
+
+<script>
+    PageLoadActions();
+    document.getElementById('typeSelect').addEventListener('change', function () {
+        var selectedValue = this.value;
+        var internalIdField = document.getElementById('internalIdField');
+     
+
+        if (selectedValue === '@SliderType.Internal') {
+            internalIdField.style.display = 'block';
+        } else {
+            internalIdField.style.display = 'none';
+        }
+    });
+</script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

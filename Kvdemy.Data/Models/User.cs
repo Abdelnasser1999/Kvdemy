@@ -40,7 +40,7 @@ namespace Kvdemy.Data.Models
 
         public string? Location { get; set; }
 
-        public List<StudentLanguage> StudentLanguages { get; set; }
+        public string? StudentLanguages { get; set; }
 
         public string? ProfileImage { get; set; }
 
@@ -58,7 +58,6 @@ namespace Kvdemy.Data.Models
 
         public List<Award>? Awards { get; set; }
 
-        public List<Download>? Downloads { get; set; }
 
         public int? RegistrationInfoId { get; set; }
         public RegistrationInfo? RegistrationInfo { get; set; }
@@ -72,11 +71,14 @@ namespace Kvdemy.Data.Models
         public List<ContactPhoneNumber>? ContactPhoneNumbers { get; set; }
 
         public string? BookingDetails { get; set; }
+        public string? AvailableHours { get; set; }
         public string? AdditionalInformation { get; set; }
         public string? FCMToken { get; set; }
         public DateTime? CreatedAt { get; set; }
         public bool IsDelete { get; set; }
         public UserStatus Status { get; set; }
+
+
         public User()
         {
             CreatedAt = DateTime.Now;

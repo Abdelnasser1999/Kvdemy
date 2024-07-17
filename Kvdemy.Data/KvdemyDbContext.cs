@@ -18,7 +18,7 @@ namespace Kvdemy.Web.Data
             base.OnModelCreating(builder);
             //builder.Entity<Category>().HasQueryFilter(x => !x.IsDelete);
 
-            //builder.Entity<Slider>().HasQueryFilter(x => !x.IsDelete);
+            builder.Entity<Slider>().HasQueryFilter(x => !x.IsDelete);
             //builder.Entity<Product>().HasQueryFilter(x => !x.IsDelete);
             //builder.Entity<City>().HasQueryFilter(x => !x.IsDelete);
 
@@ -58,6 +58,8 @@ namespace Kvdemy.Web.Data
         public DbSet<Video> Videos { get; set; }
 		public DbSet<Category> Categories { get; set; }
 
+		public DbSet<Settings> Settings { get; set; }
+		public DbSet<Slider> Sliders { get; set; }
 
 	}
 }

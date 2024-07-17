@@ -14,6 +14,7 @@ namespace Kvdemy.infrastructure.Mapper
             /// User
             CreateMap<User, StudentViewModel>();
             CreateMap<User, TeacherViewModel>();
+            CreateMap<User, UserViewModel>();
             //CreateMap<User, AdminViewModel>().ForMember(x => x.UserType, x => x.MapFrom(x => x.UserType.ToString()));
 
             CreateMap<CreateStudentDto, User>();
@@ -51,11 +52,11 @@ namespace Kvdemy.infrastructure.Mapper
             //CreateMap<UpdateProductDto, Product>().ReverseMap().ForMember(x => x.Image, x => x.Ignore());
 
             ///// Slider
-            //CreateMap<Slider, SliderViewModel>();
+            CreateMap<Slider, SliderViewModel>();
 
-            //CreateMap<CreateSliderDto, Slider>();
+            CreateMap<CreateSliderDto, Slider>();
 
-            //CreateMap<UpdateSliderDto, Slider>().ReverseMap().ForMember(x => x.Image, x => x.Ignore());
+            CreateMap<UpdateSliderDto, Slider>().ReverseMap().ForMember(x => x.Image, x => x.Ignore());
 
             ///// City
             //CreateMap<City, CityViewModel>();
@@ -66,8 +67,8 @@ namespace Kvdemy.infrastructure.Mapper
 
 
             ///// Settings
-            //CreateMap<Settings, SettingsViewModel>();
-            //CreateMap<UpdateSettingsDto, Settings>().ReverseMap();
+            CreateMap<Settings, SettingsViewModel>();
+            CreateMap<UpdateSettingsDto, Settings>().ReverseMap();
 
 
             ///// Cart

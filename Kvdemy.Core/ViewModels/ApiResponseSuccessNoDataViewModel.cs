@@ -23,5 +23,10 @@ namespace Kvdemy.Core.ViewModels
 
 
         }
+        public ApiResponseSuccessViewModel(string message)
+        {
+            Status = true;
+            Msg = message;
+        }
     }
 }

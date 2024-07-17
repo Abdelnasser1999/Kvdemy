@@ -384,6 +384,108 @@ namespace Kvdemy.Web.Data.Migrations
                     b.ToTable("Services");
                 });
 
+            modelBuilder.Entity("Kvdemy.Data.Models.Settings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("About")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("Dollar")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("Euro")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<double?>("Pound")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Privacy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("TaxRate")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Terms")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("Kvdemy.Data.Models.Slider", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("InternalId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sliders");
+                });
+
             modelBuilder.Entity("Kvdemy.Data.Models.Specialty", b =>
                 {
                     b.Property<int>("Id")
@@ -457,6 +559,9 @@ namespace Kvdemy.Web.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("AdditionalInformation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AvailableHours")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BookingDetails")
@@ -551,6 +656,9 @@ namespace Kvdemy.Web.Data.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<string>("StudentLanguages")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -806,7 +914,7 @@ namespace Kvdemy.Web.Data.Migrations
             modelBuilder.Entity("Kvdemy.Data.Models.Download", b =>
                 {
                     b.HasOne("Kvdemy.Data.Models.User", "User")
-                        .WithMany("Downloads")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -869,7 +977,7 @@ namespace Kvdemy.Web.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("Kvdemy.Data.Models.User", "User")
-                        .WithMany("StudentLanguages")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1024,15 +1132,11 @@ namespace Kvdemy.Web.Data.Migrations
 
                     b.Navigation("ContactPhoneNumbers");
 
-                    b.Navigation("Downloads");
-
                     b.Navigation("Educations");
 
                     b.Navigation("Experiences");
 
                     b.Navigation("Gallery");
-
-                    b.Navigation("StudentLanguages");
 
                     b.Navigation("UserSpecialties");
 

@@ -109,8 +109,7 @@ namespace Kvdemy.Infrastructure.Services.Categories
             var skipCount = (page - 1) * pageSize;
 
             IQueryable<Category> query = _dbContext.Categories
-                .Include(x => x.Subcategories)
-                .Where(x => !x.IsDelete)
+                .Where(x => !x.IsDelete && x.ParentId == null)
                 .OrderByDescending(x => x.CreatedAt)
                 .Skip(skipCount)
                 .Take(pageSize);
@@ -119,6 +118,10 @@ namespace Kvdemy.Infrastructure.Services.Categories
 
             var modelquery = query.ToList();
             var modelViewModels = _mapper.Map<List<CategoryViewModel>>(modelquery);
+            foreach (var cat in modelViewModels)
+            {
+                cat.Parent = null;
+            }
             var pagingResult = new PagingAPIViewModel
             {
                 Data = modelViewModels,

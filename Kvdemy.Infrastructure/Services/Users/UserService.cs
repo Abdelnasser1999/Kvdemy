@@ -21,6 +21,7 @@ using Kvdemy.Core.Constants;
 using Kvdemy.Infrastructure.Services.Auth;
 using Kvdemy.Core.Enums;
 using Azure;
+using Newtonsoft.Json;
 
 
 
@@ -332,6 +333,32 @@ namespace Kvdemy.Infrastructure.Services.Users
 			var modelViewModel = _mapper.Map<TeacherViewModel>(model);
 			return modelViewModel;
 		}
+		public async Task<dynamic> GetProfile(string Id)
+        {
+			var user = await _db.Users.Include(x => x.Nationality).SingleOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
+			if (user == null)
+			{
+				throw new EntityNotFoundException();
+			}
+            var model = _mapper.Map<UserViewModel>(user);
+
+            // Attempt to deserialize the AdditionalInformation string to a dynamic object
+            if (!string.IsNullOrEmpty(model.AdditionalInformation))
+            {
+                try
+                {
+                    model.AdditionalInformation = JsonConvert.DeserializeObject<dynamic>(model.AdditionalInformation);
+                }
+                catch (JsonReaderException ex)
+                {
+                    // Log the exception and handle the invalid JSON case
+                    // For example, you can log the error and set additionalInfo to null
+                    Console.WriteLine($"Error deserializing AdditionalInformation: {ex.Message}");
+                }
+            }
+
+            return model;
+        }
 
         public async Task<dynamic> Delete(string id)
         {

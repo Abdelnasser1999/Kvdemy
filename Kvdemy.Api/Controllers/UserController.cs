@@ -5,6 +5,8 @@ using Kvdemy.Core.Resourses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using Kvdemy.Core.Constants;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kvdemy.Api.Controllers
 {
@@ -44,8 +46,14 @@ namespace Kvdemy.Api.Controllers
         public async Task<IActionResult> GetRegisterHelper()
         {
             var result = await _interfaceServices.userService.GetRegisterHelper();
-
-            return Ok(result);
+            return Ok(GetRespons(result, MessageResults.GetSuccessResult()));
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProfile(string userId)
+        {
+            var result = await _interfaceServices.userService.GetProfile(userId);
+            return Ok(GetRespons(result, MessageResults.GetSuccessResult()));
         }
 
     }

@@ -47,7 +47,7 @@ var KTDatatableAutoColumnHideDemo = function () {
 
                 width: '60',
                 template: function (data) {
-                    return '<img src="https://localhost:44373/Images/' + data.image + '" alt="Profile Image" width="50" height = "50">';
+                    return '<img src="https://localhost:44302/Images/' + data.image + '" alt="Profile Image" width="50" height = "50">';
                 }
             },{
                     field: 'title',

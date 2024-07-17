@@ -25,6 +25,13 @@ namespace Kvdemy.Api.Controllers
             var data = _interfaceServices.categoryService.GetAll(page, lang);
             return Ok(GetRespons(data, MessageResults.GetSuccessResult()));
         }
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> SubCategories(int ParentId)
+        {
+            var result = await _interfaceServices.categoryService.GetSubCategories(ParentId);
+            return Ok(GetRespons(result, MessageResults.GetSuccessResult()));
+        }
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateCategoryDto dto)
         {

@@ -21,6 +21,7 @@ namespace Kvdemy.Infrastructure.Services.Users
 		Task<PaginationWebViewModel> GetAllTeachers(Pagination pagination, Query query);
 		Task<StudentViewModel> GetStudent(string Id);
 		Task<TeacherViewModel> GetTeacher(string Id);
+		Task<dynamic> GetProfile(string Id);
 
 		//Task<dynamic> Update(UpdateUserDto dto);
 		//Task<dynamic> Update(UpdateUserDto dto, string language);

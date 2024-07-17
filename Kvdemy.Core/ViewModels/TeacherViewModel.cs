@@ -27,19 +27,17 @@ namespace Kvdemy.Core.ViewModels
         public string? NameBase { get; set; }
         public string? Description { get; set; }
         public float? StartingPrice { get; set; }
-        public List<ExperienceViewModel>? Experiences { get; set; }
         public List<EducationViewModel>? Educations { get; set; }
         public List<AwardViewModel>? Awards { get; set; }
-        public List<DownloadViewModel>? Downloads { get; set; }
         public int? RegistrationInfoId { get; set; }
-        public List<UserSpecialtyViewModel>? UserSpecialties { get; set; }
         public List<GalleryViewModel>? Gallery { get; set; }
         public List<VideoViewModel>? Video { get; set; }
-        public List<ContactPhoneNumberViewModel>? ContactPhoneNumbers { get; set; }
         public string? BookingDetails { get; set; }
         public string? FCMToken { get; set; }
         public DateTime CreatedAt { get; set; }
         public UserStatus Status { get; set; }
+
+        public string? AvailableHours { get; set; }
 
     }
 }
