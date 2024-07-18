@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Kvdemy.Core.Dtos
 {
-	public class GalleryDto
-	{
-		[Required]
-		public IFormFile Image { get; set; }
+	public class ProfileImageDto
+    {
+        [Required]
+        public IFormFile ProfileImage { get; set; }
 
-	}
+    }
 }

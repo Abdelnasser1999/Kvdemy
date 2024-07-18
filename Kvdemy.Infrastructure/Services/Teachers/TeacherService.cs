@@ -10,6 +10,8 @@ using Kvdemy.Data.Models;
 using Kvdemy.Infrastructure.Helpers;
 using Kvdemy.Web.Data;
 using Kvdemy.Web.Services;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
@@ -40,10 +42,7 @@ namespace Kvdemy.Infrastructure.Services.Teachers
         public async Task<dynamic> AddAvailableHoursAsync(string userId, AvailableHoursModel model)
         {
             var user = await _context.Users.FindAsync(userId);
-            if (user == null || user.UserType != UserType.Teacher)
-            {
-                return new ApiResponseFailedViewModel("user not found");
-            }
+            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
 
             user.AvailableHours = JsonConvert.SerializeObject(model.AvailableHours);
             _context.Users.Update(user);
@@ -55,15 +54,316 @@ namespace Kvdemy.Infrastructure.Services.Teachers
         public async Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model)
         {
             var user = await _context.Users.FindAsync(userId);
-            if (user == null || user.UserType != UserType.Teacher)
-            {
-                return new ApiResponseFailedViewModel("user not found");
-            }
+            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
 
             user.AvailableHours = JsonConvert.SerializeObject(model.AvailableHours);
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
+        }
+
+        public async Task<dynamic> AddGalleryImageAsync(string userId, GalleryDto galleryDto)
+        {
+            if (galleryDto.Image is null)
+            {
+                throw new InvalidDateException();
+            }
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+            var imageUrl = await _fileService.SaveFile(galleryDto.Image, FolderNames.ImagesFolder);
+
+            var galleryImage = new Gallery
+            {
+                UserId = userId,
+                Image = imageUrl
+            };
+
+            user.Gallery.Add(galleryImage);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss]);
+      
+        }
+
+        public async Task<dynamic> DeleteGalleryImageAsync(string userId, int imageId)
+        {
+            var user = await _context.Users.Include(u => u.Gallery)
+                                           .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var galleryImage = user.Gallery.FirstOrDefault(g => g.Id == imageId);
+
+            if (galleryImage == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemDeletedFailed]);
+
+            user.Gallery.Remove(galleryImage);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemDeletedSuccss]);
+        }
+
+        public async Task<dynamic> GetGalleryImagesAsync(string userId)
+        {
+            var user = await _context.Users.Include(u => u.Gallery)
+                                           .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null || user.Gallery == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var model = user.Gallery.Select(g => new GalleryViewModel
+            {
+                Id = g.Id,
+                Image = g.Image,
+                UserId = g.UserId
+            }).ToList();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess] , model);
+        }
+        public async Task<dynamic> AddVideoAsync(string userId, VideoDto videoDto)
+        {
+            if (videoDto.Video is null)
+            {
+                throw new InvalidDateException();
+            }
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+            var videoUrl = await _fileService.SaveFile(videoDto.Video, FolderNames.VideosFolder);
+
+            var videoEntry = new Video
+            {
+                UserId = userId,
+                Url = videoUrl
+            };
+
+            user.Video.Add(videoEntry);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss]);
         }
+
+        public async Task<dynamic> DeleteVideoAsync(string userId, int videoId)
+        {
+            var user = await _context.Users.Include(u => u.Video)
+                                           .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var videoEntry = user.Video.FirstOrDefault(v => v.Id == videoId);
+
+            if (videoEntry == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemDeletedFailed]);
+
+            user.Video.Remove(videoEntry);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemDeletedSuccss]);
+        }
+
+        public async Task<dynamic> GetVideosAsync(string userId)
+        {
+            var user = await _context.Users.Include(u => u.Video)
+                                           .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null || user.Video == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var model = user.Video.Select(v => new VideoViewModel
+            {
+                Id = v.Id,
+                Url = v.Url,
+                UserId = v.UserId
+            }).ToList();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], model);
+        }
+
+        public async Task<dynamic> AddEducationAsync(string userId, EducationDto educationDto)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var education = new Education
+            {
+                UserId = userId,
+                InstituteName = educationDto.InstituteName,
+                StartDate = educationDto.StartDate,
+                EndDate = educationDto.EndDate,
+                DegreeTitle = educationDto.DegreeTitle,
+                Description = educationDto.Description
+            };
+
+            user.Educations.Add(education);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss]);
+        }
+
+        public async Task<dynamic> DeleteEducationAsync(string userId, int educationId)
+        {
+            var user = await _context.Users.Include(u => u.Educations)
+                                           .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var education = user.Educations.FirstOrDefault(e => e.Id == educationId);
+
+            if (education == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemDeletedFailed]);
+
+            user.Educations.Remove(education);
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemDeletedSuccss]);
+        }
+
+        public async Task<dynamic> GetEducationsAsync(string userId)
+        {
+            var user = await _context.Users.Include(u => u.Educations)
+                                           .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null || user.Educations == null) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var model = user.Educations.Select(e => new EducationViewModel
+            {
+                Id = e.Id,
+                InstituteName = e.InstituteName,
+                StartDate = e.StartDate,
+                EndDate = e.EndDate,
+                DegreeTitle = e.DegreeTitle,
+                Description = e.Description,
+                UserId = e.UserId
+            }).ToList();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], model);
+        }
+
+        public async Task<dynamic> UpdateStartingPriceAsync(string userId, float price)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            user.StartingPrice = price;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
+        }
+        public async Task<dynamic> GetStartingPriceAsync(string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], user.StartingPrice);
+        }
+
+        public async Task<dynamic> AddDescriptionAsync(string userId, string description)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            user.Description = description;
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
+        }
+
+        public async Task<dynamic> GetDescriptionAsync(string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var description = user.Description;
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], description);
+        }
+
+        public async Task<dynamic> UpdateProfileAsync(string userId, UpdateTeacherGeneralInfoDto profileDto)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            user.FirstName = profileDto.FirstName;
+            user.LastName = profileDto.LastName;
+            user.Email = profileDto.Email;
+            user.PhoneNumber = profileDto.PhoneNumber;
+            user.NameBase = profileDto.NameBase;
+            user.Location = profileDto.Location;
+            user.DOB = profileDto.DOB;
+            user.NationalityId = profileDto.NationalityId;
+            user.Gender = profileDto.Gender;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
+        }
+
+        public async Task<dynamic> GetProfileAsync(string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var profile = new UpdateTeacherGeneralInfoDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                NameBase = user.NameBase,
+                Location = user.Location,
+                DOB = user.DOB,
+                NationalityId = user.NationalityId,
+                Gender = user.Gender
+            };
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], profile);
+        }
+        public async Task<dynamic> UpdateProfileImageAsync(string userId, ProfileImageDto imageDto)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            var imageUrl = await _fileService.SaveFile(imageDto.ProfileImage, FolderNames.ImagesFolder);
+            user.ProfileImage = imageUrl;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
+        }
+        public async Task<dynamic> GetProfileImageAsync(string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], user.ProfileImage);
+        }
+
+        public async Task<dynamic> UpdateBookingDetailsAsync(string userId, string bookingDetails)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            user.BookingDetails = bookingDetails;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
+        }
+
+        public async Task<dynamic> GetBookingDetailsAsync(string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], user.BookingDetails);
+        }
+
     }
 }

@@ -19,6 +19,7 @@ using Kvdemy.Infrastructure.Services.Cities;
 using Krooti.Infrastructure.Services.Cities;
 using Kvdemy.Infrastructure.Services.Sliders;
 using Kvdemy.Infrastructure.Services.Teachers;
+using Kvdemy.Infrastructure.Services.Students;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -64,6 +65,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
 			settingsService = new SettingsService(_db, _mapper);
 			sliderService = new SliderService(_db, _mapper, fileService);
             teacherService = new TeacherService(_db, _mapper, fileService, _localizedMessages);
+            studentService = new StudentService(_db, _mapper, fileService, _localizedMessages);
 
 		}
 		public IFileService fileService { get; private set; }
@@ -73,6 +75,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
 		public ISettingsService settingsService { get; private set; }
 		public ISliderService sliderService { get; private set; }
         public ITeacherService teacherService { get; private set; }
+        public IStudentService studentService { get; private set; }
 
     }
 }

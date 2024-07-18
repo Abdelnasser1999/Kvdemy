@@ -13,6 +13,7 @@ using Kvdemy.Infrastructure.Services.Categories;
 using Kvdemy.Infrastructure.Services.Cities;
 using Kvdemy.Infrastructure.Services.Sliders;
 using Kvdemy.Infrastructure.Services.Teachers;
+using Kvdemy.Infrastructure.Services.Students;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -28,6 +29,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
 		ISettingsService settingsService { get; }
 		ISliderService sliderService { get; }
 		ITeacherService teacherService { get; }
+		IStudentService studentService { get; }
 
 	}
 }

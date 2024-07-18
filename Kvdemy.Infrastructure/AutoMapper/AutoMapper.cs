@@ -58,6 +58,12 @@ namespace Kvdemy.infrastructure.Mapper
 
             CreateMap<UpdateSliderDto, Slider>().ReverseMap().ForMember(x => x.Image, x => x.Ignore());
 
+            ///// Gallery
+            CreateMap<Gallery, GalleryViewModel>();
+
+            CreateMap<GalleryDto, Gallery>();
+
+
             ///// City
             //CreateMap<City, CityViewModel>();
 

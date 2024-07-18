@@ -35,4 +35,9 @@
     <ProjectReference Include="..\Kvdemy.Infrastructure\Kvdemy.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+    <Folder Include="wwwroot\Videos\" />
+  </ItemGroup>
+
 </Project>

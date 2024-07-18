@@ -84,6 +84,10 @@ namespace Kvdemy.Data.Models
             CreatedAt = DateTime.Now;
             IsDelete = false;
             Status = UserStatus.inActive;
+            Gallery = new List<Gallery>();
+            Video = new List<Video>();
+            Educations = new List<Education>();
+
         }
 
     }
