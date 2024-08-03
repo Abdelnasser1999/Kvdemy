@@ -20,6 +20,15 @@ using Krooti.Infrastructure.Services.Cities;
 using Kvdemy.Infrastructure.Services.Sliders;
 using Kvdemy.Infrastructure.Services.Teachers;
 using Kvdemy.Infrastructure.Services.Students;
+using Krooti.Infrastructure.Services.Subject;
+using Kvdemy.Infrastructure.Services.Subject;
+using Kvdemy.Infrastructure.Services.Bookings;
+using Krooti.Infrastructure.Services.Bookings;
+using Kvdemy.Infrastructure.Services.Notifications;
+using Krooti.Infrastructure.Services.Notifications;
+using Kvdemy.Infrastructure.Services.PushNotification;
+using FirebaseAdmin.Messaging;
+using Krooti.Infrastructure.Services.PushNotification;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -36,6 +45,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
         private RoleManager<IdentityRole> _roleManger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMemoryCache _memoryCache;
+        private readonly FirebaseMessaging _firebaseMessaging;
 
         public InterfaceServices(IMapper mapper,
             KvdemyDbContext db,
@@ -46,7 +56,8 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
                IOptions<JwtOptions> options,
             IStringLocalizer<Messages> localizedMessages,
             SignInManager<User> signInManager,
-              IMemoryCache memoryCache)
+              IMemoryCache memoryCache,
+              FirebaseMessaging firebaseMessaging)
         {
             _mapper = mapper;
             _db = db;
@@ -58,6 +69,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
             _localizedMessages = localizedMessages;
             _signInManager = signInManager;
             _memoryCache = memoryCache;
+            _firebaseMessaging = firebaseMessaging;
             fileService = new FileService(_env);
             userService = new UserService(_mapper, _db, authService, _memoryCache, _httpContextAccessor, _userManager, _env, _localizedMessages, fileService);
             authService = new AuthService(_mapper, _db, _roleManger, _httpContextAccessor, _userManager, _options, _localizedMessages, _signInManager, fileService);
@@ -66,9 +78,13 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
 			sliderService = new SliderService(_db, _mapper, fileService);
             teacherService = new TeacherService(_db, _mapper, fileService, _localizedMessages);
             studentService = new StudentService(_db, _mapper, fileService, _localizedMessages);
+            subjectService = new SubjectService(_db, _mapper, fileService, _localizedMessages);
+            pushNotificationService = new PushNotificationService(_db, _mapper, fileService, _localizedMessages, _firebaseMessaging);
+            notificationService = new NotificationService(_db, _mapper, pushNotificationService, _localizedMessages);
+            bookingService = new BookingService(_db, _mapper, notificationService, _localizedMessages);
 
-		}
-		public IFileService fileService { get; private set; }
+        }
+        public IFileService fileService { get; private set; }
         public IUserService userService { get; private set; }
         public IAuthService authService { get; private set; }
 		public ICategoryService categoryService { get; private set; }
@@ -76,6 +92,10 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
 		public ISliderService sliderService { get; private set; }
         public ITeacherService teacherService { get; private set; }
         public IStudentService studentService { get; private set; }
+        public ISubjectService subjectService { get; private set; }
+        public IBookingService bookingService { get; private set; }
+        public INotificationService notificationService { get; private set; }
+        public IPushNotificationService  pushNotificationService{ get; private set; }
 
     }
 }

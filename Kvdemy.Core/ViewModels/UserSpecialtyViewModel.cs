@@ -12,11 +12,12 @@ namespace Kvdemy.Core.ViewModels
     public class UserSpecialtyViewModel
     {
         public int Id { get; set; }
-
         public string UserId { get; set; }
-        public SpecialtyViewModel Specialty { get; set; }
-        public ServiceViewModel Service { get; set; }
-        public float Price { get; set; }
-        public string? Description { get; set; }
+        public int CategoryId { get; set; }
+        public int SubcategoryId { get; set; }
+
+        public UserViewModel User { get; set; }
+        public CategoryViewModel Category { get; set; }
+        public CategoryViewModel Subcategory { get; set; }
     }
 }

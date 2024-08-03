@@ -11,6 +11,14 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
 using System.Text;
+using Kvdemy.Infrastructure.Services.PushNotification;
+using Krooti.Infrastructure.Services.PushNotification;
+using Kvdemy.Infrastructure.Services.Notifications;
+using Krooti.Infrastructure.Services.Notifications;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using FirebaseAdmin.Messaging;
+using Kvdemy.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +31,21 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IInterfaceServices, InterfaceServices>();
+builder.Services.AddScoped<IPushNotificationService, PushNotificationService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<FirebaseMessaging>(provider =>
+{
+    return FirebaseMessaging.DefaultInstance;
+});
+builder.Services.AddScoped<IFileService, FileService>(); 
 
+if (FirebaseApp.DefaultInstance == null)
+{
+    FirebaseApp.Create(new AppOptions()
+    {
+        Credential = GoogleCredential.FromFile("Credentials/serviceAccountKey.json")
+    });
+}
 
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time

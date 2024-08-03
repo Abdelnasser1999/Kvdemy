@@ -14,6 +14,11 @@ using Kvdemy.Infrastructure.Services.Cities;
 using Kvdemy.Infrastructure.Services.Sliders;
 using Kvdemy.Infrastructure.Services.Teachers;
 using Kvdemy.Infrastructure.Services.Students;
+using Krooti.Infrastructure.Services.Subject;
+using Kvdemy.Infrastructure.Services.Subject;
+using Kvdemy.Infrastructure.Services.Bookings;
+using Kvdemy.Infrastructure.Services.Notifications;
+using Kvdemy.Infrastructure.Services.PushNotification;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -30,6 +35,10 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
 		ISliderService sliderService { get; }
 		ITeacherService teacherService { get; }
 		IStudentService studentService { get; }
+        ISubjectService subjectService { get; }
+        IBookingService bookingService { get; }
+        INotificationService notificationService { get; }
+        IPushNotificationService pushNotificationService { get; }
 
 	}
 }

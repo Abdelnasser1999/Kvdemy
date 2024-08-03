@@ -47,6 +47,12 @@ namespace Kvdemy.API.Controllers
             var result = await _interfaceServices.teacherService.UpdateAvailableHoursAsync(id, model);
             return Ok(result);
         }
+        [HttpGet("{id}/available-hours")]
+        public async Task<IActionResult> GetAvailableHours(string id)
+        {
+            var result = await _interfaceServices.teacherService.GetAvailableHoursAsync(id);
+            return Ok(result);
+        }
 
         [HttpPost("{id}/gallery")]
         public async Task<IActionResult> AddGalleryImage(string id, GalleryDto galleryDto)
@@ -169,6 +175,34 @@ namespace Kvdemy.API.Controllers
         {
             var result = await _interfaceServices.teacherService.GetBookingDetailsAsync(id);
             return Ok(result);
+        }
+
+
+        [HttpPost("{id}/specialization")]
+        public async Task<IActionResult> AddSpecialization(string id, [FromBody] UserSpecialtyDto specializationDto)
+        {
+            var result = await _interfaceServices.teacherService.AddSpecializationAsync(id, specializationDto);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}/specializations")]
+        public async Task<IActionResult> GetSpecializations(string id)
+        {
+            var result = await _interfaceServices.teacherService.GetSpecializationsAsync(id);
+            return Ok(result);
+        }
+
+        [HttpDelete("specialization/{specializationId}")]
+        public async Task<IActionResult> DeleteSpecialization(int specializationId)
+        {
+            var result = await _interfaceServices.teacherService.DeleteSpecializationAsync(specializationId);
+            return Ok(result);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTeacher(string id)
+        {
+            var teacher = await _interfaceServices.teacherService.GetTeacherByIdAsync(id);
+            return Ok(teacher);
         }
 
     }

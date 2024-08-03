@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using static Azure.Core.HttpHeader;
 using System.Drawing;
+using System.Reflection.Emit;
 
 namespace Kvdemy.Web.Data
 {
@@ -19,6 +20,24 @@ namespace Kvdemy.Web.Data
             //builder.Entity<Category>().HasQueryFilter(x => !x.IsDelete);
 
             builder.Entity<Slider>().HasQueryFilter(x => !x.IsDelete);
+            builder.Entity<UserSpecialty>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.UserSpecialties)
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UserSpecialty>()
+                .HasOne(s => s.Category)
+                .WithMany()
+                .HasForeignKey(s => s.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<UserSpecialty>()
+                .HasOne(s => s.Subcategory)
+                .WithMany()
+                .HasForeignKey(s => s.SubcategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             //builder.Entity<Product>().HasQueryFilter(x => !x.IsDelete);
             //builder.Entity<City>().HasQueryFilter(x => !x.IsDelete);
 
@@ -52,14 +71,16 @@ namespace Kvdemy.Web.Data
         public DbSet<LanguageLevel> LanguageLevels { get; set; }
         public DbSet<Nationality> Nationalities { get; set; }
         public DbSet<RegistrationInfo> RegistrationInfos { get; set; }
-        public DbSet<Service> Services { get; set; }
-        public DbSet<Specialty> Specialties { get; set; }
         public DbSet<StudentLanguage> StudentLanguages { get; set; }
         public DbSet<Video> Videos { get; set; }
 		public DbSet<Category> Categories { get; set; }
 
 		public DbSet<Settings> Settings { get; set; }
 		public DbSet<Slider> Sliders { get; set; }
+        public DbSet<UserSpecialty> UserSpecialties { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<BookingMessage> BookingMessages { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
-	}
+    }
 }

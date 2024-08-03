@@ -9,11 +9,8 @@ namespace Kvdemy.Core.Dtos
 {
 	public class UserSpecialtyDto
 	{
-		public string UserId { get; set; }
-		public SpecialtyDto Specialty { get; set; }
-		public ServiceDto Service { get; set; }
-		public float Price { get; set; }
-		public string? Description { get; set; }
+        public int CategoryId { get; set; }
+        public int SubcategoryId { get; set; }
 
-	}
+    }
 }

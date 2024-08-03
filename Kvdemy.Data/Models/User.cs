@@ -51,6 +51,9 @@ namespace Kvdemy.Data.Models
         public string? Description { get; set; }
 
         public float? StartingPrice { get; set; }
+        public float? Rating { get; set; }
+        public int? RatingSum { get; set; }
+        public int? RatingCount { get; set; }
 
         public List<Experience>? Experiences { get; set; }
 
@@ -87,7 +90,9 @@ namespace Kvdemy.Data.Models
             Gallery = new List<Gallery>();
             Video = new List<Video>();
             Educations = new List<Education>();
-
+            Rating = 0;
+            RatingSum = 0;
+            RatingCount = 0;
         }
 
     }

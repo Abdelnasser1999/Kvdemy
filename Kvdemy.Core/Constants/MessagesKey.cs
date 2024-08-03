@@ -9,6 +9,21 @@ namespace Kvdemy.Core.Constant
     public static class MessagesKey
     {
 
+        //  Booking Messages
+        public const string BookingCreatedSuccess = "booking_created_success";
+        public const string BookingNotFound = "booking_not_found";
+        public const string BookingUpdatedSuccess = "booking_updated_success";
+        public const string NewBooking = "new_booking";
+        public const string BookingApproved = "booking_approved";
+        public const string BookingCancelled = "booking_cancelled";
+        public const string BookingCompleted = "booking_completed";
+        public const string TeacherUnavailable = "teacher_unavailable";
+        public const string TeacherUnavailableOnThisDay = "teacher_unavailable_on_this_day";
+        public const string BookingNotAvailable = "booking_not_available";
+        public const string BookingConflict = "booking_conflict";
+
+        //public const string UserDeletedFailed = "user_delete_failed";
+        //public const string UserUpdatedFailed = "user_updated_failed";
         //  USER Messages
         public const string UserDeletedSuccss = "user_delete_success";
         public const string UserDeletedFailed = "user_delete_failed";

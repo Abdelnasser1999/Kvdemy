@@ -10,18 +10,12 @@ namespace Kvdemy.Data.Models
     public class UserSpecialty
     {
         public int Id { get; set; }
-
         public string UserId { get; set; }
+        public int CategoryId { get; set; }
+        public int SubcategoryId { get; set; }
+
         public User User { get; set; }
-
-        public int SpecialtyId { get; set; }
-        public Specialty Specialty { get; set; }
-
-        public int ServiceId { get; set; }
-        public Service Service { get; set; }
-
-        [Required]
-        public float Price { get; set; }
-        public string? Description { get; set; }
+        public Category Category { get; set; }
+        public Category Subcategory { get; set; }
     }
 }

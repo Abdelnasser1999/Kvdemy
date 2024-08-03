@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Kvdemy.Infrastructure.Services.Teachers
 {
@@ -61,7 +62,26 @@ namespace Kvdemy.Infrastructure.Services.Teachers
             await _context.SaveChangesAsync();
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
         }
+        public async Task<dynamic> GetAvailableHoursAsync(string userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null || user.UserType != UserType.Teacher)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
 
+            if (string.IsNullOrWhiteSpace(user.AvailableHours))
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+            try
+            {
+                var availableHours = JsonConvert.DeserializeObject<dynamic>(user.AvailableHours);
+                return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], availableHours);
+            }
+            catch (Exception ex)
+            {
+                // معالجة الخطأ إذا فشل التحويل
+                return new ApiResponseFailedViewModel("Error in parsing available hours data.");
+            }
+        }
         public async Task<dynamic> AddGalleryImageAsync(string userId, GalleryDto galleryDto)
         {
             if (galleryDto.Image is null)
@@ -363,6 +383,77 @@ namespace Kvdemy.Infrastructure.Services.Teachers
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
 
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], user.BookingDetails);
+        }
+
+
+        public async Task<dynamic> AddSpecializationAsync(string userId, UserSpecialtyDto specializationDto)
+        {
+            var specialization = new UserSpecialty
+            {
+                UserId = userId,
+                CategoryId = specializationDto.CategoryId,
+                SubcategoryId = specializationDto.SubcategoryId
+            };
+
+            _context.UserSpecialties.Add(specialization);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss]);
+        }
+
+        public async Task<dynamic> GetSpecializationsAsync(string userId)
+        {
+            var specializations = await _context.UserSpecialties
+                                                .Where(s => s.UserId == userId)
+                                                .Include(s => s.Category)
+                                                .Include(s => s.Subcategory)
+                                                .ToListAsync();
+
+            var result = specializations.Select(s => new
+            {
+                s.Id,
+                Category = s.Category.Name,
+                Subcategory = s.Subcategory.Name
+            });
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], result);
+        }
+
+        public async Task<dynamic> DeleteSpecializationAsync(int specializationId)
+        {
+            var specialization = await _context.UserSpecialties.FindAsync(specializationId);
+
+            if (specialization == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+            }
+
+            _context.UserSpecialties.Remove(specialization);
+            await _context.SaveChangesAsync();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemDeletedSuccss]);
+        }
+
+        public async Task<dynamic> GetTeacherByIdAsync(string teacherId)
+        {
+            var teacher = await _context.Users
+                .Include(u => u.Nationality)
+                .Include(u => u.Educations)
+                .Include(u => u.Awards)
+                .Include(u => u.Gallery)
+                .Include(u => u.Video)
+                .Include(u => u.UserSpecialties)
+                .FirstOrDefaultAsync(u => u.Id == teacherId && u.UserType == UserType.Teacher);
+
+            if (teacher == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+            }
+
+            var teacherProfile = _mapper.Map<TeacherViewModel>(teacher);
+            teacherProfile.AvailableHours = JsonConvert.DeserializeObject<dynamic>(teacherProfile.AvailableHours); ;
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], teacherProfile);
+
         }
 
     }

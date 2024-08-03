@@ -37,7 +37,12 @@ namespace Kvdemy.Core.ViewModels
         public DateTime CreatedAt { get; set; }
         public UserStatus Status { get; set; }
 
-        public string? AvailableHours { get; set; }
+        public dynamic? AvailableHours { get; set; }
+        public List<UserSpecialtyViewModel>? UserSpecialties { get; set; }
+        public float? Rating { get; set; }
+        public int? RatingSum { get; set; }
+        public int? RatingCount { get; set; }
+
 
     }
 }

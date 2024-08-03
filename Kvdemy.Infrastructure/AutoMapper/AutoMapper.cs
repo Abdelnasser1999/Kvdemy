@@ -14,8 +14,22 @@ namespace Kvdemy.infrastructure.Mapper
             /// User
             CreateMap<User, StudentViewModel>();
             CreateMap<User, TeacherViewModel>();
+            CreateMap<User, TeacherSearchViewModel>();
             CreateMap<User, UserViewModel>();
             //CreateMap<User, AdminViewModel>().ForMember(x => x.UserType, x => x.MapFrom(x => x.UserType.ToString()));
+            // User to TeacherViewModel mapping
+            CreateMap<User, TeacherViewModel>()
+                .ForMember(dest => dest.Nationality, opt => opt.MapFrom(src => src.Nationality))
+                .ForMember(dest => dest.Educations, opt => opt.MapFrom(src => src.Educations))
+                .ForMember(dest => dest.Awards, opt => opt.MapFrom(src => src.Awards))
+                .ForMember(dest => dest.Gallery, opt => opt.MapFrom(src => src.Gallery))
+                .ForMember(dest => dest.Video, opt => opt.MapFrom(src => src.Video))
+                .ForMember(dest => dest.UserSpecialties, opt => opt.MapFrom(src => src.UserSpecialties))
+                .ForMember(dest => dest.AvailableHours, opt => opt.MapFrom(src => src.AvailableHours))
+                .ForMember(dest => dest.StartingPrice, opt => opt.MapFrom(src => src.StartingPrice))
+                .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
+                .ForMember(dest => dest.RatingSum, opt => opt.MapFrom(src => src.RatingSum))
+                .ForMember(dest => dest.RatingCount, opt => opt.MapFrom(src => src.RatingCount));
 
             CreateMap<CreateStudentDto, User>();
             CreateMap<CreateTeacherDto, User>();
@@ -26,6 +40,21 @@ namespace Kvdemy.infrastructure.Mapper
 
             //CreateMap<UserViewModel, UpdateUserDto>();
 
+            // UserSpecialty
+            CreateMap<UserSpecialty, UserSpecialtyViewModel>();
+
+            // Booking Mappings
+            CreateMap<Booking, BookingViewModel>();
+            CreateMap<CreateBookingDto, Booking>();
+
+            // BookingMessage Mappings
+            CreateMap<BookingMessage, BookingMessageViewModel>();
+            CreateMap<CreateBookingMessageDto, BookingMessage>();
+
+            // Notification Mappings
+            CreateMap<Notification, NotificationDto>();
+
+
             ///// Nationality
             CreateMap<Nationality, NationalityViewModel>();
 
@@ -35,6 +64,10 @@ namespace Kvdemy.infrastructure.Mapper
             ///// LanguageLevel
             CreateMap<LanguageLevel, LanguageLevelViewModel>();
 
+            CreateMap<Education, EducationViewModel>();
+            CreateMap<Award, AwardViewModel>();
+            CreateMap<Gallery, GalleryViewModel>();
+            CreateMap<Video, VideoViewModel>();
 
 
             /// Category

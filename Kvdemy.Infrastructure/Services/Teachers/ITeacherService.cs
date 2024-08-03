@@ -13,9 +13,11 @@ namespace Kvdemy.Infrastructure.Services.Teachers
 {
     public interface ITeacherService
     {
+        Task<dynamic> GetTeacherByIdAsync(string teacherId);
+
         Task<dynamic> AddAvailableHoursAsync(string userId, AvailableHoursModel model);
         Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model);
-
+        Task<dynamic> GetAvailableHoursAsync(string userId);
         Task<dynamic> AddGalleryImageAsync(string userId, GalleryDto galleryDto);
         Task<dynamic> DeleteGalleryImageAsync(string userId, int imageId);
         Task<dynamic> GetGalleryImagesAsync(string userId);
@@ -35,5 +37,10 @@ namespace Kvdemy.Infrastructure.Services.Teachers
         Task<dynamic> GetProfileImageAsync(string userId);
         Task<dynamic> UpdateBookingDetailsAsync(string userId, string bookingDetails);
         Task<dynamic> GetBookingDetailsAsync(string userId);
+
+        Task<dynamic> AddSpecializationAsync(string userId, UserSpecialtyDto specializationDto);
+        Task<dynamic> GetSpecializationsAsync(string userId);
+        Task<dynamic> DeleteSpecializationAsync(int specializationId);
+
     }
 }
