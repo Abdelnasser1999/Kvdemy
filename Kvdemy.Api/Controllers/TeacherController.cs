@@ -35,14 +35,14 @@ namespace Kvdemy.API.Controllers
         }
 
         [HttpPost("{id}/available-hours")]
-        public async Task<IActionResult> AddAvailableHours(string id, [FromBody] AvailableHoursModel model)
+        public async Task<IActionResult> AddAvailableHours(string id, [FromForm] AvailableHoursModel model)
         {
             var result = await _interfaceServices.teacherService.AddAvailableHoursAsync(id, model);
             return Ok(result);
         }
 
         [HttpPut("{id}/available-hours")]
-        public async Task<IActionResult> UpdateAvailableHours(string id, [FromBody] AvailableHoursModel model)
+        public async Task<IActionResult> UpdateAvailableHours(string id, [FromForm] AvailableHoursModel model)
         {
             var result = await _interfaceServices.teacherService.UpdateAvailableHoursAsync(id, model);
             return Ok(result);
@@ -94,7 +94,7 @@ namespace Kvdemy.API.Controllers
             return Ok(videos);
         }
         [HttpPost("{id}/education")]
-        public async Task<IActionResult> AddEducation(string id, EducationDto educationDto)
+        public async Task<IActionResult> AddEducation(string id,[FromForm] EducationDto educationDto)
         {
             var result = await _interfaceServices.teacherService.AddEducationAsync(id, educationDto);
             return Ok(result);
@@ -138,7 +138,7 @@ namespace Kvdemy.API.Controllers
             return Ok(result);
         }
         [HttpPost("{id}/generalprofile")]
-        public async Task<IActionResult> UpdateProfile(string id, UpdateTeacherGeneralInfoDto profileDto)
+        public async Task<IActionResult> UpdateProfile(string id, [FromForm] UpdateTeacherGeneralInfoDto profileDto)
         {
             var result = await _interfaceServices.teacherService.UpdateProfileAsync(id, profileDto);
             return Ok(result);
@@ -151,7 +151,7 @@ namespace Kvdemy.API.Controllers
             return Ok(result);
         }
         [HttpPost("{id}/profileImage")]
-        public async Task<IActionResult> UpdateProfileImage(string id, ProfileImageDto imageDto)
+        public async Task<IActionResult> UpdateProfileImage(string id, [FromForm] ProfileImageDto imageDto)
         {
             var result = await _interfaceServices.teacherService.UpdateProfileImageAsync(id, imageDto);
             return Ok(result);
@@ -179,7 +179,7 @@ namespace Kvdemy.API.Controllers
 
 
         [HttpPost("{id}/specialization")]
-        public async Task<IActionResult> AddSpecialization(string id, [FromBody] UserSpecialtyDto specializationDto)
+        public async Task<IActionResult> AddSpecialization(string id, [FromForm] UserSpecialtyDto specializationDto)
         {
             var result = await _interfaceServices.teacherService.AddSpecializationAsync(id, specializationDto);
             return Ok(result);

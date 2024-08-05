@@ -36,7 +36,7 @@ namespace Kvdemy.API.Controllers
             return Ok(result);
         }
         [HttpPost("{id}/generalprofile")]
-        public async Task<IActionResult> UpdateStudent(string id , UpdateStudentGeneralInfoDto dto)
+        public async Task<IActionResult> UpdateStudent(string id , [FromForm] UpdateStudentGeneralInfoDto dto)
         {
             var result = await _interfaceServices.studentService.UpdateStudentAsync(id,dto);
             return Ok(result);
@@ -48,7 +48,7 @@ namespace Kvdemy.API.Controllers
             return Ok(result);
         }
         [HttpPost("{id}/profileImage")]
-        public async Task<IActionResult> UpdateProfileImage(string id, ProfileImageDto imageDto)
+        public async Task<IActionResult> UpdateProfileImage(string id, [FromForm] ProfileImageDto imageDto)
         {
             var result = await _interfaceServices.studentService.UpdateProfileImageAsync(id, imageDto);
             return Ok(result);
