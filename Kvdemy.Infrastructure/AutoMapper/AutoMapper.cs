@@ -110,48 +110,51 @@ namespace Kvdemy.infrastructure.Mapper
             CreateMap<UpdateSettingsDto, Settings>().ReverseMap();
 
 
-            ///// Cart
-            //CreateMap<Cart, CartViewModel>();
+			///// Cart
+			//CreateMap<Cart, CartViewModel>();
 
 
 
-            ///// CartItem
-            //CreateMap<CartItem, CartItemViewModel>();
-            //CreateMap<CreateCartItemDto, CartItem>();
+			///// CartItem
+			//CreateMap<CartItem, CartItemViewModel>();
+			//CreateMap<CreateCartItemDto, CartItem>();
 
 
-            ///// Coupon
-            //CreateMap<Coupon, CouponViewModel>();
+			///// Coupon
+			//CreateMap<Coupon, CouponViewModel>();
 
-            ///// Order
-            //CreateMap<Order, OrderViewModel>();
-            //CreateMap<UpdateOrderDto, Order>().ReverseMap();
+			///// Order
+			//CreateMap<Order, OrderViewModel>();
+			//CreateMap<UpdateOrderDto, Order>().ReverseMap();
 
-            ///// OrderItem
-            //CreateMap<OrderItem, OrderItemViewModel>();
+			///// OrderItem
+			//CreateMap<OrderItem, OrderItemViewModel>();
 
-            ///// FinanceAccount
-            //CreateMap<FinanceAccount, FinanceAccountViewModel>();
+			///// FinanceAccount
+			//CreateMap<FinanceAccount, FinanceAccountViewModel>();
 
-            ///// Transactions
-            //CreateMap<Transactions, TransactionsViewModel>();
+			///// Transactions
+			//CreateMap<Transactions, TransactionsViewModel>();
 
-            ///// Points
-            //CreateMap<Point, PointViewModel>();
+			///// Points
+			//CreateMap<Point, PointViewModel>();
 
-            ///// Transactions
-            //CreateMap<PointTransaction, PointTransactionViewModel>();
-
-
-
-
-
-            ///// Notifications
-            //CreateMap<Notification, NotificationViewModel>();
+			///// Transactions
+			//CreateMap<PointTransaction, PointTransactionViewModel>();
 
 
 
 
-        }
-    }
+
+			///// Notifications
+			//CreateMap<Notification, NotificationViewModel>();
+
+			// Reports
+			CreateMap<Report, ReportViewModel>();
+			CreateMap<CreateReportDto, Report>();
+
+
+
+		}
+	}
 }

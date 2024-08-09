@@ -19,6 +19,7 @@ using Kvdemy.Infrastructure.Services.Subject;
 using Kvdemy.Infrastructure.Services.Bookings;
 using Kvdemy.Infrastructure.Services.Notifications;
 using Kvdemy.Infrastructure.Services.PushNotification;
+using Kvdemy.Infrastructure.Services.Reports;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -39,6 +40,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
         IBookingService bookingService { get; }
         INotificationService notificationService { get; }
         IPushNotificationService pushNotificationService { get; }
+        IReportService reportService { get; }
 
 	}
 }

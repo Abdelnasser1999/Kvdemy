@@ -35,39 +35,39 @@ namespace Kvdemy.API.Controllers
 
             return Ok(result);
         }
-        [HttpPost("{id}/generalprofile")]
+        [HttpPost("generalprofile")]
         public async Task<IActionResult> UpdateStudent(string id , [FromForm] UpdateStudentGeneralInfoDto dto)
         {
             var result = await _interfaceServices.studentService.UpdateStudentAsync(id,dto);
             return Ok(result);
         }
-        [HttpGet("{id}/generalprofile")]
+        [HttpGet("generalprofile")]
         public async Task<IActionResult> GetProfile(string id)
         {
             var result = await _interfaceServices.studentService.GetProfileAsync(id);
             return Ok(result);
         }
-        [HttpPost("{id}/profileImage")]
+        [HttpPost("profileImage")]
         public async Task<IActionResult> UpdateProfileImage(string id, [FromForm] ProfileImageDto imageDto)
         {
             var result = await _interfaceServices.studentService.UpdateProfileImageAsync(id, imageDto);
             return Ok(result);
         }
 
-        [HttpGet("{id}/profileImage")]
+        [HttpGet("profileImage")]
         public async Task<IActionResult> GetProfileImage(string id)
         {
             var result = await _interfaceServices.studentService.GetProfileImageAsync(id);
             return Ok(result);
         }
-        [HttpPost("{id}/level")]
+        [HttpPost("level")]
         public async Task<IActionResult> UpdateAdditionalInformation(string id, string AdditionalInformation)
         {
             var result = await _interfaceServices.studentService.UpdateAdditionalInformationAsync(id, AdditionalInformation);
             return Ok(result);
         }
 
-        [HttpGet("{id}/level")]
+        [HttpGet("level")]
         public async Task<IActionResult> GetAdditionalInformation(string id)
         {
             try
@@ -82,14 +82,14 @@ namespace Kvdemy.API.Controllers
 
         }
 
-        [HttpPost("{id}/Languages")]
+        [HttpPost("Languages")]
         public async Task<IActionResult> UpdateStudentLanguages(string id, string StudentLanguages)
         {
             var result = await _interfaceServices.studentService.UpdateStudentLanguagesAsync(id, StudentLanguages);
             return Ok(result);
         }
 
-        [HttpGet("{id}/Languages")]
+        [HttpGet("Languages")]
         public async Task<IActionResult> GetStudentLanguages(string id)
         {
             try

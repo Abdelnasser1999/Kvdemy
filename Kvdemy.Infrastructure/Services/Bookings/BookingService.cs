@@ -21,6 +21,7 @@ using Kvdemy.Infrastructure.Services.Interfaces;
 using Kvdemy.Infrastructure.Services.Notifications;
 using Newtonsoft.Json;
 using Kvdemy.Infrastructure.Helpers;
+using Kvdemy.Web.Data.Migrations;
 
 
 namespace Krooti.Infrastructure.Services.Bookings
@@ -136,6 +137,8 @@ namespace Krooti.Infrastructure.Services.Bookings
             var bookings = await _context.Bookings
                                          .Where(b => b.TeacherId == teacherId && b.Status == status)
                                          .ToListAsync();
+            if (bookings == null)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotFound]);
 
             var result = _mapper.Map<List<BookingViewModel>>(bookings);
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess],result);
@@ -147,6 +150,8 @@ namespace Krooti.Infrastructure.Services.Bookings
             var bookings = await _context.Bookings
                                          .Where(b => b.StudentId == studentId)
                                          .ToListAsync();
+            if (bookings == null)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotFound]);
 
             var result = _mapper.Map<List<BookingViewModel>>(bookings);
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], result);

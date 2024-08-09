@@ -81,6 +81,7 @@ namespace Kvdemy.Web.Data
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookingMessage> BookingMessages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
     }
 }

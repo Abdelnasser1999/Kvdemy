@@ -16,8 +16,10 @@ namespace Kvdemy.Core.Dtos
         public string? About { get; set; }
         public string? Privacy { get; set; }
         public string? Terms { get; set; }
+		public string? FAQ { get; set; }
+		public string? Whatsapp { get; set; }
 
-        [Display(Name = Message.SettingsDollar)]
+		[Display(Name = Message.SettingsDollar)]
         public double? Dollar { get; set; }
         [Display(Name = Message.SettingsEuro)]
         public double? Euro { get; set; }

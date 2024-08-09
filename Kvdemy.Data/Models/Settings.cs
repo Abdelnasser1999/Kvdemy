@@ -18,9 +18,11 @@ namespace Kvdemy.Data.Models
         public double? Euro { get; set; }
         public double? Pound { get; set; }
         public double TaxRate { get; set; }
+		public string? FAQ { get; set; }
+		public string? Whatsapp { get; set; }
 
 
-        public Settings()
+		public Settings()
         {
 
             TaxRate = 0;

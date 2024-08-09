@@ -32,21 +32,21 @@ namespace Kvdemy.Api.Controllers
             return Ok(result);
         }
 
-        [HttpPut("{bookingId}")]
+        [HttpPut]
         public async Task<IActionResult> UpdateBookingStatus(int bookingId, [FromForm] UpdateBookingDto updateBookingDto)
         {
             var result = await _interfaceServices.bookingService.UpdateBookingStatusAsync(bookingId, updateBookingDto);
             return Ok(result);
         }
 
-        [HttpGet("teacher/{teacherId}")]
+        [HttpGet("teacher/booking")]
         public async Task<IActionResult> GetBookingsForTeacher(string teacherId,  BookingStatus status)
         {
             var bookings = await _interfaceServices.bookingService.GetBookingsForTeacherAsync(teacherId , status);
             return Ok(bookings);
         }
 
-        [HttpGet("student/{studentId}")]
+        [HttpGet("student/booking")]
         public async Task<IActionResult> GetBookingsForStudent(string studentId)
         {
             var bookings = await _interfaceServices.bookingService.GetBookingsForStudentAsync(studentId);

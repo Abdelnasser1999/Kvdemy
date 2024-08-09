@@ -29,6 +29,7 @@ using Krooti.Infrastructure.Services.Notifications;
 using Kvdemy.Infrastructure.Services.PushNotification;
 using FirebaseAdmin.Messaging;
 using Krooti.Infrastructure.Services.PushNotification;
+using Kvdemy.Infrastructure.Services.Reports;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -82,9 +83,10 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
             pushNotificationService = new PushNotificationService(_db, _mapper, fileService, _localizedMessages, _firebaseMessaging);
             notificationService = new NotificationService(_db, _mapper, pushNotificationService, _localizedMessages);
             bookingService = new BookingService(_db, _mapper, notificationService, _localizedMessages);
+			reportService = new ReportService(_db, _mapper, _localizedMessages);
 
-        }
-        public IFileService fileService { get; private set; }
+		}
+		public IFileService fileService { get; private set; }
         public IUserService userService { get; private set; }
         public IAuthService authService { get; private set; }
 		public ICategoryService categoryService { get; private set; }
@@ -96,6 +98,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
         public IBookingService bookingService { get; private set; }
         public INotificationService notificationService { get; private set; }
         public IPushNotificationService  pushNotificationService{ get; private set; }
+        public IReportService  reportService{ get; private set; }
 
     }
 }

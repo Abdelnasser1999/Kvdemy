@@ -61,6 +61,16 @@ namespace Krooti.Infrastructure.Services.Cities
                 dto.About = model.About;
 
             }
+            if (dto.FAQ == null)
+            {
+                dto.FAQ = model.FAQ;
+
+            }
+            if (dto.Whatsapp == null)
+            {
+                dto.Whatsapp = model.Whatsapp;
+
+            }
 
             var updatedmodel = _mapper.Map<UpdateSettingsDto, Settings>(dto, model);
 
