@@ -68,9 +68,6 @@ namespace Kvdemy.Infrastructure.Services.Teachers
             if (user == null || user.UserType != UserType.Teacher)
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
 
-            if (string.IsNullOrWhiteSpace(user.AvailableHours))
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
-
             try
             {
                 var availableHours = JsonConvert.DeserializeObject<dynamic>(user.AvailableHours);

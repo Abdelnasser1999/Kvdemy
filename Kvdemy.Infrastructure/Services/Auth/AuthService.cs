@@ -108,6 +108,7 @@ namespace Kvdemy.Infrastructure.Services.Auth
 
                 if (result.Succeeded)
                 {
+                    user.FCMToken = dto.FCMToken;
                     var response = new UserLoginResponseViewModel();
                     if (user.UserType == UserType.Teacher)
                     {
@@ -119,7 +120,10 @@ namespace Kvdemy.Infrastructure.Services.Auth
                         await AddUserToRole(user, UserType.Student);
                         response.AcessToken = await GenerateAccessToken(user, UserType.Student);
                     }
-                    response.User = _mapper.Map<UserViewModel>(user);
+					_db.Users.Update(user);
+					await _db.SaveChangesAsync();
+
+					response.User = _mapper.Map<UserViewModel>(user);
                     // Attempt to deserialize the AdditionalInformation string to a dynamic object
                     if (!string.IsNullOrEmpty(response.User.AdditionalInformation))
                     {

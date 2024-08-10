@@ -15,5 +15,7 @@ namespace Kvdemy.Core.Dtos
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Required]
+        public string FCMToken { get; set; }
     }
 }
