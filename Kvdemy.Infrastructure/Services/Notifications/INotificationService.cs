@@ -11,7 +11,7 @@ namespace Kvdemy.Infrastructure.Services.Notifications
 {
     public interface INotificationService
     {
-        Task SendNotificationAsync(string userId, string message, NotificationType type);
+        Task SendNotificationAsync(string userId,string title, string message, NotificationType type);
         Task<dynamic> GetNotificationsForUserAsync(string userId);
         Task MarkNotificationAsReadAsync(int notificationId);
 

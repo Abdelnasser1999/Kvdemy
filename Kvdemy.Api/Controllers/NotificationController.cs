@@ -29,9 +29,10 @@ namespace Kvdemy.Api.Controllers
         }
 
 		[HttpPost("send")]
-		public async Task<IActionResult> SendNotification([FromForm] string userId, [FromForm] string message, [FromForm] NotificationType type)
+		public async Task<IActionResult> SendNotification([FromForm] string userId,[FromForm] string title,
+			[FromForm] string message, [FromForm] NotificationType type)
 		{
-			await _interfaceServices.notificationService.SendNotificationAsync(userId, message, type);
+			await _interfaceServices.notificationService.SendNotificationAsync(userId,title, message, type);
 			return Ok(new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss]));
 		}
 

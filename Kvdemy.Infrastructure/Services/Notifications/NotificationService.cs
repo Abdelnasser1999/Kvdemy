@@ -40,11 +40,12 @@ namespace Krooti.Infrastructure.Services.Notifications
             _pushNotificationService = pushNotificationService;
             _localizedMessages = localizedMessages;
         }
-        public async Task SendNotificationAsync(string userId, string message, NotificationType type)
+        public async Task SendNotificationAsync(string userId,string title, string message, NotificationType type)
         {
             var notification = new Notification
             {
                 UserId = userId,
+                Title = title,
                 Message = message,
                 NotificationType = type,
                 CreatedAt = DateTime.UtcNow
@@ -62,7 +63,7 @@ namespace Krooti.Infrastructure.Services.Notifications
                                               .Where(n => n.UserId == userId)
                                               .ToListAsync();
 
-            var result =  _mapper.Map<List<NotificationDto>>(notifications);
+            var result =  _mapper.Map<List<NotificationViewModel>>(notifications);
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], result);
 
         }

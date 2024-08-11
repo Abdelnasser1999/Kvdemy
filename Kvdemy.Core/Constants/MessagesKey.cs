@@ -10,6 +10,18 @@ namespace Kvdemy.Core.Constant
     {
 
         //  Booking Messages
+        public const string TitleBookingCreatedSuccess = "title_booking_created_success";
+        public const string TitleBookingNotFound = "title_booking_not_found";
+        public const string TitleBookingUpdatedSuccess = "title_booking_updated_success";
+        public const string TitleNewBooking = "title_new_booking";
+        public const string TitleBookingApproved = "title_booking_approved";
+        public const string TitleBookingCancelled = "title_booking_cancelled";
+        public const string TitleBookingCompleted = "title_booking_completed";
+        public const string TitleTeacherUnavailable = "title_teacher_unavailable";
+        public const string TitleTeacherUnavailableOnThisDay = "title_teacher_unavailable_on_this_day";
+        public const string TitleBookingNotAvailable = "title_booking_not_available";
+        public const string TitleBookingConflict = "title_booking_conflict";
+
         public const string BookingCreatedSuccess = "booking_created_success";
         public const string BookingNotFound = "booking_not_found";
         public const string BookingUpdatedSuccess = "booking_updated_success";

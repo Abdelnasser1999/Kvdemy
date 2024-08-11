@@ -52,34 +52,44 @@ namespace Kvdemy.Infrastructure.Services.Teachers
 
         }
 
-        public async Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+		public async Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model)
+		{
+			var user = await _context.Users.FindAsync(userId);
+			if (user == null || user.UserType != UserType.Teacher)
+				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
 
-            user.AvailableHours = JsonConvert.SerializeObject(model.AvailableHours);
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
-        }
-        public async Task<dynamic> GetAvailableHoursAsync(string userId)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null || user.UserType != UserType.Teacher)
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+			// تحقق من أن AvailableHours يحتوي على بيانات
+			if (model?.AvailableHours == null || !model.AvailableHours.Any())
+			{
+				return new ApiResponseFailedViewModel("Available hours cannot be empty.");
+			}
 
-            try
-            {
-                var availableHours = JsonConvert.DeserializeObject<dynamic>(user.AvailableHours);
-                return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], availableHours);
-            }
-            catch (Exception ex)
-            {
-                // معالجة الخطأ إذا فشل التحويل
-                return new ApiResponseFailedViewModel("Error in parsing available hours data.");
-            }
-        }
-        public async Task<dynamic> AddGalleryImageAsync(string userId, GalleryDto galleryDto)
+			// تسلسل AvailableHours إلى JSON وتخزينه في قاعدة البيانات
+			user.AvailableHours = JsonConvert.SerializeObject(model.AvailableHours);
+			_context.Users.Update(user);
+			await _context.SaveChangesAsync();
+			return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
+		}
+
+		public async Task<dynamic> GetAvailableHoursAsync(string userId)
+		{
+			var user = await _context.Users.FindAsync(userId);
+			if (user == null || user.UserType != UserType.Teacher)
+				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+
+			try
+			{
+				// تفكيك JSON إلى Dictionary<string, List<TimeRange>>
+				var availableHours = JsonConvert.DeserializeObject<Dictionary<string, List<TimeRange>>>(user.AvailableHours);
+				return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], availableHours);
+			}
+			catch (JsonException ex)
+			{
+				// معالجة الخطأ إذا فشل التحويل
+				return new ApiResponseFailedViewModel("Error in parsing available hours data.");
+			}
+		}
+		public async Task<dynamic> AddGalleryImageAsync(string userId, GalleryDto galleryDto)
         {
             if (galleryDto.Image is null)
             {

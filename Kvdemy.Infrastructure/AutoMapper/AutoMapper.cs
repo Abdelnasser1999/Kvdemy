@@ -34,11 +34,8 @@ namespace Kvdemy.infrastructure.Mapper
             CreateMap<CreateStudentDto, User>();
             CreateMap<CreateTeacherDto, User>();
 
-            //CreateMap<CreateAdminDto, User>();
 
             CreateMap<UpdateStudentDto, User>().ReverseMap();
-
-            //CreateMap<UserViewModel, UpdateUserDto>();
 
             // UserSpecialty
             CreateMap<UserSpecialty, UserSpecialtyViewModel>();
@@ -77,13 +74,6 @@ namespace Kvdemy.infrastructure.Mapper
 
             CreateMap<UpdateCategoryDto, Category>().ReverseMap().ForMember(x => x.Image, x => x.Ignore());
 
-            ///// Product
-            //CreateMap<Product, ProductViewModel>();
-
-            //CreateMap<CreateProductDto, Product>();
-
-            //CreateMap<UpdateProductDto, Product>().ReverseMap().ForMember(x => x.Image, x => x.Ignore());
-
             ///// Slider
             CreateMap<Slider, SliderViewModel>();
 
@@ -97,60 +87,16 @@ namespace Kvdemy.infrastructure.Mapper
             CreateMap<GalleryDto, Gallery>();
 
 
-            ///// City
-            //CreateMap<City, CityViewModel>();
-
-            ////CreateMap<CreateCityDto, City>();
-
-            ////CreateMap<UpdateCityDto, City>().ReverseMap();
-
-
             ///// Settings
             CreateMap<Settings, SettingsViewModel>();
             CreateMap<UpdateSettingsDto, Settings>().ReverseMap();
 
 
-			///// Cart
-			//CreateMap<Cart, CartViewModel>();
+            ///// Notifications
+            CreateMap<Notification, NotificationViewModel>();
 
-
-
-			///// CartItem
-			//CreateMap<CartItem, CartItemViewModel>();
-			//CreateMap<CreateCartItemDto, CartItem>();
-
-
-			///// Coupon
-			//CreateMap<Coupon, CouponViewModel>();
-
-			///// Order
-			//CreateMap<Order, OrderViewModel>();
-			//CreateMap<UpdateOrderDto, Order>().ReverseMap();
-
-			///// OrderItem
-			//CreateMap<OrderItem, OrderItemViewModel>();
-
-			///// FinanceAccount
-			//CreateMap<FinanceAccount, FinanceAccountViewModel>();
-
-			///// Transactions
-			//CreateMap<Transactions, TransactionsViewModel>();
-
-			///// Points
-			//CreateMap<Point, PointViewModel>();
-
-			///// Transactions
-			//CreateMap<PointTransaction, PointTransactionViewModel>();
-
-
-
-
-
-			///// Notifications
-			//CreateMap<Notification, NotificationViewModel>();
-
-			// Reports
-			CreateMap<Report, ReportViewModel>();
+            // Reports
+            CreateMap<Report, ReportViewModel>();
 			CreateMap<CreateReportDto, Report>();
 
 

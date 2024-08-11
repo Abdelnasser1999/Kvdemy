@@ -98,7 +98,7 @@ namespace Krooti.Infrastructure.Services.Bookings
             await _context.SaveChangesAsync();
 
             // إرسال إشعار للمدرس
-            await _notificationService.SendNotificationAsync(booking.TeacherId, _localizedMessages[MessagesKey.NewBooking], NotificationType.Booking);
+            await _notificationService.SendNotificationAsync(booking.TeacherId, _localizedMessages[MessagesKey.TitleNewBooking], _localizedMessages[MessagesKey.NewBooking], NotificationType.Booking);
 
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.BookingCreatedSuccess]);
         }
@@ -114,20 +114,24 @@ namespace Krooti.Infrastructure.Services.Bookings
 
             await _context.SaveChangesAsync();
             var message = _localizedMessages[MessagesKey.BookingUpdatedSuccess];
+            var title = _localizedMessages[MessagesKey.TitleBookingUpdatedSuccess];
             switch (updateBookingDto.status)
             {
                 case BookingStatus.Approved:
                     message = _localizedMessages[MessagesKey.BookingApproved];
+					title = _localizedMessages[MessagesKey.TitleBookingApproved];
                     break;
                 case BookingStatus.Cancelled:
                     message = _localizedMessages[MessagesKey.BookingCancelled];
+					title = _localizedMessages[MessagesKey.TitleBookingCancelled];
                     break;
                 case BookingStatus.Completed:
                     message = _localizedMessages[MessagesKey.BookingCompleted];
+					title = _localizedMessages[MessagesKey.TitleBookingCompleted];
                     break;
 
             }
-            await _notificationService.SendNotificationAsync(booking.StudentId, message, NotificationType.Booking);
+            await _notificationService.SendNotificationAsync(booking.StudentId,title, message, NotificationType.Booking);
 
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.BookingUpdatedSuccess]);
         }

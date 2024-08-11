@@ -42,7 +42,7 @@ namespace Kvdemy.API.Controllers
         }
 
         [HttpPut("available-hours")]
-        public async Task<IActionResult> UpdateAvailableHours(string id, [FromForm] AvailableHoursModel model)
+        public async Task<IActionResult> UpdateAvailableHours(string id, [FromBody] AvailableHoursModel model)
         {
             var result = await _interfaceServices.teacherService.UpdateAvailableHoursAsync(id, model);
             return Ok(result);
