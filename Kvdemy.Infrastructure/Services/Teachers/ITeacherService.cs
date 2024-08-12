@@ -15,7 +15,6 @@ namespace Kvdemy.Infrastructure.Services.Teachers
     {
         Task<dynamic> GetTeacherByIdAsync(string teacherId);
 
-        Task<dynamic> AddAvailableHoursAsync(string userId, AvailableHoursModel model);
         Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model);
         Task<dynamic> GetAvailableHoursAsync(string userId);
         Task<dynamic> AddGalleryImageAsync(string userId, GalleryDto galleryDto);

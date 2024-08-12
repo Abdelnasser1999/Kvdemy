@@ -82,9 +82,6 @@ namespace Kvdemy.Core.Dtos
 
 		public string? BookingDetails { get; set; }
 
-		public DateTime CreatedAt { get; set; }
-
-		public UserStatus Status { get; set; }
 	}
 
 }

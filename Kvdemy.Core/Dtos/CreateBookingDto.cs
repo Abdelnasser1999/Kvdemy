@@ -10,8 +10,8 @@ namespace Kvdemy.Core.Dtos
     {
         public string StudentId { get; set; }
         public string TeacherId { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public float TotalPrice { get; set; }
+		public DateOnly SessionDate { get; set; }
+		public string StartTime { get; set; }
+		public string EndTime { get; set; }
     }
 }

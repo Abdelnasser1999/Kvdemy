@@ -42,68 +42,82 @@ namespace Krooti.Infrastructure.Services.Bookings
             _notificationService = notificationService;
             _localizedMessages = localizedMessages;
         }
-        public async Task<dynamic> CreateBookingAsync(CreateBookingDto bookingDto)
-        {
-            // الحصول على معلومات المدرس
-            var teacher = await _context.Users.FindAsync(bookingDto.TeacherId);
-            if (teacher == null || teacher.UserType != UserType.Teacher)
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+		public async Task<dynamic> CreateBookingAsync(CreateBookingDto bookingDto)
+		{
+			// الحصول على معلومات المدرس
+			var teacher = await _context.Users.FindAsync(bookingDto.TeacherId);
+			if (teacher == null || teacher.UserType != UserType.Teacher)
+				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
 
-            // التحقق من الساعات المتاحة
-            if (string.IsNullOrEmpty(teacher.AvailableHours))
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.TeacherUnavailable]);
+			// التحقق من الساعات المتاحة
+			if (string.IsNullOrEmpty(teacher.AvailableHours))
+				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.TeacherUnavailable]);
 
-            var availableHoursModel = JsonConvert.DeserializeObject<AvailableHoursModel>(teacher.AvailableHours);
+			var availableHoursModel = JsonConvert.DeserializeObject<AvailableHoursModel>(teacher.AvailableHours);
 
-            // التحقق من أن AvailableHours ليس null
-            if (availableHoursModel == null || availableHoursModel.AvailableHours == null)
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.TeacherUnavailable]);
+			if (availableHoursModel == null || availableHoursModel.AvailableHours == null)
+				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.TeacherUnavailable]);
 
-            var bookingDateTime = bookingDto.StartTime;
-            var dayOfWeek = bookingDateTime.DayOfWeek.ToString();
+			var dayOfWeek = bookingDto.SessionDate.DayOfWeek.ToString();
 
-            if (!availableHoursModel.AvailableHours.ContainsKey(dayOfWeek))
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.TeacherUnavailableOnThisDay]);
+			if (!availableHoursModel.AvailableHours.ContainsKey(dayOfWeek))
+				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.TeacherUnavailableOnThisDay]);
 
-            var availableTimes = availableHoursModel.AvailableHours[dayOfWeek];
-            var isAvailable = availableTimes.Any(timeRange =>
-            {
-                var fromTime = DateTime.Parse(timeRange.From).TimeOfDay;
-                var toTime = DateTime.Parse(timeRange.To).TimeOfDay;
-                return bookingDateTime.TimeOfDay >= fromTime && bookingDateTime.TimeOfDay < toTime;
-            });
+			// تحويل StartTime و EndTime من نصوص (string) إلى TimeOnly باستخدام "hh:mm tt"
+			var DtoStartTime = TimeOnly.ParseExact(bookingDto.StartTime, "hh:mm tt", null);
+			var DtoEndTime = TimeOnly.ParseExact(bookingDto.EndTime, "hh:mm tt", null);
 
-            if (!isAvailable)
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotAvailable]);
+			// التحقق من أن الوقت المطلوب للحجز متاح ضمن الساعات المتاحة للمدرس
 
-            // التحقق من عدم تعارض الحجز مع حجوزات أخرى
-            var conflictingBookings = await _context.Bookings
-                .Where(b => b.TeacherId == bookingDto.TeacherId &&
-                            b.Status != BookingStatus.Cancelled &&
-                            bookingDto.StartTime < b.EndTime &&
-                            bookingDto.EndTime > b.StartTime)
-                .ToListAsync();
+			var availableTimes = availableHoursModel.AvailableHours[dayOfWeek];
+			var isAvailable = availableTimes.Any(timeRange =>
+			{
+				var fromTime = TimeOnly.ParseExact(timeRange.From, "hh:mm tt", null);
+				var toTime = TimeOnly.ParseExact(timeRange.To, "hh:mm tt", null);
+				return DtoStartTime >= fromTime && DtoEndTime <= toTime;
+			});
 
-            if (conflictingBookings.Any())
-            {
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingConflict]);
-            }
+			if (!isAvailable)
+				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotAvailable]);
 
-            // إذا كانت الشروط مستوفية، نقوم بإضافة الحجز الجديد
-            var booking = _mapper.Map<Booking>(bookingDto);
-            booking.Status = BookingStatus.Pending;
-            booking.CreatedAt = DateTime.UtcNow;
+			// التحقق من عدم تعارض الحجز مع حجوزات أخرى
+			var conflictingBookings = await _context.Bookings
+				.Where(b => b.TeacherId == bookingDto.TeacherId &&
+							b.Status != BookingStatus.Cancelled &&
+							bookingDto.SessionDate == b.SessionDate &&
+							bookingDto.EndTime == b.EndTime &&
+							bookingDto.StartTime == b.StartTime)
+				.ToListAsync();
 
-            _context.Bookings.Add(booking);
-            await _context.SaveChangesAsync();
+			if (conflictingBookings.Any())
+				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingConflict]);
 
-            // إرسال إشعار للمدرس
-            await _notificationService.SendNotificationAsync(booking.TeacherId, _localizedMessages[MessagesKey.TitleNewBooking], _localizedMessages[MessagesKey.NewBooking], NotificationType.Booking);
+			// حساب مدة الجلسة
+			var sessionDuration = (decimal)(DtoEndTime.ToTimeSpan() - DtoStartTime.ToTimeSpan()).TotalHours;
 
-            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.BookingCreatedSuccess]);
-        }
+			// تحويل StartingPrice من float إلى decimal
+			var startingPriceDecimal = (decimal)teacher.StartingPrice;
 
-        public async Task<dynamic> UpdateBookingStatusAsync(int bookingId, UpdateBookingDto updateBookingDto)
+			// حساب السعر الإجمالي باستخدام StartingPrice المحول
+			var totalPrice = sessionDuration * startingPriceDecimal;
+
+			// إنشاء الحجز الجديد
+			var booking = _mapper.Map<Booking>(bookingDto);
+			booking.SessionDuration = sessionDuration;
+			booking.TotalPrice = totalPrice;
+			booking.Status = BookingStatus.Pending;
+			booking.CreatedAt = DateTime.UtcNow;
+
+			_context.Bookings.Add(booking);
+			await _context.SaveChangesAsync();
+
+			// إرسال إشعار للمدرس
+			await _notificationService.SendNotificationAsync(booking.TeacherId, _localizedMessages[MessagesKey.TitleNewBooking], _localizedMessages[MessagesKey.NewBooking], NotificationType.Booking);
+
+			return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.BookingCreatedSuccess],booking);
+		}
+
+		public async Task<dynamic> UpdateBookingStatusAsync(int bookingId, UpdateBookingDto updateBookingDto)
         {
             var booking = await _context.Bookings.FindAsync(bookingId);
             if (booking == null)
@@ -140,6 +154,7 @@ namespace Krooti.Infrastructure.Services.Bookings
         {
             var bookings = await _context.Bookings
                                          .Where(b => b.TeacherId == teacherId && b.Status == status)
+										 .Include(t => t.Student)
                                          .ToListAsync();
             if (bookings == null)
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotFound]);
@@ -153,7 +168,8 @@ namespace Krooti.Infrastructure.Services.Bookings
         {
             var bookings = await _context.Bookings
                                          .Where(b => b.StudentId == studentId)
-                                         .ToListAsync();
+										  .Include(t => t.Teacher)
+										 .ToListAsync();
             if (bookings == null)
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotFound]);
 

@@ -40,18 +40,7 @@ namespace Kvdemy.Infrastructure.Services.Teachers
             _fileService = fileService;
             _localizedMessages = localizedMessages;
         }
-        public async Task<dynamic> AddAvailableHoursAsync(string userId, AvailableHoursModel model)
-        {
-            var user = await _context.Users.FindAsync(userId);
-            if (user == null || user.UserType != UserType.Teacher) return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
-
-            user.AvailableHours = JsonConvert.SerializeObject(model.AvailableHours);
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss]);
-
-        }
-
+         
 		public async Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model)
 		{
 			var user = await _context.Users.FindAsync(userId);
@@ -65,7 +54,7 @@ namespace Kvdemy.Infrastructure.Services.Teachers
 			}
 
 			// تسلسل AvailableHours إلى JSON وتخزينه في قاعدة البيانات
-			user.AvailableHours = JsonConvert.SerializeObject(model.AvailableHours);
+			user.AvailableHours = JsonConvert.SerializeObject(model);
 			_context.Users.Update(user);
 			await _context.SaveChangesAsync();
 			return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
@@ -80,7 +69,7 @@ namespace Kvdemy.Infrastructure.Services.Teachers
 			try
 			{
 				// تفكيك JSON إلى Dictionary<string, List<TimeRange>>
-				var availableHours = JsonConvert.DeserializeObject<Dictionary<string, List<TimeRange>>>(user.AvailableHours);
+				var availableHours = JsonConvert.DeserializeObject<AvailableHoursModel>(user.AvailableHours);
 				return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], availableHours);
 			}
 			catch (JsonException ex)

@@ -34,12 +34,12 @@ namespace Kvdemy.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("available-hours")]
-        public async Task<IActionResult> AddAvailableHours(string id, [FromForm] AvailableHoursModel model)
-        {
-            var result = await _interfaceServices.teacherService.AddAvailableHoursAsync(id, model);
-            return Ok(result);
-        }
+        //[HttpPost("available-hours")]
+        //public async Task<IActionResult> AddAvailableHours(string id, [FromForm] AvailableHoursModel model)
+        //{
+        //    var result = await _interfaceServices.teacherService.AddAvailableHoursAsync(id, model);
+        //    return Ok(result);
+        //}
 
         [HttpPut("available-hours")]
         public async Task<IActionResult> UpdateAvailableHours(string id, [FromBody] AvailableHoursModel model)

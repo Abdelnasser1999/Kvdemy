@@ -37,7 +37,6 @@ namespace Kvdemy.Api.Controllers
         public async Task<IActionResult> RegisterTeacher([FromForm] CreateTeacherDto dto)
         {
             var result = await _interfaceServices.userService.CreateTeacher(dto);
-
             return Ok(result);
         }
 

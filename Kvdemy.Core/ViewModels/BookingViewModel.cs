@@ -10,13 +10,20 @@ namespace Kvdemy.Core.ViewModels
     public class BookingViewModel
     {
 
-        public int Id { get; set; }
-        public string StudentId { get; set; }
-        public string TeacherId { get; set; }
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
-        public float TotalPrice { get; set; }
-        public string Status { get; set; }
+		public int Id { get; set; }
 
-    }
+		public string StudentId { get; set; }
+		public StudentViewModel Student { get; set; }
+		public string TeacherId { get; set; }
+		public TeacherViewModel Teacher { get; set; }
+
+		public DateOnly SessionDate { get; set; }
+		public string StartTime { get; set; }
+		public string EndTime { get; set; }
+
+		public decimal SessionDuration { get; set; }
+		public decimal TotalPrice { get; set; }
+		public BookingStatus Status { get; set; }
+
+	}
 }

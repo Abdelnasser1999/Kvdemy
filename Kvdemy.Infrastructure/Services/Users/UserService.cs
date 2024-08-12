@@ -22,6 +22,7 @@ using Kvdemy.Infrastructure.Services.Auth;
 using Kvdemy.Core.Enums;
 using Azure;
 using Newtonsoft.Json;
+using Kvdemy.Infrastructure.Helpers;
 
 
 
@@ -182,9 +183,23 @@ namespace Kvdemy.Infrastructure.Services.Users
             {
                 throw new NationalityNotFoundException();
             }
+            AvailableHoursModel model = new AvailableHoursModel();
+            model.AvailableHours = new Dictionary<string, List<TimeRange>>{
+			{ "Saturday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+			{ "Sunday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+			{ "Monday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+			{ "Tuesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+			{ "Wednesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+			{ "Thursday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+			{ "Friday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+		};
+			user.AvailableHours = JsonConvert.SerializeObject(model.AvailableHours);
+			user.Status = UserStatus.active;
+			user.StartingPrice = 10;
+			user.CreatedAt = DateTime.UtcNow;
 
-            try
-            {
+			try
+			{
                 var result =   _userManager.CreateAsync(user, dto.Password).GetAwaiter().GetResult();
 				if (result.Succeeded)
                 {

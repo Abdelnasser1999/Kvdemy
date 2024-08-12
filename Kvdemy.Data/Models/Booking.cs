@@ -17,10 +17,12 @@ namespace Kvdemy.Data.Models
         public string TeacherId { get; set; }
         public User Teacher { get; set; }
 
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateOnly SessionDate { get; set; }
+		public string StartTime { get; set; }
+		public string EndTime { get; set; }
 
-        public float TotalPrice { get; set; }
+		public decimal SessionDuration { get; set; }
+        public decimal TotalPrice { get; set; }
         public BookingStatus Status { get; set; }
 
     }
