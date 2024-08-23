@@ -34,7 +34,7 @@ namespace Kvdemy.Api.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RegisterTeacher([FromForm] CreateTeacherDto dto)
+        public async Task<IActionResult> RegisterTeacher([FromBody] CreateTeacherDto dto)
         {
             var result = await _interfaceServices.userService.CreateTeacher(dto);
             return Ok(result);

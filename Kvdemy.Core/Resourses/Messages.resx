@@ -117,19 +117,142 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="booking_approved" xml:space="preserve">
+    <value>Lesson approved</value>
+  </data>
+  <data name="booking_cancelled" xml:space="preserve">
+    <value>Lesson cancelled</value>
+  </data>
+  <data name="booking_completed" xml:space="preserve">
+    <value>Lesson completed, come back again for more lessons</value>
+  </data>
+  <data name="booking_conflict" xml:space="preserve">
+    <value>This time is already booked, please choose another time</value>
+  </data>
+  <data name="booking_created_success" xml:space="preserve">
+    <value>Lesson created successfully</value>
+  </data>
+  <data name="booking_not_available" xml:space="preserve">
+    <value>Booking not available at this time for this teacher</value>
+  </data>
+  <data name="booking_not_found" xml:space="preserve">
+    <value>This lesson does not exist</value>
+  </data>
+  <data name="booking_updated_success" xml:space="preserve">
+    <value>Lesson status updated successfully</value>
+  </data>
+  <data name="created_failed" xml:space="preserve">
+    <value>Creation failed</value>
+  </data>
+  <data name="created_success" xml:space="preserve">
+    <value>Creation Success</value>
+  </data>
   <data name="data_failed" xml:space="preserve">
-    <value>Data fetch Failed</value>
+    <value>Data retrieval failed</value>
   </data>
   <data name="data_success" xml:space="preserve">
-    <value>Data fetch Successfully</value>
+    <value>Data retrieved successfully</value>
   </data>
-  <data name="duplicate_emirate" xml:space="preserve">
-    <value>Emirate ID number is used</value>
+  <data name="delete_failed" xml:space="preserve">
+    <value>Deletion failed</value>
+  </data>
+  <data name="delete_success" xml:space="preserve">
+    <value>Deleted successfully</value>
+  </data>
+  <data name="duplicate_email" xml:space="preserve">
+    <value>This email already exists</value>
+  </data>
+  <data name="duplicate_phone" xml:space="preserve">
+    <value>Phone number already exists</value>
+  </data>
+  <data name="duplicate_username" xml:space="preserve">
+    <value>Username already exists</value>
+  </data>
+  <data name="invalid_credentials" xml:space="preserve">
+    <value>Invalid credentials</value>
+  </data>
+  <data name="invalid_token" xml:space="preserve">
+    <value>Invalid credentials</value>
+  </data>
+  <data name="invalid_username" xml:space="preserve">
+    <value>Invalid credentials</value>
+  </data>
+  <data name="item_not_found" xml:space="preserve">
+    <value>Item not found</value>
+  </data>
+  <data name="login_success" xml:space="preserve">
+    <value>Invalid credentials</value>
+  </data>
+  <data name="new_booking" xml:space="preserve">
+    <value>You have received a new lesson request, please accept it now</value>
   </data>
   <data name="otp_success" xml:space="preserve">
-    <value>Otp send Succefully</value>
+    <value>Verified successfully</value>
+  </data>
+  <data name="otp_wrong" xml:space="preserve">
+    <value>Verification code is incorrect</value>
+  </data>
+  <data name="question_not_found" xml:space="preserve">
+    <value>Question not found</value>
+  </data>
+  <data name="teacher_unavailable" xml:space="preserve">
+    <value>Teacher not available for booking</value>
+  </data>
+  <data name="teacher_unavailable_on_this_day" xml:space="preserve">
+    <value>Teacher not available for booking on this day, please choose another day</value>
+  </data>
+  <data name="title_booking_approved" xml:space="preserve">
+    <value>Lesson approval</value>
+  </data>
+  <data name="title_booking_cancelled" xml:space="preserve">
+    <value>Lesson cancellation</value>
+  </data>
+  <data name="title_booking_completed" xml:space="preserve">
+    <value>Lesson completion</value>
+  </data>
+  <data name="title_booking_conflict" xml:space="preserve">
+    <value>Time slot booked</value>
+  </data>
+  <data name="title_booking_created_success" xml:space="preserve">
+    <value>Lesson creation</value>
+  </data>
+  <data name="title_booking_not_available" xml:space="preserve">
+    <value>Time slot not available</value>
+  </data>
+  <data name="title_booking_not_found" xml:space="preserve">
+    <value>Lesson not found</value>
+  </data>
+  <data name="title_booking_updated_success" xml:space="preserve">
+    <value>Lesson status</value>
+  </data>
+  <data name="title_new_booking" xml:space="preserve">
+    <value>New lesson request</value>
+  </data>
+  <data name="title_teacher_unavailable" xml:space="preserve">
+    <value>Not available</value>
+  </data>
+  <data name="title_teacher_unavailable_on_this_day" xml:space="preserve">
+    <value>Not available</value>
+  </data>
+  <data name="updated_failed" xml:space="preserve">
+    <value>Modification failed</value>
+  </data>
+  <data name="updated_success" xml:space="preserve">
+    <value>Modification succeeded</value>
+  </data>
+  <data name="user_delete_failed" xml:space="preserve">
+    <value>User deletion failed</value>
+  </data>
+  <data name="user_delete_success" xml:space="preserve">
+    <value>User deleted successfully</value>
   </data>
   <data name="user_not_found" xml:space="preserve">
-    <value>User Not found</value>
+    <value>User not found</value>
+  </data>
+  <data name="user_updated_failed" xml:space="preserve">
+    <value>User modification failed</value>
+  </data>
+  <data name="user_updated_success" xml:space="preserve">
+    <value>User modified successfully</value>
   </data>
 </root>

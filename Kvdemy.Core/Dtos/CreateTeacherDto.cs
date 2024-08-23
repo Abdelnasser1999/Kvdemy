@@ -1,5 +1,6 @@
 ﻿using Kvdemy.Core.Constants;
 using Kvdemy.Core.Enums;
+using Kvdemy.Infrastructure.Helpers;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -62,15 +63,7 @@ namespace Kvdemy.Core.Dtos
 
 		public float? StartingPrice { get; set; }
 
-		public List<ExperienceDto>? Experiences { get; set; }
-
 		public List<EducationDto>? Educations { get; set; }
-
-		public List<CreateAwardDto>? Awards { get; set; }
-
-		public List<DownloadDto>? Downloads { get; set; }
-
-		public int? RegistrationInfoId { get; set; }
 
 		public List<UserSpecialtyDto>? UserSpecialties { get; set; }
 
@@ -78,11 +71,12 @@ namespace Kvdemy.Core.Dtos
 
 		public List<VideoDto>? Video { get; set; }
 
-		public List<ContactPhoneNumberDto>? ContactPhoneNumbers { get; set; }
-
 		public string? BookingDetails { get; set; }
+        [Required(ErrorMessage = Message.RequiredField)]
+        public AvailableHoursModel availableHoursModel { get; set; }
 
-	}
+
+    }
 
 }
 

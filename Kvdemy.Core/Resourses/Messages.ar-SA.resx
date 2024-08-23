@@ -117,19 +117,142 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="booking_approved" xml:space="preserve">
+    <value>تم قبول الدرس</value>
+  </data>
+  <data name="booking_cancelled" xml:space="preserve">
+    <value>تم الغاء الدرس</value>
+  </data>
+  <data name="booking_completed" xml:space="preserve">
+    <value>الدرس اكتمل، عد من جديد من اجل دروس اخرى</value>
+  </data>
+  <data name="booking_conflict" xml:space="preserve">
+    <value>هذا الوقت محجوز بالفعل ، اختر توقيت اخر</value>
+  </data>
+  <data name="booking_created_success" xml:space="preserve">
+    <value>تم انشاء الدرس بنجاح</value>
+  </data>
+  <data name="booking_not_available" xml:space="preserve">
+    <value>الحجز غير متاح في هذا الوقت لهذا المدرس</value>
+  </data>
+  <data name="booking_not_found" xml:space="preserve">
+    <value>هذا الدرس غير موجود </value>
+  </data>
+  <data name="booking_updated_success" xml:space="preserve">
+    <value>تم تغيير حالة الدرس</value>
+  </data>
+  <data name="created_failed" xml:space="preserve">
+    <value>تم الانشاء بنجاح</value>
+  </data>
+  <data name="created_success" xml:space="preserve">
+    <value>فشلت عملية التعديل</value>
+  </data>
   <data name="data_failed" xml:space="preserve">
-    <value>فشل الحصول على  البيانات</value>
+    <value>فشل جلب البيانات</value>
   </data>
   <data name="data_success" xml:space="preserve">
-    <value>تم الحصول على البيانات بنجاح</value>
+    <value>تم جلب البيانات بنجاح</value>
   </data>
-  <data name="duplicate_emirate" xml:space="preserve">
-    <value>رقم الهوية الإماراتية مستخدم بالفعل</value>
+  <data name="delete_failed" xml:space="preserve">
+    <value>فشلت عملية الحذف</value>
+  </data>
+  <data name="delete_success" xml:space="preserve">
+    <value>تم الحذف بنجاح</value>
+  </data>
+  <data name="duplicate_email" xml:space="preserve">
+    <value>هذا الايميل موجود بالفعل</value>
+  </data>
+  <data name="duplicate_phone" xml:space="preserve">
+    <value>رقم الهاتف موجود بالفعل</value>
+  </data>
+  <data name="duplicate_username" xml:space="preserve">
+    <value>اسم المستخدم موجود بالفعل</value>
+  </data>
+  <data name="invalid_credentials" xml:space="preserve">
+    <value>البيانات غير صحيحة</value>
+  </data>
+  <data name="invalid_token" xml:space="preserve">
+    <value>معرف تحقق غير صحيح</value>
+  </data>
+  <data name="invalid_username" xml:space="preserve">
+    <value>اسم المستخدم غير متاح </value>
+  </data>
+  <data name="item_not_found" xml:space="preserve">
+    <value>العنصر غير موجود</value>
+  </data>
+  <data name="login_success" xml:space="preserve">
+    <value>تم تسجيل الدخول بنجاح</value>
+  </data>
+  <data name="new_booking" xml:space="preserve">
+    <value>وصلك طلب درس جديد، قم بقبوله الآن</value>
   </data>
   <data name="otp_success" xml:space="preserve">
-    <value>تم ارسال رمز التفعيل بنجاح</value>
+    <value>تم التحقق بنجاح</value>
+  </data>
+  <data name="otp_wrong" xml:space="preserve">
+    <value>رمز التحقق خاطئ</value>
+  </data>
+  <data name="question_not_found" xml:space="preserve">
+    <value>السؤال غير موجود </value>
+  </data>
+  <data name="teacher_unavailable" xml:space="preserve">
+    <value>المدرس غير متاح للحجز</value>
+  </data>
+  <data name="teacher_unavailable_on_this_day" xml:space="preserve">
+    <value>المدرس غير متاح في هذا اليوم للحجز، اختر يوم آخر</value>
+  </data>
+  <data name="title_booking_approved" xml:space="preserve">
+    <value>قبول الدرس</value>
+  </data>
+  <data name="title_booking_cancelled" xml:space="preserve">
+    <value>رفض الدرس</value>
+  </data>
+  <data name="title_booking_completed" xml:space="preserve">
+    <value>اكتمال الدرس</value>
+  </data>
+  <data name="title_booking_conflict" xml:space="preserve">
+    <value>توقيت محجوز</value>
+  </data>
+  <data name="title_booking_created_success" xml:space="preserve">
+    <value>انشاء الدرس</value>
+  </data>
+  <data name="title_booking_not_available" xml:space="preserve">
+    <value>توقيت غير متاح</value>
+  </data>
+  <data name="title_booking_not_found" xml:space="preserve">
+    <value>الدرس غير موجود</value>
+  </data>
+  <data name="title_booking_updated_success" xml:space="preserve">
+    <value>حالة الدرس</value>
+  </data>
+  <data name="title_new_booking" xml:space="preserve">
+    <value>طلب درس جديد</value>
+  </data>
+  <data name="title_teacher_unavailable" xml:space="preserve">
+    <value>غير متاح</value>
+  </data>
+  <data name="title_teacher_unavailable_on_this_day" xml:space="preserve">
+    <value>غير متاح</value>
+  </data>
+  <data name="updated_failed" xml:space="preserve">
+    <value>فشلت عملية الانشاء</value>
+  </data>
+  <data name="updated_success" xml:space="preserve">
+    <value>تم التعديل بنجاح</value>
+  </data>
+  <data name="user_delete_failed" xml:space="preserve">
+    <value>فشلت عملية حذف المستخدم </value>
+  </data>
+  <data name="user_delete_success" xml:space="preserve">
+    <value>تم حذف المستخدم بنجاح</value>
   </data>
   <data name="user_not_found" xml:space="preserve">
-    <value>لم يتم العثور على المستخدم</value>
+    <value>المستخدم غير موجود</value>
+  </data>
+  <data name="user_updated_failed" xml:space="preserve">
+    <value>فشلت عملية تعديل المستخدم</value>
+  </data>
+  <data name="user_updated_success" xml:space="preserve">
+    <value>تم تعديل المستخدم بنجاح</value>
   </data>
 </root>

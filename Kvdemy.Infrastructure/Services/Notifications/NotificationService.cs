@@ -61,6 +61,7 @@ namespace Krooti.Infrastructure.Services.Notifications
         {
             var notifications = await _context.Notifications
                                               .Where(n => n.UserId == userId)
+                                              .OrderByDescending(b => b.CreatedAt)
                                               .ToListAsync();
 
             var result =  _mapper.Map<List<NotificationViewModel>>(notifications);

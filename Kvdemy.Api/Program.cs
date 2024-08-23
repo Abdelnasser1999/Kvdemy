@@ -77,6 +77,42 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(Kvdemy.infrastructure.Mapper.AutoMapper).Assembly);
+builder.Services.Configure<RequestLocalizationOptions>(
+    opts =>
+    {
+        var supportedCultures = new List<CultureInfo>
+        {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("en"),
+                        new CultureInfo("ar-SA"),
+                        new CultureInfo("ar")
+        };
+
+        opts.DefaultRequestCulture = new RequestCulture("en-US");
+        opts.SupportedCultures = new List<CultureInfo>
+        {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("en")
+        };
+        opts.SupportedUICultures = supportedCultures;
+        opts.RequestCultureProviders.Insert(0, new CustomRequestCultureProvider(context =>
+        {
+            var defaultLang = "en-US";
+            var userLanguages = context.Request.GetTypedHeaders().AcceptLanguage;
+            if (userLanguages.Any() && !string.IsNullOrWhiteSpace(userLanguages.FirstOrDefault()?.ToString()))
+            {
+                var passedLanguage = userLanguages.FirstOrDefault()?.ToString();
+                if (!string.IsNullOrWhiteSpace(passedLanguage) &&
+                    passedLanguage.StartsWith("ar", StringComparison.OrdinalIgnoreCase))
+                {
+                    defaultLang = "ar-SA";
+                }
+            }
+
+            return Task.FromResult(new ProviderCultureResult(defaultLang));
+        }));
+
+    });
 
 
 /*.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);*/
@@ -198,6 +234,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseRequestLocalization();
 
 
 app.UseAuthentication();

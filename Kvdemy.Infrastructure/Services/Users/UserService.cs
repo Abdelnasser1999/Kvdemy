@@ -80,6 +80,7 @@ namespace Kvdemy.Infrastructure.Services.Users
         
             user.UserName = dto.Email;
             user.UserType = UserType.Student;
+            user.Status = UserStatus.active;
             if (dto.Email != null) 
             {
                 bool emailIsExist = await _db.Users.AnyAsync(x => x.Email == dto.Email);
@@ -144,7 +145,7 @@ namespace Kvdemy.Infrastructure.Services.Users
           
             
         }
-        public async Task<dynamic> CreateTeacher(CreateTeacherDto dto)
+        public async Task<dynamic> CreateTeacher(CreateTeacherDto dto )
         {
             var user = _mapper.Map<User>(dto);
             Random random = new Random();
@@ -183,28 +184,26 @@ namespace Kvdemy.Infrastructure.Services.Users
             {
                 throw new NationalityNotFoundException();
             }
-            AvailableHoursModel model = new AvailableHoursModel();
-            model.AvailableHours = new Dictionary<string, List<TimeRange>>{
-			{ "Saturday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-			{ "Sunday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-			{ "Monday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-			{ "Tuesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-			{ "Wednesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-			{ "Thursday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-			{ "Friday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-		};
-			user.AvailableHours = JsonConvert.SerializeObject(model.AvailableHours);
-			user.Status = UserStatus.active;
-			user.StartingPrice = 10;
-			user.CreatedAt = DateTime.UtcNow;
-
+            //          AvailableHoursModel model = new AvailableHoursModel();
+            //          model.AvailableHours = new Dictionary<string, List<TimeRange>>{
+            //	{ "Saturday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+            //	{ "Sunday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+            //	{ "Monday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+            //	{ "Tuesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+            //	{ "Wednesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+            //	{ "Thursday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+            //	{ "Friday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+            //};
+            user.AvailableHours = JsonConvert.SerializeObject(dto.availableHoursModel);
+            //user.StartingPrice = 10;
+            user.CreatedAt = DateTime.UtcNow;
+            user.Status = UserStatus.inActive;
 			try
 			{
                 var result =   _userManager.CreateAsync(user, dto.Password).GetAwaiter().GetResult();
 				if (result.Succeeded)
                 {
-                    var Teacher = _mapper.Map<TeacherViewModel>(user);
-                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss], Teacher);
+                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.OtpSuccess], user.OtpCode);
                 }
                 else
                 {
@@ -337,6 +336,32 @@ namespace Kvdemy.Infrastructure.Services.Users
 
             return result;
         }
+        public async Task<PaginationWebViewModel> GetNewTeachers(Pagination pagination, Query query)
+        {
+
+            var queryString = _db.Users.Where(x => !x.IsDelete && (x.Status == UserStatus.inActive || x.Status == UserStatus.Rejected) && x.UserType == UserType.Teacher && (x.FirstName.Contains(query.GeneralSearch) ||x.LastName.Contains(query.GeneralSearch) || x.PhoneNumber.Contains(query.GeneralSearch) || x.Email.Contains(query.GeneralSearch) || string.IsNullOrWhiteSpace(query.GeneralSearch))).AsQueryable();
+
+            var dataCount = queryString.Count();
+            pagination.Total = dataCount;
+            var skipValue = pagination.GetSkipValue();
+            var dataList = await queryString.Skip(skipValue).Take(pagination.PerPage).ToListAsync();
+            var users = _mapper.Map<List<TeacherViewModel>>(dataList);
+            var pages = pagination.GetPages(dataCount);
+
+            var result = new PaginationWebViewModel
+            {
+                data = users,
+                meta = new Meta
+                {
+                    page = pagination.Page,
+                    perpage = pagination.PerPage,
+                    pages = pages,
+                    total = dataCount
+                }
+            };
+
+            return result;
+        }
 		public async Task<TeacherViewModel> GetTeacher(string Id)
 		{
 			var model = await _db.Users.Include(x => x.Nationality).SingleOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
@@ -384,15 +409,41 @@ namespace Kvdemy.Infrastructure.Services.Users
             }
             else
             {
-
                 _db.Users.Remove(user);
                 _db.SaveChanges();
                 return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserDeletedSuccss], user.Id);
-
             }
+        }
+        public async Task<dynamic> AcceptTeacher(string id)
+        {
+            var user = _db.Users.SingleOrDefault(x => x.Id == id);
+            if (user == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+            }
+            else
+            {
+                user.Status = UserStatus.active;
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+                return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss], user.Id);
+            }
+        }
 
-
-
+        public async Task<dynamic> RejectTeacher(string id)
+        {
+            var user = _db.Users.SingleOrDefault(x => x.Id == id);
+            if (user == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+            }
+            else
+            {
+                user.Status = UserStatus.Rejected;
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+                return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss], user.Id);
+            }
         }
 
 

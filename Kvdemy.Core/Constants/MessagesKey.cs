@@ -44,9 +44,7 @@ namespace Kvdemy.Core.Constant
         public const string UserNotFound = "user_not_found";
         public const string LoginSuccess = "login_success";
         public const string InvalidCredentials = "invalid_credentials";
-        public const string InfoEmailSend = "admin_info_email_send";
         public const string DuplicateEmail = "duplicate_email";
-        public const string DuplicateEmirate = "duplicate_emirate";
         public const string DuplicatePhone = "duplicate_phone";
         public const string DuplicateUsername = "duplicate_username";
         public const string InvalidUsername = "invalid_username"; // must contain lowercase and min char is 5
@@ -56,7 +54,7 @@ namespace Kvdemy.Core.Constant
         public const string OtpSuccess = "otp_success";
         public const string OtpWrong = "otp_wrong";
 
-        //  Item Messages
+        //  Item Messages 
         public const string DataSuccess = "data_success";
         public const string DataFailed = "data_failed";
         public const string ItemNotFound  = "item_not_found";

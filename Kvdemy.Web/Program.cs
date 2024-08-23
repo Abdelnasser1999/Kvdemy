@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using FirebaseAdmin.Messaging;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using Kvdemy.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,7 +49,19 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddLocalization();
+builder.Services.AddScoped<FirebaseMessaging>(provider =>
+{
+	return FirebaseMessaging.DefaultInstance;
+});
+builder.Services.AddScoped<IFileService, FileService>();
 
+if (FirebaseApp.DefaultInstance == null)
+{
+	FirebaseApp.Create(new AppOptions()
+	{
+		Credential = GoogleCredential.FromFile("Credentials/serviceAccountKey.json")
+	});
+}
 builder.Services.Configure<RequestLocalizationOptions>(
     opts =>
     {
@@ -101,7 +117,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseRequestLocalization();
 app.UseRouting();
 
 //use middlware exception handler

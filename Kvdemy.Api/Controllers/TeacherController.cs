@@ -26,13 +26,13 @@ namespace Kvdemy.API.Controllers
             Language = Thread.CurrentThread.CurrentUICulture.Name;
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> RegisterTeacher([FromForm] CreateTeacherDto dto)
-        {
-            var result = await _interfaceServices.userService.CreateTeacher(dto);
-            return Ok(result);
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> RegisterTeacher([FromForm] CreateTeacherDto dto)
+        //{
+        //    var result = await _interfaceServices.userService.CreateTeacher(dto);
+        //    return Ok(result);
+        //}
 
         //[HttpPost("available-hours")]
         //public async Task<IActionResult> AddAvailableHours(string id, [FromForm] AvailableHoursModel model)

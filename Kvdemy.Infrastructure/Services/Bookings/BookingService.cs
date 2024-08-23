@@ -155,6 +155,7 @@ namespace Krooti.Infrastructure.Services.Bookings
             var bookings = await _context.Bookings
                                          .Where(b => b.TeacherId == teacherId && b.Status == status)
 										 .Include(t => t.Student)
+                                         .OrderByDescending(b => b.CreatedAt)
                                          .ToListAsync();
             if (bookings == null)
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotFound]);
@@ -169,7 +170,8 @@ namespace Krooti.Infrastructure.Services.Bookings
             var bookings = await _context.Bookings
                                          .Where(b => b.StudentId == studentId)
 										  .Include(t => t.Teacher)
-										 .ToListAsync();
+                                          .OrderByDescending(b => b.CreatedAt)
+                                         .ToListAsync();
             if (bookings == null)
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotFound]);
 

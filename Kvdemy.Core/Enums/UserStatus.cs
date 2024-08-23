@@ -11,7 +11,7 @@ namespace Kvdemy.Core.Enums
 
         inActive = 1,
         active = 2,
-        deleted = 3 
+        Rejected = 3 
 
     }
 }

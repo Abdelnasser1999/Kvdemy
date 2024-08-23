@@ -24,15 +24,24 @@ namespace Kvdemy.API.Controllers
             Language = Thread.CurrentThread.CurrentUICulture.Name;
         }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public async Task<IActionResult> StudentLogin([FromForm] LoginDto dto)
-        //{
-
-        //    var response = await _interfaceServices.authService.StudentLogin(dto);
-        //    return Ok(response);
-
-        //}
+        [HttpPost]
+        public async Task<IActionResult> SendVerificationCode([FromForm] string PhoneNumber)
+        {
+            var response = await _interfaceServices.authService.SendVerificationCodeAsync(PhoneNumber);
+            return Ok(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> VerifyCode([FromForm] string phoneNumber, [FromForm] string verificationCode)
+        {
+            var response = await _interfaceServices.authService.VerifyCodeAsync(phoneNumber, verificationCode);
+            return Ok(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword([FromForm] string phoneNumber, [FromForm] string newPassword)
+        {
+            var response = await _interfaceServices.authService.ResetPasswordAsync(phoneNumber, newPassword);
+            return Ok(response);
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -40,6 +49,13 @@ namespace Kvdemy.API.Controllers
         {
 
             var response = await _interfaceServices.authService.Login(dto);
+            return Ok(response);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromForm] string userId, [FromForm] string currentPassword, [FromForm] string newPassword)
+        {
+            var response = await _interfaceServices.authService.ChangePasswordAsync(userId, currentPassword, newPassword);
             return Ok(response);
 
         }

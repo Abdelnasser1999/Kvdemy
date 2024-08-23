@@ -19,7 +19,10 @@ namespace Kvdemy.Infrastructure.Services.Users
 		Task<RegisterHelperViewModel> GetRegisterHelper();
 		Task<PaginationWebViewModel> GetAllStudents(Pagination pagination, Query query);
 		Task<PaginationWebViewModel> GetAllTeachers(Pagination pagination, Query query);
-		Task<StudentViewModel> GetStudent(string Id);
+		Task<PaginationWebViewModel> GetNewTeachers(Pagination pagination, Query query);
+		Task<dynamic> AcceptTeacher(string id);
+		Task<dynamic> RejectTeacher(string id);
+        Task<StudentViewModel> GetStudent(string Id);
 		Task<TeacherViewModel> GetTeacher(string Id);
 		Task<dynamic> GetProfile(string Id);
 

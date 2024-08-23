@@ -1,0 +1,161 @@
+﻿@model TeacherViewModel
+@{
+    ViewData["Title"] = "تفاصيل المعلم"; 
+}
+<!--begin::Body-->
+<body data-kt-name="metronic" id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
+	<!--begin::App-->
+	<div class="d-flex flex-column flex-root app-root" id="kt_app_root">
+		<!--begin::Page-->
+		<div class="app-page flex-column flex-column-fluid" id="kt_app_page">
+			<!--begin::Wrapper-->
+			<div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
+				<!--begin::Main-->
+				<div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+					<!--begin::Content wrapper-->
+					<div class="d-flex flex-column flex-column-fluid">
+						<!--begin::Content-->
+						<div id="kt_app_content" class="app-content flex-column-fluid">
+							<!--begin::Content container-->
+							<div id="kt_app_content_container" class="app-container container-xxl">
+								<!--begin::details View-->
+								<div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+									<!--begin::Card header-->
+									<div class="card-header cursor-pointer">
+										<!--begin::Card title-->
+										<div class="card-title m-0">
+											<h3 class="fw-bold m-0">معلومات المعلم</h3>
+										</div>
+										<!--end::Card title-->
+									</div>
+									<!--begin::Card header-->
+									<!--begin::Card body-->
+									<div class="card-body p-9">
+										<!--begin::Row-->
+										<div class="row mb-7">
+											<!--begin: Pic-->
+											<div class="me-7 mb-4">
+												<div >
+													<img class="img-fluid img-thumbnail" style="max-width: 50%;" src="http://44.198.35.178/Kvdemy-admin/Images/@Model.ProfileImage" alt="image" />
+												</div>
+											</div>
+											<!--end::Pic-->
+										</div>
+										<!--end::Row-->
+										<!--begin::Row-->
+										<div class="row mb-7">
+											<!--begin::Label-->
+											<label class="col-lg-4 fw-semibold text-muted">الاسم الكامل</label>
+											<!--end::Label-->
+											<!--begin::Col-->
+											<div class="col-lg-8">
+												<span class="fw-bold fs-6 text-gray-800">@Model.FirstName  @Model.LastName</span>
+											</div>
+											<!--end::Col-->
+										</div>
+										<!--end::Row-->
+										<!--begin::Input group-->
+										<div class="row mb-7">
+											<!--begin::Label-->
+											<label class="col-lg-4 fw-semibold text-muted">الجنس</label>
+											<!--end::Label-->
+											<!--begin::Col-->
+											<div class="col-lg-8 fv-row">
+												<span class="fw-semibold text-gray-800 fs-6">@Model.Gender</span>
+											</div>
+											<!--end::Col-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="row mb-7">
+											<!--begin::Label-->
+											<label class="col-lg-4 fw-semibold text-muted">رقم الهاتف</label>
+											<!--end::Label-->
+											<!--begin::Col-->
+											<div class="col-lg-8 d-flex align-items-center">
+												<span class="fw-bold fs-6 text-gray-800 me-2">@Model.PhoneNumber </span>
+												<span class="badge badge-success">موثق</span>
+											</div>
+											<!--end::Col-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="row mb-7">
+											<!--begin::Label-->
+											<label class="col-lg-4 fw-semibold text-muted">تاريخ الميلاد</label>
+											<!--end::Label-->
+											<!--begin::Col-->
+											<div class="col-lg-8 fv-row">
+												<span class="fw-semibold text-gray-800 fs-6">@Model.DOB.ToString("dd/MM/yyyy")</span>
+											</div>
+											<!--end::Col-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="row mb-7">
+											<!--begin::Label-->
+											<label class="col-lg-4 fw-semibold text-muted">الجنسية</label>
+											<!--end::Label-->
+											<!--begin::Col-->
+											<div class="col-lg-8">
+												<span class="fw-bold fs-6 text-gray-800">@Model.Nationality.Name</span>
+											</div>
+											<!--end::Col-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="row mb-7">
+											<!--begin::Label-->
+											<label class="col-lg-4 fw-semibold text-muted">الايميل</label>
+											<!--end::Label-->
+											<!--begin::Col-->
+											<div class="col-lg-8">
+												<span class="fw-bold fs-6 text-gray-800">@Model.Email</span>
+											</div>
+											<!--end::Col-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="row mb-10">
+											<!--begin::Label-->
+											<label class="col-lg-4 fw-semibold text-muted">تاريخ الانضمام</label>
+											<!--begin::Label-->
+											<!--begin::Label-->
+											<div class="col-lg-8">
+												<span class="fw-semibold fs-6 text-gray-800">@Model.CreatedAt</span>
+											</div>
+											<!--begin::Label-->
+										</div>
+										<!--end::Input group-->
+										<!--begin::Input group-->
+										<div class="row mb-10">
+											<!--begin::Label-->
+											<label class="col-lg-4 fw-semibold text-muted">الموقع</label>
+											<!--begin::Label-->
+											<!--begin::Label-->
+											<div class="col-lg-8">
+												<span class="fw-semibold fs-6 text-gray-800">@Model.Location</span>
+											</div>
+											<!--begin::Label-->
+										</div>
+										<!--end::Input group-->
+									</div>
+									<!--end::Card body-->
+								</div>
+								<!--end::details View-->
+							</div>
+							<!--end::Content container-->
+						</div>
+						<!--end::Content-->
+					</div>
+					<!--end::Content wrapper-->
+				</div>
+				<!--end:::Main-->
+			</div>
+			<!--end::Wrapper-->
+		</div>
+		<!--end::Page-->
+	</div>
+	<!--end::App-->
+</body>
+<!--end::Body-->

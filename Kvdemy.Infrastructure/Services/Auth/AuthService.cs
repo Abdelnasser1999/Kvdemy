@@ -65,6 +65,61 @@ namespace Kvdemy.Infrastructure.Services.Auth
             _roleManger = roleManger;
             _fileService = fileService;
         }
+        public async Task<dynamic> SendVerificationCodeAsync(string phoneNumber)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+            if (user == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+            }
+
+            Random random = new Random();
+            var verificationCode = random.Next(1000, 10000).ToString();
+
+            // إرسال رمز التحقق إلى رقم الهاتف عبر خدمة SMS
+            //await SendSmsAsync(phoneNumber, $"Your verification code is: {verificationCode}");
+
+            // تخزين رمز التحقق في قاعدة البيانات
+            user.OtpCode = verificationCode;
+            await _userManager.UpdateAsync(user);
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], verificationCode);
+
+        }
+        public async Task<dynamic> VerifyCodeAsync(string phoneNumber, string verificationCode)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+            if (user == null || user.OtpCode != verificationCode)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.OtpWrong]);
+            }
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], true);
+        }
+        public async Task<dynamic> ResetPasswordAsync(string phoneNumber, string newPassword)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+            if (user == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss]);
+        }
+        public async Task<dynamic> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss]);
+        }
 
         public async Task<dynamic> StudentLogin(LoginDto dto)
         {

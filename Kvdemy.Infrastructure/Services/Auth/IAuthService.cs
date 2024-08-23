@@ -23,7 +23,10 @@ namespace Kvdemy.Infrastructure.Services.Auth
         //Task<dynamic> LogOut();
 
         Task<string> GetUserIdFromToken();
-
+        Task<dynamic> SendVerificationCodeAsync(string phoneNumber);
+        Task<dynamic> VerifyCodeAsync(string phoneNumber, string verificationCode);
+        Task<dynamic> ResetPasswordAsync(string phoneNumber, string newPassword);
+        Task<dynamic> ChangePasswordAsync(string userId, string currentPassword, string newPassword);
         //Task<dynamic> CreateAdmin(CreateAdminDto dto);
 
     }

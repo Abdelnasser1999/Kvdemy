@@ -61,7 +61,97 @@ namespace Kvdemy.Core.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data fetch Failed.
+        ///   Looks up a localized string similar to Lesson approved.
+        /// </summary>
+        public static string booking_approved {
+            get {
+                return ResourceManager.GetString("booking_approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson cancelled.
+        /// </summary>
+        public static string booking_cancelled {
+            get {
+                return ResourceManager.GetString("booking_cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson completed, come back again for more lessons.
+        /// </summary>
+        public static string booking_completed {
+            get {
+                return ResourceManager.GetString("booking_completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This time is already booked, please choose another time.
+        /// </summary>
+        public static string booking_conflict {
+            get {
+                return ResourceManager.GetString("booking_conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson created successfully.
+        /// </summary>
+        public static string booking_created_success {
+            get {
+                return ResourceManager.GetString("booking_created_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Booking not available at this time for this teacher.
+        /// </summary>
+        public static string booking_not_available {
+            get {
+                return ResourceManager.GetString("booking_not_available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This lesson does not exist.
+        /// </summary>
+        public static string booking_not_found {
+            get {
+                return ResourceManager.GetString("booking_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson status updated successfully.
+        /// </summary>
+        public static string booking_updated_success {
+            get {
+                return ResourceManager.GetString("booking_updated_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creation failed.
+        /// </summary>
+        public static string created_failed {
+            get {
+                return ResourceManager.GetString("created_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creation Success.
+        /// </summary>
+        public static string created_success {
+            get {
+                return ResourceManager.GetString("created_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data retrieval failed.
         /// </summary>
         public static string data_failed {
             get {
@@ -70,7 +160,7 @@ namespace Kvdemy.Core.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data fetch Successfully.
+        ///   Looks up a localized string similar to Data retrieved successfully.
         /// </summary>
         public static string data_success {
             get {
@@ -79,16 +169,106 @@ namespace Kvdemy.Core.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Emirate ID number is used.
+        ///   Looks up a localized string similar to Deletion failed.
         /// </summary>
-        public static string duplicate_emirate {
+        public static string delete_failed {
             get {
-                return ResourceManager.GetString("duplicate_emirate", resourceCulture);
+                return ResourceManager.GetString("delete_failed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Otp send Succefully.
+        ///   Looks up a localized string similar to Deleted successfully.
+        /// </summary>
+        public static string delete_success {
+            get {
+                return ResourceManager.GetString("delete_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This email already exists.
+        /// </summary>
+        public static string duplicate_email {
+            get {
+                return ResourceManager.GetString("duplicate_email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone number already exists.
+        /// </summary>
+        public static string duplicate_phone {
+            get {
+                return ResourceManager.GetString("duplicate_phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username already exists.
+        /// </summary>
+        public static string duplicate_username {
+            get {
+                return ResourceManager.GetString("duplicate_username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid credentials.
+        /// </summary>
+        public static string invalid_credentials {
+            get {
+                return ResourceManager.GetString("invalid_credentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid credentials.
+        /// </summary>
+        public static string invalid_token {
+            get {
+                return ResourceManager.GetString("invalid_token", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid credentials.
+        /// </summary>
+        public static string invalid_username {
+            get {
+                return ResourceManager.GetString("invalid_username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item not found.
+        /// </summary>
+        public static string item_not_found {
+            get {
+                return ResourceManager.GetString("item_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid credentials.
+        /// </summary>
+        public static string login_success {
+            get {
+                return ResourceManager.GetString("login_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have received a new lesson request, please accept it now.
+        /// </summary>
+        public static string new_booking {
+            get {
+                return ResourceManager.GetString("new_booking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verified successfully.
         /// </summary>
         public static string otp_success {
             get {
@@ -97,11 +277,200 @@ namespace Kvdemy.Core.Resourses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User Not found.
+        ///   Looks up a localized string similar to Verification code is incorrect.
+        /// </summary>
+        public static string otp_wrong {
+            get {
+                return ResourceManager.GetString("otp_wrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Question not found.
+        /// </summary>
+        public static string question_not_found {
+            get {
+                return ResourceManager.GetString("question_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Teacher not available for booking.
+        /// </summary>
+        public static string teacher_unavailable {
+            get {
+                return ResourceManager.GetString("teacher_unavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Teacher not available for booking on this day, please choose another day.
+        /// </summary>
+        public static string teacher_unavailable_on_this_day {
+            get {
+                return ResourceManager.GetString("teacher_unavailable_on_this_day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson approval.
+        /// </summary>
+        public static string title_booking_approved {
+            get {
+                return ResourceManager.GetString("title_booking_approved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson cancellation.
+        /// </summary>
+        public static string title_booking_cancelled {
+            get {
+                return ResourceManager.GetString("title_booking_cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson completion.
+        /// </summary>
+        public static string title_booking_completed {
+            get {
+                return ResourceManager.GetString("title_booking_completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time slot booked.
+        /// </summary>
+        public static string title_booking_conflict {
+            get {
+                return ResourceManager.GetString("title_booking_conflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson creation.
+        /// </summary>
+        public static string title_booking_created_success {
+            get {
+                return ResourceManager.GetString("title_booking_created_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time slot not available.
+        /// </summary>
+        public static string title_booking_not_available {
+            get {
+                return ResourceManager.GetString("title_booking_not_available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson not found.
+        /// </summary>
+        public static string title_booking_not_found {
+            get {
+                return ResourceManager.GetString("title_booking_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lesson status.
+        /// </summary>
+        public static string title_booking_updated_success {
+            get {
+                return ResourceManager.GetString("title_booking_updated_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New lesson request.
+        /// </summary>
+        public static string title_new_booking {
+            get {
+                return ResourceManager.GetString("title_new_booking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not available.
+        /// </summary>
+        public static string title_teacher_unavailable {
+            get {
+                return ResourceManager.GetString("title_teacher_unavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not available.
+        /// </summary>
+        public static string title_teacher_unavailable_on_this_day {
+            get {
+                return ResourceManager.GetString("title_teacher_unavailable_on_this_day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modification failed.
+        /// </summary>
+        public static string updated_failed {
+            get {
+                return ResourceManager.GetString("updated_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modification succeeded.
+        /// </summary>
+        public static string updated_success {
+            get {
+                return ResourceManager.GetString("updated_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User deletion failed.
+        /// </summary>
+        public static string user_delete_failed {
+            get {
+                return ResourceManager.GetString("user_delete_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User deleted successfully.
+        /// </summary>
+        public static string user_delete_success {
+            get {
+                return ResourceManager.GetString("user_delete_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not found.
         /// </summary>
         public static string user_not_found {
             get {
                 return ResourceManager.GetString("user_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User modification failed.
+        /// </summary>
+        public static string user_updated_failed {
+            get {
+                return ResourceManager.GetString("user_updated_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User modified successfully.
+        /// </summary>
+        public static string user_updated_success {
+            get {
+                return ResourceManager.GetString("user_updated_success", resourceCulture);
             }
         }
     }
