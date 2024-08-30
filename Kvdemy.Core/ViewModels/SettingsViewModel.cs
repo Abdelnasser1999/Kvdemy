@@ -19,12 +19,8 @@ namespace Kvdemy.Core.ViewModels
 		public string? FAQ { get; set; }
 		public string? Whatsapp { get; set; }
 
-		[Display(Name = Message.SettingsDollar)]
-        public double? Dollar { get; set; }
-        [Display(Name = Message.SettingsEuro)]
-        public double? Euro { get; set; }
-        [Display(Name = Message.SettingsPound)]
-        public double? Pound { get; set; }
+        public int? MinimumWithdrawal { get; set; }
+        public double? Commission { get; set; }
 
     }
 }

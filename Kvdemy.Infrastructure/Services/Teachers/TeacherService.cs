@@ -451,6 +451,29 @@ namespace Kvdemy.Infrastructure.Services.Teachers
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], teacherProfile);
 
         }
+        public async Task<FinanceAccountViewModel> GetFinanceAccount(string Id)
+        {
+            var model = await _context.FinanceAccounts.Include(x => x.User).SingleOrDefaultAsync(x => x.UserId == Id && !x.IsDelete);
+            if (model == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var modelViewModel = _mapper.Map<FinanceAccountViewModel>(model);
+            return modelViewModel;
+        }
+
+        public async Task<List<TransactionsViewModel>> GetTransactions(int Id)
+        {
+            var model = await _context.AccountTransactions.Where(x => x.FinanceAccountId == Id && !x.IsDelete).ToListAsync();
+            if (model == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            var modelViewModel = _mapper.Map<List<TransactionsViewModel>>(model);
+            return modelViewModel;
+        }
 
     }
 }

@@ -8,7 +8,7 @@ var KTDatatableAutoColumnHideDemo = function () {
     var demo = function () {
         var FID = getFID();
         console.error("iddddddddddd = ", FID)
-        var url = 'User/GetTransactions/' + FID;
+        var url = 'Teacher/GetTransactions/' + FID;
         var datatable = $('#kt_datatable').KTDatatable({
             // datasource definition
             data: {

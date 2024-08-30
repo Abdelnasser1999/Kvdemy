@@ -28,6 +28,7 @@ namespace Kvdemy.Core.ViewModels
         public string? FCMToken { get; set; }
         public DateTime CreatedAt { get; set; }
         public UserStatus Status { get; set; }
+        public string? PaymentDetails { get; set; }
 
 
     }

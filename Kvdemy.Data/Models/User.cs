@@ -80,6 +80,7 @@ namespace Kvdemy.Data.Models
         public DateTime? CreatedAt { get; set; }
         public bool IsDelete { get; set; }
         public UserStatus Status { get; set; }
+        public FinanceAccount FinanceAccount { get; set; }
 
 
         public User()

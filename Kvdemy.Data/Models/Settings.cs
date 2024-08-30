@@ -14,12 +14,11 @@ namespace Kvdemy.Data.Models
         public string? About { get; set; }
         public string? Privacy { get; set; }
         public string? Terms { get; set; }
-        public double? Dollar { get; set; }
-        public double? Euro { get; set; }
-        public double? Pound { get; set; }
         public double TaxRate { get; set; }
 		public string? FAQ { get; set; }
 		public string? Whatsapp { get; set; }
+		public int? MinimumWithdrawal { get; set; }
+		public double? Commission { get; set; }
 
 
 		public Settings()

@@ -40,6 +40,8 @@ namespace Kvdemy.Infrastructure.Services.Teachers
         Task<dynamic> AddSpecializationAsync(string userId, UserSpecialtyDto specializationDto);
         Task<dynamic> GetSpecializationsAsync(string userId);
         Task<dynamic> DeleteSpecializationAsync(int specializationId);
+        Task<FinanceAccountViewModel> GetFinanceAccount(string Id);
+        Task<List<TransactionsViewModel>> GetTransactions(int Id);
 
     }
 }

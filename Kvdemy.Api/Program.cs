@@ -1,4 +1,4 @@
-using Kvdemy.Infrastructure.Services.Interfaces;
+﻿using Kvdemy.Infrastructure.Services.Interfaces;
 using Kvdemy.Core.Options;
 using Kvdemy.Data.Models;
 using Kvdemy.Infrastructure.Middlewares;
@@ -46,6 +46,16 @@ if (FirebaseApp.DefaultInstance == null)
         Credential = GoogleCredential.FromFile("Credentials/serviceAccountKey.json")
     });
 }
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(1);//You can set Time
@@ -66,15 +76,6 @@ builder.Services.AddControllersWithViews().AddNewtonsoftJson(x => x.SerializerSe
 builder.Services.AddMemoryCache();
 
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalhost", builder =>
-    {
-        builder.WithOrigins("http://localhost:3000")
-               .AllowAnyHeader()
-               .AllowAnyMethod();
-    });
-});
 
 builder.Services.AddAutoMapper(typeof(Kvdemy.infrastructure.Mapper.AutoMapper).Assembly);
 builder.Services.Configure<RequestLocalizationOptions>(
@@ -207,6 +208,7 @@ builder.Services.Configure<RequestLocalizationOptions>(
 
     });
 var app = builder.Build();
+app.UseCors("AllowAll"); // تطبيق سياسة CORS
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -244,6 +246,5 @@ app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=swagger}/{action=Index}/{id?}");
 app.MapRazorPages();
-app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.Run();

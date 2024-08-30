@@ -60,9 +60,21 @@ namespace Kvdemy.Web.Controllers
 
 		}
 
+        [HttpGet]
+        public async Task<IActionResult> FinanceAccount(string id)
+        {
+            var model = await _interfaceServices.teacherService.GetFinanceAccount(id);
+            return View(model);
+        }
+
+        public async Task<IActionResult> GetTransactions(int id)
+        {
+            var result = await _interfaceServices.teacherService.GetTransactions(id);
+            return Json(result);
+        }
 
 
-		[HttpGet]
+        [HttpGet]
 		public async Task<IActionResult> Delete(string id)
 		{
 			await _interfaceServices.userService.Delete(id);

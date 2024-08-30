@@ -30,6 +30,9 @@ using Kvdemy.Infrastructure.Services.PushNotification;
 using FirebaseAdmin.Messaging;
 using Krooti.Infrastructure.Services.PushNotification;
 using Kvdemy.Infrastructure.Services.Reports;
+using Kvdemy.Infrastructure.Services.Payments;
+using Krooti.Infrastructure.Services.Payments;
+using Kvdemy.Infrastructure.Services.Wallet;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -82,11 +85,13 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
             subjectService = new SubjectService(_db, _mapper, fileService, _localizedMessages);
             pushNotificationService = new PushNotificationService(_db, _mapper, fileService, _localizedMessages, _firebaseMessaging);
             notificationService = new NotificationService(_db, _mapper, pushNotificationService, _localizedMessages);
-            bookingService = new BookingService(_db, _mapper, notificationService, _localizedMessages);
+            paymentService = new PaymentService(_db, _mapper, notificationService, _localizedMessages);
+            bookingService = new BookingService(_db, _mapper, notificationService, _localizedMessages,paymentService);
 			reportService = new ReportService(_db, _mapper, _localizedMessages);
+            financeAccountService = new FinanceAccountService(_db, _mapper, authService, _localizedMessages);
 
-		}
-		public IFileService fileService { get; private set; }
+        }
+        public IFileService fileService { get; private set; }
         public IUserService userService { get; private set; }
         public IAuthService authService { get; private set; }
 		public ICategoryService categoryService { get; private set; }
@@ -99,6 +104,8 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
         public INotificationService notificationService { get; private set; }
         public IPushNotificationService  pushNotificationService{ get; private set; }
         public IReportService  reportService{ get; private set; }
+        public IPaymentService  paymentService{ get; private set; }
+        public IFinanceAccountService financeAccountService { get; private set; }
 
     }
 }

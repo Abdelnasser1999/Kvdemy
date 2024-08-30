@@ -203,6 +203,12 @@ namespace Kvdemy.Infrastructure.Services.Users
                 var result =   _userManager.CreateAsync(user, dto.Password).GetAwaiter().GetResult();
 				if (result.Succeeded)
                 {
+                    var financeAccount = new FinanceAccount();
+                    financeAccount.UserId = user.Id;
+                    financeAccount.Balance = 0;
+
+                    await _db.FinanceAccounts.AddAsync(financeAccount);
+                    await _db.SaveChangesAsync();
                     return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.OtpSuccess], user.OtpCode);
                 }
                 else

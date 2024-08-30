@@ -9,6 +9,16 @@ namespace Kvdemy.Core.Constant
     public static class MessagesKey
     {
 
+        //  Payment Messages
+        public const string WalletRequestSuccess = "wallet_request_success";
+        public const string InvalidMinimumWithdrawal = "invalid_minimum_withdrawal";
+        public const string NoEnoughBalance = "no_enough_balance";
+        
+        //  Payment Messages
+        public const string PaymentSuccess = "payment_success";
+        public const string PaymentFailed = "payment_failed";
+        
+        
         //  Booking Messages
         public const string TitleBookingCreatedSuccess = "title_booking_created_success";
         public const string TitleBookingNotFound = "title_booking_not_found";

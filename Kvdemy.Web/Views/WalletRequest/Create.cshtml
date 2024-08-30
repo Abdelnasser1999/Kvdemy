@@ -1,0 +1,54 @@
+﻿@model CreateCategoryDto
+
+@{
+    ViewData["Title"] = "اضافة تصنيف جديد";
+    Layout = null;
+}
+
+        <form asp-action="Create" class="ajaxForm" tname="#kt_datatable" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Image" class="control-label"></label>
+                        <input asp-for="Image" class="form-control" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="ParentId" class="control-label"></label>
+                <select asp-for="ParentId" class="form-control">
+                    <option value="">-- اختر الصنف الأب --</option>
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ParentId" class="text-danger"></span>
+                    </div>
+                </div>
+            
+            </div>
+            
+           
+            <div class="form-group">
+                <input type="submit" value="اضافة" class="btn btn-primary" />
+                <a data-dismiss="modal" aria-label="Close" class="btn btn-danger">الغاء</a>
+            </div>
+        </form>
+
+
+<script>
+    PageLoadActions();
+</script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

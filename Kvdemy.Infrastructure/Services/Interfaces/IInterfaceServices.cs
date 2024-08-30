@@ -20,6 +20,8 @@ using Kvdemy.Infrastructure.Services.Bookings;
 using Kvdemy.Infrastructure.Services.Notifications;
 using Kvdemy.Infrastructure.Services.PushNotification;
 using Kvdemy.Infrastructure.Services.Reports;
+using Kvdemy.Infrastructure.Services.Payments;
+using Kvdemy.Infrastructure.Services.Wallet;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -41,6 +43,8 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
         INotificationService notificationService { get; }
         IPushNotificationService pushNotificationService { get; }
         IReportService reportService { get; }
+        IPaymentService paymentService { get; }
+        IFinanceAccountService financeAccountService { get; }
 
-	}
+    }
 }

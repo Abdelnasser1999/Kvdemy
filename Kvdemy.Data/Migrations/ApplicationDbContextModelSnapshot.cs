@@ -22,6 +22,57 @@ namespace Kvdemy.Web.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Kvdemy.Data.Models.AccountTransactions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FinanceAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TransactionPaymentType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("ValueAfterDiscount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ValueBeforDiscount")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ValueDiscount")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FinanceAccountId");
+
+                    b.ToTable("AccountTransactions");
+                });
+
             modelBuilder.Entity("Kvdemy.Data.Models.Award", b =>
                 {
                     b.Property<int>("Id")
@@ -56,6 +107,9 @@ namespace Kvdemy.Web.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -71,6 +125,14 @@ namespace Kvdemy.Web.Data.Migrations
 
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PayPalPayerID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PayPalTransactionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("SessionDate")
                         .HasColumnType("date");
@@ -103,6 +165,8 @@ namespace Kvdemy.Web.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("StudentId");
 
@@ -323,6 +387,47 @@ namespace Kvdemy.Web.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Experiences");
+                });
+
+            modelBuilder.Entity("Kvdemy.Data.Models.FinanceAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double?>("Balance")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("FinanceAccounts");
                 });
 
             modelBuilder.Entity("Kvdemy.Data.Models.Gallery", b =>
@@ -583,17 +688,14 @@ namespace Kvdemy.Web.Data.Migrations
                     b.Property<string>("About")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<double?>("Commission")
+                        .HasColumnType("float");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Dollar")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("Euro")
-                        .HasColumnType("float");
 
                     b.Property<string>("FAQ")
                         .HasColumnType("nvarchar(max)");
@@ -604,8 +706,8 @@ namespace Kvdemy.Web.Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<double?>("Pound")
-                        .HasColumnType("float");
+                    b.Property<int?>("MinimumWithdrawal")
+                        .HasColumnType("int");
 
                     b.Property<string>("Privacy")
                         .HasColumnType("nvarchar(max)");
@@ -927,6 +1029,55 @@ namespace Kvdemy.Web.Data.Migrations
                     b.ToTable("Videos");
                 });
 
+            modelBuilder.Entity("Kvdemy.Data.Models.WalletRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Attachment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("WalletRequests");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1060,6 +1211,17 @@ namespace Kvdemy.Web.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Kvdemy.Data.Models.AccountTransactions", b =>
+                {
+                    b.HasOne("Kvdemy.Data.Models.FinanceAccount", "FinanceAccount")
+                        .WithMany("AccountTransactions")
+                        .HasForeignKey("FinanceAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FinanceAccount");
+                });
+
             modelBuilder.Entity("Kvdemy.Data.Models.Award", b =>
                 {
                     b.HasOne("Kvdemy.Data.Models.User", "User")
@@ -1073,6 +1235,12 @@ namespace Kvdemy.Web.Data.Migrations
 
             modelBuilder.Entity("Kvdemy.Data.Models.Booking", b =>
                 {
+                    b.HasOne("Kvdemy.Data.Models.Category", "Category")
+                        .WithMany("Bookings")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Kvdemy.Data.Models.User", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId")
@@ -1084,6 +1252,8 @@ namespace Kvdemy.Web.Data.Migrations
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Student");
 
@@ -1156,6 +1326,17 @@ namespace Kvdemy.Web.Data.Migrations
                     b.HasOne("Kvdemy.Data.Models.User", "User")
                         .WithMany("Experiences")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Kvdemy.Data.Models.FinanceAccount", b =>
+                {
+                    b.HasOne("Kvdemy.Data.Models.User", "User")
+                        .WithOne("FinanceAccount")
+                        .HasForeignKey("Kvdemy.Data.Models.FinanceAccount", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1277,6 +1458,17 @@ namespace Kvdemy.Web.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Kvdemy.Data.Models.WalletRequest", b =>
+                {
+                    b.HasOne("Kvdemy.Data.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1330,7 +1522,14 @@ namespace Kvdemy.Web.Data.Migrations
 
             modelBuilder.Entity("Kvdemy.Data.Models.Category", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("Subcategories");
+                });
+
+            modelBuilder.Entity("Kvdemy.Data.Models.FinanceAccount", b =>
+                {
+                    b.Navigation("AccountTransactions");
                 });
 
             modelBuilder.Entity("Kvdemy.Data.Models.Language", b =>
@@ -1363,6 +1562,9 @@ namespace Kvdemy.Web.Data.Migrations
                     b.Navigation("Educations");
 
                     b.Navigation("Experiences");
+
+                    b.Navigation("FinanceAccount")
+                        .IsRequired();
 
                     b.Navigation("Gallery");
 

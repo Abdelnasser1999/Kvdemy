@@ -19,6 +19,7 @@ namespace Kvdemy.Data.Models
 
         public Category Parent{ get; set; }
         public List<Category> Subcategories { get; set; }
+        public List<Booking> Bookings { get; set; }
 
     }
 }

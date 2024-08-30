@@ -16,14 +16,17 @@ namespace Kvdemy.Core.ViewModels
 		public StudentViewModel Student { get; set; }
 		public string TeacherId { get; set; }
 		public TeacherViewModel Teacher { get; set; }
+        public int CategoryId { get; set; }
+        public CategoryViewModel Category { get; set; }
 
-		public DateOnly SessionDate { get; set; }
+        public DateOnly SessionDate { get; set; }
 		public string StartTime { get; set; }
 		public string EndTime { get; set; }
 
 		public decimal SessionDuration { get; set; }
 		public decimal TotalPrice { get; set; }
 		public BookingStatus Status { get; set; }
+        public string PayPalTransactionId { get; set; }
 
-	}
+    }
 }

@@ -15,6 +15,7 @@ namespace Kvdemy.Infrastructure.Services.Bookings
         Task<dynamic> UpdateBookingStatusAsync(int bookingId, UpdateBookingDto updateBookingDto);
         Task<dynamic> GetBookingsForTeacherAsync(string teacherId, BookingStatus status);
         Task<dynamic> GetBookingsForStudentAsync(string studentId);
-
+        Task<dynamic> SuccessBookingPayment(string paymentId, string PayerID, int bookingId);
+        Task<dynamic> FailedBookingPayment(int bookingId);
     }
 }

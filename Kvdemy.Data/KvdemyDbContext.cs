@@ -37,6 +37,9 @@ namespace Kvdemy.Web.Data
                 .WithMany()
                 .HasForeignKey(s => s.SubcategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<FinanceAccount>().HasQueryFilter(x => !x.IsDelete);
+            builder.Entity<AccountTransactions>().HasQueryFilter(x => !x.IsDelete);
+            builder.Entity<WalletRequest>().HasQueryFilter(x => !x.IsDelete);
 
             //builder.Entity<Product>().HasQueryFilter(x => !x.IsDelete);
             //builder.Entity<City>().HasQueryFilter(x => !x.IsDelete);
@@ -82,6 +85,9 @@ namespace Kvdemy.Web.Data
         public DbSet<BookingMessage> BookingMessages { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<Report> Reports { get; set; }
+        public DbSet<FinanceAccount> FinanceAccounts { get; set; }
+        public DbSet<AccountTransactions> AccountTransactions { get; set; }
+        public DbSet<WalletRequest> WalletRequests { get; set; }
 
     }
 }

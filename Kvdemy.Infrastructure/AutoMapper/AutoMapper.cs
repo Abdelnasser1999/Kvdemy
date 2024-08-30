@@ -99,8 +99,19 @@ namespace Kvdemy.infrastructure.Mapper
             CreateMap<Report, ReportViewModel>();
 			CreateMap<CreateReportDto, Report>();
 
+            /// FinanceAccount
+            CreateMap<FinanceAccount, FinanceAccountViewModel>();
+            CreateMap<UpdateFinancialAccountDto, FinanceAccount>();
+
+            /// Transactions
+            CreateMap<AccountTransactions, TransactionsViewModel>();
+            CreateMap<CreateTransactionDto, AccountTransactions>();
 
 
-		}
-	}
+            /// WalletRequest
+            CreateMap<WalletRequest, WalletRequestViewModel>();
+
+
+        }
+    }
 }

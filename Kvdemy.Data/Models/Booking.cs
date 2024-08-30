@@ -16,7 +16,8 @@ namespace Kvdemy.Data.Models
         public User Student { get; set; }
         public string TeacherId { get; set; }
         public User Teacher { get; set; }
-
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
         public DateOnly SessionDate { get; set; }
 		public string StartTime { get; set; }
 		public string EndTime { get; set; }
@@ -24,6 +25,8 @@ namespace Kvdemy.Data.Models
 		public decimal SessionDuration { get; set; }
         public decimal TotalPrice { get; set; }
         public BookingStatus Status { get; set; }
+        public string PayPalTransactionId { get; set; }
+        public string PayPalPayerID { get; set; }
 
     }
 }

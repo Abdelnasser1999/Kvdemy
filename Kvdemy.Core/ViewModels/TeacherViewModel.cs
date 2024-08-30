@@ -42,6 +42,7 @@ namespace Kvdemy.Core.ViewModels
         public float? Rating { get; set; }
         public int? RatingSum { get; set; }
         public int? RatingCount { get; set; }
+        public decimal Balance { get; set; }
 
 
     }
