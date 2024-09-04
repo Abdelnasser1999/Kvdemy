@@ -68,5 +68,33 @@ namespace Kvdemy.Web.Services
 
             return fileName;
         }
+
+        public async Task<string> SaveFileAsync(IFormFile file, string folderName)
+        {
+            // إنشاء اسم ملف فريد بناءً على الـ GUID وإضافة امتداد الملف الأصلي
+            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+            // تحديد المسار الكامل حيث سيتم تخزين الملف
+            var folderPath = Path.Combine(_env.WebRootPath, "Chats", folderName);
+
+            // التحقق مما إذا كان المجلد موجودًا، وإذا لم يكن موجودًا، يتم إنشاؤه
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            // إنشاء المسار الكامل للملف
+            var filePath = Path.Combine(folderPath, fileName);
+
+            // نسخ الملف إلى المسار المحدد
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            // إرجاع اسم الملف
+            return fileName;
+        }
+
     }
 }

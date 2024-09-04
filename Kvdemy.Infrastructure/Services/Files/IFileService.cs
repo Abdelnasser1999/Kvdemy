@@ -5,6 +5,7 @@ namespace Kvdemy.Web.Services
 {
     public interface IFileService
     {
+        Task<string> SaveFileAsync(IFormFile file, string folderName);
         Task<string> SaveFile(IFormFile file, string folderName);
         Task<string> SaveFile(string file, string folderName, string extension);
         Task<string> SaveFile(byte[] file, string folderName, string extension);

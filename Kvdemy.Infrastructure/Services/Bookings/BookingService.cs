@@ -112,6 +112,8 @@ namespace Krooti.Infrastructure.Services.Bookings
 			booking.Status = BookingStatus.Pending;
 			booking.CreatedAt = DateTime.UtcNow;
 			booking.IsActive = false;
+			booking.PayPalPayerID = "";
+			booking.PayPalTransactionId = "";
 
 			_context.Bookings.Add(booking);
 			await _context.SaveChangesAsync();
@@ -131,10 +133,11 @@ namespace Krooti.Infrastructure.Services.Bookings
             booking.IsActive = true;
             booking.UpdatedAt = DateTime.UtcNow;
 
-            await _context.SaveChangesAsync();
+            _context.Bookings.Update(booking);
+            _context.SaveChangesAsync();
             // إرسال إشعار للمدرس
             await _notificationService.SendNotificationAsync(booking.TeacherId, _localizedMessages[MessagesKey.TitleNewBooking], _localizedMessages[MessagesKey.NewBooking], NotificationType.Booking);
-            
+
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.PaymentSuccess]);
         }
 		public async Task<dynamic> FailedBookingPayment(int bookingId)
@@ -231,6 +234,21 @@ namespace Krooti.Infrastructure.Services.Bookings
 
             var result = _mapper.Map<List<BookingViewModel>>(bookings);
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], result);
+        }
+
+        public async Task<Booking> GetBookingById(int bookingId)
+        {
+            var booking = await _context.Bookings
+                                        .Include(b => b.Student)   
+                                        .Include(b => b.Teacher)   
+                                        .FirstOrDefaultAsync(b => b.Id == bookingId);
+
+            if (booking == null)
+            {
+                throw new Exception("Booking not found");
+            }
+
+            return booking;
         }
 
     }

@@ -93,7 +93,7 @@ namespace Kvdemy.Infrastructure.Services.Sliders
         //    public async Task<PagingResultViewModel<SliderViewModel>> GetAll(Core.General.Pagination pagination
         //, QueryDto query)
         //    {
-        //        var queryString = _dbContext.Sliders
+        //        var queryString = _context.Sliders
         //            .Where(x => !x.IsDelete)
         //            .OrderByDescending(x => x.CreatedAt).AsQueryable();
 

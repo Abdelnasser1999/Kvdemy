@@ -20,6 +20,8 @@ namespace Kvdemy.Data.Models
         public string MessageContent { get; set; }
         public MessageType MessageType { get; set; }
         public string? FileUrl { get; set; }
+        public string? FileName { get; set; }  
+        public string? FileType { get; set; } 
 
     }
 }

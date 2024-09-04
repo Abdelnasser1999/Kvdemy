@@ -1,6 +1,7 @@
 ﻿using Kvdemy.Core.Dtos;
 using Kvdemy.Core.Enums;
 using Kvdemy.Core.ViewModels;
+using Kvdemy.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,5 +18,6 @@ namespace Kvdemy.Infrastructure.Services.Bookings
         Task<dynamic> GetBookingsForStudentAsync(string studentId);
         Task<dynamic> SuccessBookingPayment(string paymentId, string PayerID, int bookingId);
         Task<dynamic> FailedBookingPayment(int bookingId);
+        Task<Booking> GetBookingById(int bookingId);
     }
 }

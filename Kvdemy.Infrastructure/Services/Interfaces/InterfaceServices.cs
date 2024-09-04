@@ -33,6 +33,8 @@ using Kvdemy.Infrastructure.Services.Reports;
 using Kvdemy.Infrastructure.Services.Payments;
 using Krooti.Infrastructure.Services.Payments;
 using Kvdemy.Infrastructure.Services.Wallet;
+using Kvdemy.Infrastructure.Services.Chats;
+using Krooti.Infrastructure.Services.Chats;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -89,6 +91,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
             bookingService = new BookingService(_db, _mapper, notificationService, _localizedMessages,paymentService);
 			reportService = new ReportService(_db, _mapper, _localizedMessages);
             financeAccountService = new FinanceAccountService(_db, _mapper, authService, _localizedMessages);
+            chatService = new ChatService(_db, _mapper, notificationService, _localizedMessages,fileService);
 
         }
         public IFileService fileService { get; private set; }
@@ -106,6 +109,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
         public IReportService  reportService{ get; private set; }
         public IPaymentService  paymentService{ get; private set; }
         public IFinanceAccountService financeAccountService { get; private set; }
+        public IChatService chatService { get; private set; }
 
     }
 }

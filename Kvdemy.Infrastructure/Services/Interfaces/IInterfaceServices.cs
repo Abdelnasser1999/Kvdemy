@@ -22,6 +22,7 @@ using Kvdemy.Infrastructure.Services.PushNotification;
 using Kvdemy.Infrastructure.Services.Reports;
 using Kvdemy.Infrastructure.Services.Payments;
 using Kvdemy.Infrastructure.Services.Wallet;
+using Kvdemy.Infrastructure.Services.Chats;
 
 
 namespace Kvdemy.Infrastructure.Services.Interfaces
@@ -45,6 +46,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
         IReportService reportService { get; }
         IPaymentService paymentService { get; }
         IFinanceAccountService financeAccountService { get; }
+        IChatService chatService { get; }
 
     }
 }
