@@ -13,9 +13,12 @@ namespace Kvdemy.Core.ViewModels
         public int Id { get; set; }
         public int BookingId { get; set; }
         public string SenderId { get; set; }
-        public string? MessageContent { get; set; }
-        public string MessageType { get; set; }
+        public SenderViewModel Sender { get; set; }
+        public string MessageContent { get; set; }
+        public MessageType MessageType { get; set; }
         public string? FileUrl { get; set; }
+        public string? FileName { get; set; }
+        public string? FileType { get; set; }
         public DateTime CreatedAt { get; set; }
 
     }

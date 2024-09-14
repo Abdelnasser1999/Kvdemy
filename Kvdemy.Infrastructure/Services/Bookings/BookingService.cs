@@ -95,9 +95,12 @@ namespace Krooti.Infrastructure.Services.Bookings
 			 
 			if (conflictingBookings.Any())
 				return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingConflict]);
+            // التحقق من أن EndTime أكبر من StartTime
+            if (DtoEndTime <= DtoStartTime)
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotAvailable]);
 
-			// حساب مدة الجلسة
-			var sessionDuration = (decimal)(DtoEndTime.ToTimeSpan() - DtoStartTime.ToTimeSpan()).TotalHours;
+            // حساب مدة الجلسة
+            var sessionDuration = (decimal)(DtoEndTime.ToTimeSpan() - DtoStartTime.ToTimeSpan()).TotalHours;
 
 			// تحويل StartingPrice من float إلى decimal
 			var startingPriceDecimal = (decimal)teacher.StartingPrice;
@@ -117,9 +120,16 @@ namespace Krooti.Infrastructure.Services.Bookings
 
 			_context.Bookings.Add(booking);
 			await _context.SaveChangesAsync();
+            IQueryable<Settings> query = _context.Settings;
 
+            var model = query.FirstOrDefault();
 
-			return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.BookingCreatedSuccess],booking);
+            var bookingVM = _mapper.Map<BookingViewModel>(booking);
+            bookingVM.Teacher = null;
+            bookingVM.Student = null;
+            bookingVM.Category = null;
+            bookingVM.TotalPriceUSD = totalPrice * model.USD;
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.BookingCreatedSuccess], bookingVM);
 		}
 
 		public async Task<dynamic> SuccessBookingPayment(string paymentId, string PayerID, int bookingId)

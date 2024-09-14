@@ -474,6 +474,63 @@ namespace Kvdemy.Infrastructure.Services.Teachers
             var modelViewModel = _mapper.Map<List<TransactionsViewModel>>(model);
             return modelViewModel;
         }
+        public async Task<dynamic> GetTeacherDashboardStats(string teacherId)
+        {
+            // ابحث عن المدرس بناءً على teacherId
+            var teacher = _context.Users
+                .Include(u => u.Gallery) // المعارض
+                .Include(u => u.Video) // الفيديوهات
+                .Include(u => u.FinanceAccount) // الحساب المالي
+                .Include(u => u.UserSpecialties) // التخصصات
+                .FirstOrDefault(u => u.Id == teacherId && u.UserType == UserType.Teacher); // المدرس
+
+            if (teacher == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            // استعلام عن الحجوزات المتعلقة بالمدرس
+            var bookings = _context.Bookings.Where(b => b.TeacherId == teacherId).ToList();
+
+            // حساب الإحصائيات مع استخدام قيم افتراضية في حالة null
+            var totalLessons = bookings.Count(); // عدد الدروس الإجمالي
+            var totalRevenue = teacher.FinanceAccount?.Balance ?? 0; // الإيرادات
+            var averageRating = teacher.Rating ?? 0; // متوسط التقييم
+            var totalBookings = bookings.Count(); // عدد الحجوزات الكلي
+            var completedBookings = bookings.Count(b => b.Status == BookingStatus.Completed); // الحجوزات المكتملة
+            var activeStudents = bookings.Select(b => b.StudentId).Distinct().Count(); // الطلاب النشطين
+            var totalMedia = (teacher.Gallery?.Count() ?? 0) + (teacher.Video?.Count() ?? 0); // عدد الموارد التعليمية
+            var availableHours = teacher.AvailableHours ?? ""; // الساعات المتاحة (نص فارغ إذا كانت null)
+
+            // التحقق من UserSpecialties وعرض الفئات الأكثر طلباً مع تعيين قائمة فارغة في حال كانت null
+            //var mostRequestedSubjects = new List<object>();
+
+            //if (teacher.UserSpecialties != null && teacher.UserSpecialties.Any())
+            //{
+            //    mostRequestedSubjects = teacher.UserSpecialties
+            //        .GroupBy(us => us.Category?.Name ?? "")
+            //        .OrderByDescending(g => g.Count())
+            //        .Take(3)
+            //        .Select(g => new { Subject = g.Key ?? "", Count = g.Count() })
+            //        .ToList<object>();
+            //}
+
+            // جمع جميع النتائج في متغير واحد مع استخدام القيم الافتراضية
+            var dashboardStats = new
+            {
+                TotalLessons = totalLessons,
+                TotalRevenue = totalRevenue,
+                AverageRating = averageRating,
+                TotalBookings = totalBookings,
+                CompletedBookings = completedBookings,
+                ActiveStudents = activeStudents,
+                TotalMedia = totalMedia,
+                AvailableHours = availableHours
+            };
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], dashboardStats);
+        }
+
 
     }
 }

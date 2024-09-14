@@ -19,6 +19,7 @@ namespace Kvdemy.Data.Models
 		public string? Whatsapp { get; set; }
 		public int? MinimumWithdrawal { get; set; }
 		public double? Commission { get; set; }
+		public decimal? USD { get; set; }
 
 
 		public Settings()

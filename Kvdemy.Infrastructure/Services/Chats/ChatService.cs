@@ -55,15 +55,28 @@ namespace Krooti.Infrastructure.Services.Chats
             _pusher = new Pusher("1858340", "f4ba9f8b7dfba819b802", "0f4b8cea4991316cddff", options);
 
         }
-        public async Task<dynamic> SendMessageAsync(string bookingId, string message, string sender)
+    //    data: new
+    //            {
+    //                BookingId = chatMessage.BookingId,
+    //                SenderId = chatMessage.SenderId,
+    //                FileUrl = chatMessage.FileUrl,
+    //                FileName = chatMessage.FileName,
+    //                FileType = chatMessage.FileType,
+    //                MessageContent = chatMessage.MessageContent,
+    //                MessageType = chatMessage.MessageType,
+    //                CreatedAt = chatMessage.CreatedAt
+    //}
+
+    public async Task<dynamic> SendMessageAsync(BookingMessage chatMessage)
         {
             var result = await _pusher.TriggerAsync(
-                channelName: $"chat_{bookingId}",
+                channelName: $"chat_{chatMessage.BookingId}",
                 eventName: "new_message",
-                data: new { message = message, sender = sender }
+                data: new { message = chatMessage }
             );
+            var result2 = _mapper.Map<BookingMessageViewModel>(chatMessage);
 
-            return new ApiResponseSuccessViewModel("success",result.ChannelAttributes.ToList());
+            return new ApiResponseSuccessViewModel("success", result2);
 
         }
 
@@ -75,10 +88,10 @@ namespace Krooti.Infrastructure.Services.Chats
             var result = await _pusher.TriggerAsync(
                 channelName: $"chat_{bookingId}",
                 eventName: "new_file",
-                data: new { fileUrl = fileUrl, fileName = fileName, sender = sender }
+                data: new { fileUrl = fileUrl, fileType = file.ContentType, fileName = fileName, sender = sender }
             );
 
-            return new ApiResponseSuccessViewModel("success", result.ChannelAttributes.ToList());
+            return new ApiResponseSuccessViewModel("success", result);
         }
         public async Task SaveMessageAsync(BookingMessage chatMessage)
         {
@@ -89,9 +102,11 @@ namespace Krooti.Infrastructure.Services.Chats
         {
             var messages = await _context.BookingMessages
                                          .Where(m => m.BookingId == bookingId)
-                                         .OrderBy(m => m.CreatedAt)
+                                         .OrderByDescending(m => m.CreatedAt)
                                          .ToListAsync();
-            return new ApiResponseSuccessViewModel("success", messages);
+
+            var result = _mapper.Map<List<BookingMessageViewModel>>(messages);
+            return new ApiResponseSuccessViewModel("success", result);
         }
 
     }

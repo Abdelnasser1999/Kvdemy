@@ -23,6 +23,9 @@ using Kvdemy.Core.Enums;
 using Azure;
 using Newtonsoft.Json;
 using Kvdemy.Infrastructure.Helpers;
+using Twilio;
+using Twilio.Types;
+using Twilio.Rest.Api.V2010.Account;
 
 
 
@@ -43,6 +46,10 @@ namespace Kvdemy.Infrastructure.Services.Users
         private readonly IAuthService _authService;
 
         private readonly IFileService _fileService;
+        private readonly string _accountSid = "AC52e248e2ddfbff058302728c84884754";
+        private readonly string _authToken = "628e0a39dd0efeb6484de29d66a8dded";
+        private readonly string _twilioPhoneNumber = "+12166779186";
+
 
         public UserService(
              IMapper mapper,
@@ -67,6 +74,32 @@ namespace Kvdemy.Infrastructure.Services.Users
             _authService = authService;
             //_interfaceServices = interfaceServices;
             _fileService = fileService;
+            TwilioClient.Init(_accountSid, _authToken);
+
+        }
+        public bool SendVerificationCode(string phoneNumber, string verificationCode)
+        {
+            var to = new PhoneNumber(phoneNumber);
+            var from = new PhoneNumber(_twilioPhoneNumber);
+
+            try
+            {
+                var message = MessageResource.Create(
+                    body: $"KVDEMY verification code is: {verificationCode}",
+                    from: from,
+                    to: to
+                );
+
+                Console.WriteLine($"Message SID: {message.Sid}");
+                return true;
+            }
+            catch (Twilio.Exceptions.ApiException ex)
+            {
+                Console.WriteLine($"Twilio Error: {ex.Message}");
+                // هنا يمكنك تسجيل الخطأ لتتبعه أو التعامل معه حسب الحاجة
+                return false;
+
+            }
         }
 
         public async Task<dynamic> CreateStudent(CreateStudentDto dto)
@@ -76,8 +109,8 @@ namespace Kvdemy.Infrastructure.Services.Users
             var generatedOtp   = random.Next(1000, 10000);
             user.OtpCode = generatedOtp.ToString();
 
-          
-        
+
+
             user.UserName = dto.Email;
             user.UserType = UserType.Student;
             user.Status = UserStatus.active;
@@ -109,6 +142,10 @@ namespace Kvdemy.Infrastructure.Services.Users
             {
                 throw new NationalityNotFoundException();
             }
+            if (!SendVerificationCode(dto.PhoneNumber, user.OtpCode))
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
+            }
 
             try
             {
@@ -116,7 +153,7 @@ namespace Kvdemy.Infrastructure.Services.Users
 				if (result.Succeeded)
                 {
                  
-                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.OtpSuccess], user.OtpCode);
+                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss], user.OtpCode);
 				}
                 else
                 {
@@ -184,22 +221,27 @@ namespace Kvdemy.Infrastructure.Services.Users
             {
                 throw new NationalityNotFoundException();
             }
-            //          AvailableHoursModel model = new AvailableHoursModel();
-            //          model.AvailableHours = new Dictionary<string, List<TimeRange>>{
-            //	{ "Saturday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-            //	{ "Sunday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-            //	{ "Monday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-            //	{ "Tuesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-            //	{ "Wednesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-            //	{ "Thursday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-            //	{ "Friday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
-            //};
-            user.AvailableHours = JsonConvert.SerializeObject(dto.availableHoursModel);
+            AvailableHoursModel model = new AvailableHoursModel();
+            model.AvailableHours = new Dictionary<string, List<TimeRange>>{
+                { "Saturday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+                { "Sunday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+                { "Monday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+                { "Tuesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+                { "Wednesday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+                { "Thursday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+                { "Friday", new List<TimeRange> { new TimeRange { From = "00:00 AM", To = "00:00 PM" } } },
+            };
+            user.AvailableHours = JsonConvert.SerializeObject(model);
             //user.StartingPrice = 10;
             user.CreatedAt = DateTime.UtcNow;
             user.Status = UserStatus.inActive;
-			try
-			{
+            if(!SendVerificationCode(dto.PhoneNumber, user.OtpCode))
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
+            }
+
+            try
+            {
                 var result =   _userManager.CreateAsync(user, dto.Password).GetAwaiter().GetResult();
 				if (result.Succeeded)
                 {
@@ -209,7 +251,7 @@ namespace Kvdemy.Infrastructure.Services.Users
 
                     await _db.FinanceAccounts.AddAsync(financeAccount);
                     await _db.SaveChangesAsync();
-                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.OtpSuccess], user.OtpCode);
+                    return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss], user.OtpCode);
                 }
                 else
                 {

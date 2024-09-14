@@ -14,7 +14,7 @@ namespace Kvdemy.Infrastructure.Services.Teachers
     public interface ITeacherService
     {
         Task<dynamic> GetTeacherByIdAsync(string teacherId);
-
+        Task<dynamic> GetTeacherDashboardStats(string teacherId);
         Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model);
         Task<dynamic> GetAvailableHoursAsync(string userId);
         Task<dynamic> AddGalleryImageAsync(string userId, GalleryDto galleryDto);

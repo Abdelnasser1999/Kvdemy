@@ -27,6 +27,7 @@ namespace Kvdemy.Core.ViewModels
 		public decimal TotalPrice { get; set; }
 		public BookingStatus Status { get; set; }
         public string PayPalTransactionId { get; set; }
+        public decimal? TotalPriceUSD { get; set; }
 
     }
 }

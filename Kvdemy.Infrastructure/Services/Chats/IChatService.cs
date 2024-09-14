@@ -13,7 +13,7 @@ namespace Kvdemy.Infrastructure.Services.Chats
 {
     public interface IChatService
     {
-        Task<dynamic> SendMessageAsync(string bookingId, string message, string sender);
+        Task<dynamic> SendMessageAsync(BookingMessage chatMessage);
         Task SaveMessageAsync(BookingMessage chatMessage);
         Task<dynamic> SendFileAsync(string bookingId, IFormFile file, string sender);
         Task<dynamic> GetMessagesForBookingAsync(int bookingId); 

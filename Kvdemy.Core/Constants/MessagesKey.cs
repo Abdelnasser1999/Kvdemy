@@ -59,6 +59,7 @@ namespace Kvdemy.Core.Constant
         public const string DuplicateUsername = "duplicate_username";
         public const string InvalidUsername = "invalid_username"; // must contain lowercase and min char is 5
         public const string InvalidToken = "invalid_token"; 
+        public const string FailedSendOtp = "failed_send_otp"; 
 
         // OTP Messages 
         public const string OtpSuccess = "otp_success";

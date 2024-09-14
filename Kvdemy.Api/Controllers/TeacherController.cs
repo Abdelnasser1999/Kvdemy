@@ -7,6 +7,8 @@ using Microsoft.Extensions.Localization;
 using Kvdemy.Infrastructure.Helpers;
 using Kvdemy.Infrastructure.Services.Teachers;
 using System.Security.Claims;
+using Kvdemy.Core.Enums;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kvdemy.API.Controllers
 {
@@ -203,6 +205,13 @@ namespace Kvdemy.API.Controllers
         {
             var teacher = await _interfaceServices.teacherService.GetTeacherByIdAsync(id);
             return Ok(teacher);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTeacherDashboardStats(string teacherId)
+        {
+            var stats = await _interfaceServices.teacherService.GetTeacherDashboardStats(teacherId);
+            return Ok(stats);
         }
 
     }

@@ -82,7 +82,7 @@ namespace Kvdemy.Api.Controllers
 
         [Authorize]
         [HttpPost("booking/chat/send")]
-        public async Task<IActionResult> SendMessage(int bookingId, [FromBody] string MessageContent)
+        public async Task<IActionResult> SendMessage(int bookingId, [FromForm] string MessageContent)
         {
             string userId = await _interfaceServices.authService.GetUserIdFromToken();
             var booking = await _interfaceServices.bookingService.GetBookingById(bookingId);
@@ -106,7 +106,7 @@ namespace Kvdemy.Api.Controllers
 
             await _interfaceServices.chatService.SaveMessageAsync(message);
 
-            var result = await _interfaceServices.chatService.SendMessageAsync(bookingId.ToString(), MessageContent, userId);
+            var result = await _interfaceServices.chatService.SendMessageAsync(message);
             return Ok(result);
         }
 
@@ -130,7 +130,7 @@ namespace Kvdemy.Api.Controllers
                 BookingId = bookingId,
                 SenderId = userId,
                 FileUrl = fileUrl,
-                FileName = fileName,
+                FileName = file.FileName,
                 FileType = file.ContentType,
                 MessageContent = fileName,
                 MessageType = MessageType.File,
@@ -138,8 +138,8 @@ namespace Kvdemy.Api.Controllers
             };
 
             await _interfaceServices.chatService.SaveMessageAsync(message);
-            await _interfaceServices.chatService.SendMessageAsync(bookingId.ToString(), fileName, userId);
-            var result = await _interfaceServices.chatService.SendFileAsync(bookingId.ToString(), file, userId);
+            var result = await _interfaceServices.chatService.SendMessageAsync(message);
+            //await _interfaceServices.chatService.SendFileAsync(bookingId.ToString(), file, userId);
             return Ok(result);
         }
         [Authorize]
