@@ -2,6 +2,7 @@
 using Kvdemy.Core.Constants;
 using Kvdemy.Core.Dtos;
 using Kvdemy.Infrastructure.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kvdemy.Api.Controllers
@@ -15,13 +16,14 @@ namespace Kvdemy.Api.Controllers
         {
             _interfaceServices = interfaceServices;
         }
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetWalletTransaction()
         {
             var data = await _interfaceServices.financeAccountService.GetWalletTransaction();
             return Ok(GetRespons(data, MessageResults.GetSuccessResult()));
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddWalletRequest(double amount)
         {

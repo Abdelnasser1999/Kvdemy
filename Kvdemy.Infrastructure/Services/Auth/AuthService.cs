@@ -21,6 +21,9 @@ using Kvdemy.Core.Exceptions;
 using Kvdemy.Core.Dtos;
 using Kvdemy.Core.Enums;
 using Newtonsoft.Json;
+using Twilio.Types;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 
 
 
@@ -40,6 +43,10 @@ namespace Kvdemy.Infrastructure.Services.Auth
         private RoleManager<IdentityRole> _roleManger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFileService _fileService;
+        private readonly string _accountSid = "AC52e248e2ddfbff058302728c84884754";
+        private readonly string _authToken = "628e0a39dd0efeb6484de29d66a8dded";
+        private readonly string _twilioPhoneNumber = "+12166779186";
+
 
         public AuthService(
             IMapper mapper,
@@ -64,7 +71,34 @@ namespace Kvdemy.Infrastructure.Services.Auth
             _httpContextAccessor = httpContextAccessor;
             _roleManger = roleManger;
             _fileService = fileService;
+            TwilioClient.Init(_accountSid, _authToken);
+
         }
+        public bool SendVerificationCode(string phoneNumber, string verificationCode)
+        {
+            var to = new PhoneNumber(phoneNumber);
+            var from = new PhoneNumber(_twilioPhoneNumber);
+
+            try
+            {
+                var message = MessageResource.Create(
+                    body: $"KVDEMY verification code is: {verificationCode}",
+                    from: from,
+                    to: to
+                );
+
+                Console.WriteLine($"Message SID: {message.Sid}");
+                return true;
+            }
+            catch (Twilio.Exceptions.ApiException ex)
+            {
+                Console.WriteLine($"Twilio Error: {ex.Message}");
+                // هنا يمكنك تسجيل الخطأ لتتبعه أو التعامل معه حسب الحاجة
+                return false;
+
+            }
+        }
+
         public async Task<dynamic> SendVerificationCodeAsync(string phoneNumber)
         {
             var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
@@ -77,7 +111,10 @@ namespace Kvdemy.Infrastructure.Services.Auth
             var verificationCode = random.Next(1000, 10000).ToString();
 
             // إرسال رمز التحقق إلى رقم الهاتف عبر خدمة SMS
-            //await SendSmsAsync(phoneNumber, $"Your verification code is: {verificationCode}");
+            if (!SendVerificationCode(phoneNumber, verificationCode))
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
+            }
 
             // تخزين رمز التحقق في قاعدة البيانات
             user.OtpCode = verificationCode;
@@ -110,14 +147,26 @@ namespace Kvdemy.Infrastructure.Services.Auth
         }
         public async Task<dynamic> ChangePasswordAsync(string userId, string currentPassword, string newPassword)
         {
+            // البحث عن المستخدم بواسطة المعرف
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
+                // إرجاع استجابة بفشل إذا لم يتم العثور على المستخدم
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
             }
 
+            // محاولة تغيير كلمة المرور
             var result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
 
+            // التحقق من نتيجة تغيير كلمة المرور
+            if (!result.Succeeded)
+            {
+                // جمع رسائل الأخطاء وإرجاعها في استجابة الفشل
+                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                return new ApiResponseFailedViewModel(errors);
+            }
+
+            // إرجاع استجابة النجاح عند نجاح عملية التغيير
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.UserUpdatedSuccss]);
         }
 

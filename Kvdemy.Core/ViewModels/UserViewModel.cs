@@ -50,5 +50,6 @@ namespace Kvdemy.Core.ViewModels
         public DateTime? CreatedAt { get; set; }
         public bool IsDelete { get; set; }
         public UserStatus Status { get; set; }
+        public FinanceAccountViewModel FinanceAccount { get; set; }
     }
 }

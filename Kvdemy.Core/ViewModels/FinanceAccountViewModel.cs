@@ -18,7 +18,7 @@ namespace Kvdemy.Core.ViewModels
         public UserViewModel User { get; set; }
         public double? Balance { get; set; }
 
-        public List<TransactionsViewModel> Transactions { get; set; }
+        public List<TransactionsViewModel> AccountTransactions { get; set; }
 
 		public DateTime CreatedAt { get; set; }
 		public string CreatedBy { get; set; }

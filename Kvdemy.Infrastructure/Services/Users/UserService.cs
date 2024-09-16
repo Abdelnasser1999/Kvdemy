@@ -423,7 +423,7 @@ namespace Kvdemy.Infrastructure.Services.Users
 		}
 		public async Task<dynamic> GetProfile(string Id)
         {
-			var user = await _db.Users.Include(x => x.Nationality).SingleOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
+			var user = await _db.Users.Include(x => x.Nationality).Include(x => x.FinanceAccount).SingleOrDefaultAsync(x => x.Id == Id && !x.IsDelete);
 			if (user == null)
 			{
 				throw new EntityNotFoundException();

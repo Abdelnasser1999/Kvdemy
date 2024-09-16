@@ -32,6 +32,7 @@ namespace Kvdemy.Data.Models
         public decimal TotalPrice { get; set; }
         [Required]
         public BookingStatus Status { get; set; }
+        public bool IsRated { get; set; }
         public string? PayPalTransactionId { get; set; }
         public string? PayPalPayerID { get; set; }
 

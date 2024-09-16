@@ -28,6 +28,8 @@ namespace Kvdemy.Core.ViewModels
 		public BookingStatus Status { get; set; }
         public string PayPalTransactionId { get; set; }
         public decimal? TotalPriceUSD { get; set; }
+        public bool IsRated { get; set; }
+
 
     }
 }

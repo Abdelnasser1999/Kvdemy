@@ -188,7 +188,7 @@ namespace Kvdemy.Infrastructure.Services.Wallet
 
             CreateTransactionDto dtoTransaction = new CreateTransactionDto();
             dtoTransaction.TransactionPaymentType = TransactionPaymentType.Wallet;
-            dtoTransaction.TransactionType = TransactionType.Deposit;
+            dtoTransaction.TransactionType = TransactionType.Withdraw;
             dtoTransaction.ValueDiscount = 0.0;
             dtoTransaction.ValueBeforDiscount = 0.0;
             dtoTransaction.ValueAfterDiscount = model.Amount;

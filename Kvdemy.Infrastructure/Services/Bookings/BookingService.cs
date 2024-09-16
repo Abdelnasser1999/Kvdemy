@@ -117,6 +117,7 @@ namespace Krooti.Infrastructure.Services.Bookings
 			booking.IsActive = false;
 			booking.PayPalPayerID = "";
 			booking.PayPalTransactionId = "";
+			booking.IsRated = false;
 
 			_context.Bookings.Add(booking);
 			await _context.SaveChangesAsync();
@@ -165,7 +166,7 @@ namespace Krooti.Infrastructure.Services.Bookings
         }
 		public async Task<dynamic> UpdateBookingStatusAsync(int bookingId, UpdateBookingDto updateBookingDto)
         {
-            var booking = await _context.Bookings.FindAsync(bookingId);
+            var booking = await _context.Bookings.Include(x=> x.Teacher).ThenInclude(t=> t.FinanceAccount).FirstOrDefaultAsync(b=> b.Id == bookingId);
             if (booking == null)
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.BookingNotFound]);
 
@@ -178,17 +179,51 @@ namespace Krooti.Infrastructure.Services.Bookings
             switch (updateBookingDto.status)
             {
                 case BookingStatus.Approved:
+                    IQueryable<Settings> query2 = _context.Settings;
+
+                    var model2 = query2.FirstOrDefault();
+                    var modelViewModels = _mapper.Map<SettingsViewModel>(model2);
+                    double Commission = (double) modelViewModels.Commission;
+
+                    CreateTransactionDto dtoTransaction = new CreateTransactionDto();
+                    dtoTransaction.TransactionPaymentType = TransactionPaymentType.Wallet;
+                    dtoTransaction.TransactionType = TransactionType.Deposit;
+                    dtoTransaction.ValueDiscount = 0.0;
+                    dtoTransaction.ValueBeforDiscount = 0.0;
+                    dtoTransaction.ValueAfterDiscount =(double) booking.TotalPrice - ((double)booking.TotalPrice * Commission);
+                    dtoTransaction.FinanceAccountId = booking.Teacher.FinanceAccount.Id;
+
+
+
+                    var Tmodel = _mapper.Map<AccountTransactions>(dtoTransaction);
+
+
+                    await _context.AccountTransactions.AddAsync(Tmodel);
+                    await _context.SaveChangesAsync();
+
+
+
+                    var financeAccount = await _context.FinanceAccounts.Include(x => x.AccountTransactions)
+                                 .FirstOrDefaultAsync(x => !x.IsDelete && x.UserId == booking.TeacherId);
+
+
+                    financeAccount.Balance += dtoTransaction.ValueAfterDiscount;
+
+                    _context.FinanceAccounts.Update(financeAccount);
+                    await _context.SaveChangesAsync();
+
+
                     message = _localizedMessages[MessagesKey.BookingApproved];
 					title = _localizedMessages[MessagesKey.TitleBookingApproved];
                     // إضافة قيمة الحجز إلى الحساب المالي للمدرس
-                    var teacherFinanceAccount = await _context.FinanceAccounts.FirstOrDefaultAsync(f => f.UserId == booking.TeacherId && !f.IsDelete);
-                    if (teacherFinanceAccount != null)
-                    {
-                        teacherFinanceAccount.Balance += (double)booking.TotalPrice;
+                    //var teacherFinanceAccount = await _context.FinanceAccounts.FirstOrDefaultAsync(f => f.UserId == booking.TeacherId && !f.IsDelete);
+                    //if (teacherFinanceAccount != null)
+                    //{
+                    //    teacherFinanceAccount.Balance += (double)booking.TotalPrice;
 
-                        _context.FinanceAccounts.Update(teacherFinanceAccount);
-                        await _context.SaveChangesAsync();
-                    }
+                    //    _context.FinanceAccounts.Update(teacherFinanceAccount);
+                    //    await _context.SaveChangesAsync();
+                    //}
                     break;
                 case BookingStatus.Cancelled:
                     message = _localizedMessages[MessagesKey.BookingCancelled];

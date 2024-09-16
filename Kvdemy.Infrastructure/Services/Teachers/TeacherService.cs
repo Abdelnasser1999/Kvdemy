@@ -40,8 +40,8 @@ namespace Kvdemy.Infrastructure.Services.Teachers
             _fileService = fileService;
             _localizedMessages = localizedMessages;
         }
-         
-		public async Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model)
+
+        public async Task<dynamic> UpdateAvailableHoursAsync(string userId, AvailableHoursModel model)
 		{
 			var user = await _context.Users.FindAsync(userId);
 			if (user == null || user.UserType != UserType.Teacher)
@@ -390,11 +390,18 @@ namespace Kvdemy.Infrastructure.Services.Teachers
                 CategoryId = specializationDto.CategoryId,
                 SubcategoryId = specializationDto.SubcategoryId
             };
+            try
+            {
+                _context.UserSpecialties.Add(specialization);
+                await _context.SaveChangesAsync();
+                return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss]);
 
-            _context.UserSpecialties.Add(specialization);
-            await _context.SaveChangesAsync();
+            }catch( Exception ex)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemCreatedFailed]);
 
-            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemCreatedSuccss]);
+            }
+
         }
 
         public async Task<dynamic> GetSpecializationsAsync(string userId)
@@ -529,6 +536,53 @@ namespace Kvdemy.Infrastructure.Services.Teachers
             };
 
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], dashboardStats);
+        }
+        public async Task<dynamic> AddRatingAsync(string teacherId, double rating, int bookingId)
+        {
+            // البحث عن المدرس
+            var teacher = await _context.Users.FindAsync(teacherId);
+            if (teacher == null || teacher.UserType != UserType.Teacher)
+            {
+                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.ItemNotFound]);
+            }
+
+            // التحقق من صحة التقييم (مثلاً، يجب أن يكون بين 1 و 5)
+            if (rating < 1 || rating > 5)
+            {
+                return new ApiResponseFailedViewModel("Rating must be between 1 and 5.");
+            }
+
+            // البحث عن الحجز
+            var booking = await _context.Bookings.FindAsync(bookingId);
+            if (booking == null || booking.TeacherId != teacherId)
+            {
+                return new ApiResponseFailedViewModel("Booking not found or does not belong to the specified teacher.");
+            }
+
+            // التحقق من أن الحجز لم يتم تقييمه من قبل
+            if (booking.IsRated)
+            {
+                return new ApiResponseFailedViewModel("This booking has already been rated.");
+            }
+
+            // تحديث إجمالي التقييمات وعدد التقييمات
+            teacher.RatingSum =(int) ((teacher.RatingSum ?? 0) + rating);
+            teacher.RatingCount = (teacher.RatingCount ?? 0) + 1;
+
+            // حساب التقييم المتوسط
+            teacher.Rating = (float)(teacher.RatingSum / teacher.RatingCount);
+
+            // تحديث بيانات المدرس في قاعدة البيانات
+            _context.Users.Update(teacher);
+
+            // تحديث حالة الحجز إلى مقيم
+            booking.IsRated = true;
+            _context.Bookings.Update(booking);
+
+            // حفظ التغييرات في قاعدة البيانات
+            await _context.SaveChangesAsync();
+
+            return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.ItemUpdatedSuccss]);
         }
 
 

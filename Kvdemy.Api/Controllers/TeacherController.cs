@@ -213,6 +213,12 @@ namespace Kvdemy.API.Controllers
             var stats = await _interfaceServices.teacherService.GetTeacherDashboardStats(teacherId);
             return Ok(stats);
         }
+        [HttpPost("rating")]
+        public async Task<IActionResult> RateTeacher(string id, double rate, int bookingId)
+        {
+            var result = await _interfaceServices.teacherService.AddRatingAsync(id, rate, bookingId);
+            return Ok(result);
+        }
 
     }
 }
