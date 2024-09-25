@@ -142,10 +142,10 @@
     <value>تم تغيير حالة الدرس</value>
   </data>
   <data name="created_failed" xml:space="preserve">
-    <value>تم الانشاء بنجاح</value>
+    <value>فشلت العملية، حاول مرة اخرى</value>
   </data>
   <data name="created_success" xml:space="preserve">
-    <value>فشلت عملية التعديل</value>
+    <value>تم الانشاء بنجاح</value>
   </data>
   <data name="data_failed" xml:space="preserve">
     <value>فشل جلب البيانات</value>
@@ -194,6 +194,12 @@
   </data>
   <data name="question_not_found" xml:space="preserve">
     <value>السؤال غير موجود </value>
+  </data>
+  <data name="refund_Failed" xml:space="preserve">
+    <value>حصل خطأ اثناء اعادة المبلغ للحساب بعد الغاء الدرس، برجاء التواصل مع الدعم</value>
+  </data>
+  <data name="refund_success" xml:space="preserve">
+    <value>بعد الغاء الدرس من قبل المدرس يتم ارجاع المبلغ للحساب في غضون 24 ساعة ، في حال عدم استعادة المبلغ يرجى التواصل مع الدعم</value>
   </data>
   <data name="teacher_unavailable" xml:space="preserve">
     <value>المدرس غير متاح للحجز</value>

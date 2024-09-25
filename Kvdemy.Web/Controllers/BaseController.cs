@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Kvdemy.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class BaseController : Controller
     {
  

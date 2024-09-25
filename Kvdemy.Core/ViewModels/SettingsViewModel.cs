@@ -21,6 +21,8 @@ namespace Kvdemy.Core.ViewModels
 
         public int? MinimumWithdrawal { get; set; }
         public double? Commission { get; set; }
+        public decimal? USD { get; set; }
+
 
     }
 }

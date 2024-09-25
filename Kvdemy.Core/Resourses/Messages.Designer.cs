@@ -295,6 +295,24 @@ namespace Kvdemy.Core.Resourses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There was an error while refunding the amount to the account after canceling the lesson. Please contact support..
+        /// </summary>
+        public static string refund_Failed {
+            get {
+                return ResourceManager.GetString("refund_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After the lesson is cancelled by the teacher, the amount will be refunded to the account within 24 hours. If the amount is not refunded, please contact support..
+        /// </summary>
+        public static string refund_success {
+            get {
+                return ResourceManager.GetString("refund_success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Teacher not available for booking.
         /// </summary>
         public static string teacher_unavailable {

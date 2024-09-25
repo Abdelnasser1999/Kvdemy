@@ -12,9 +12,10 @@ namespace Kvdemy.Infrastructure.Services.Users
     public interface IUserService
     {
 
+        Task<bool> AdminLoginAsync(string email, string password);
 
-		//Task<PagingAPIViewModel> GetStudent(string searchKey, int page);
-		Task<dynamic> CreateStudent(CreateStudentDto dto);
+        //Task<PagingAPIViewModel> GetStudent(string searchKey, int page);
+        Task<dynamic> CreateStudent(CreateStudentDto dto);
 		Task<dynamic> CreateTeacher(CreateTeacherDto dto);
 		Task<RegisterHelperViewModel> GetRegisterHelper();
 		Task<PaginationWebViewModel> GetAllStudents(Pagination pagination, Query query);

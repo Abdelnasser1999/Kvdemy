@@ -43,6 +43,8 @@ namespace Kvdemy.Core.Constant
         public const string TeacherUnavailableOnThisDay = "teacher_unavailable_on_this_day";
         public const string BookingNotAvailable = "booking_not_available";
         public const string BookingConflict = "booking_conflict";
+        public const string RefundSuccess = "refund_success";
+        public const string RefundFailed = "refund_Failed";
 
         //public const string UserDeletedFailed = "user_delete_failed";
         //public const string UserUpdatedFailed = "user_updated_failed";

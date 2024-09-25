@@ -107,9 +107,12 @@ namespace Krooti.Infrastructure.Services.Bookings
 
 			// حساب السعر الإجمالي باستخدام StartingPrice المحول
 			var totalPrice = sessionDuration * startingPriceDecimal;
+            IQueryable<Settings> query = _context.Settings;
 
-			// إنشاء الحجز الجديد
-			var booking = _mapper.Map<Booking>(bookingDto);
+            var model = query.FirstOrDefault();
+
+            // إنشاء الحجز الجديد
+            var booking = _mapper.Map<Booking>(bookingDto);
 			booking.SessionDuration = sessionDuration;
 			booking.TotalPrice = totalPrice;
 			booking.Status = BookingStatus.Pending;
@@ -118,18 +121,15 @@ namespace Krooti.Infrastructure.Services.Bookings
 			booking.PayPalPayerID = "";
 			booking.PayPalTransactionId = "";
 			booking.IsRated = false;
+            booking.TotalPriceUSD =(decimal) (totalPrice * model.USD);
 
-			_context.Bookings.Add(booking);
+            _context.Bookings.Add(booking);
 			await _context.SaveChangesAsync();
-            IQueryable<Settings> query = _context.Settings;
-
-            var model = query.FirstOrDefault();
 
             var bookingVM = _mapper.Map<BookingViewModel>(booking);
             bookingVM.Teacher = null;
             bookingVM.Student = null;
             bookingVM.Category = null;
-            bookingVM.TotalPriceUSD = totalPrice * model.USD;
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.BookingCreatedSuccess], bookingVM);
 		}
 
@@ -215,30 +215,20 @@ namespace Krooti.Infrastructure.Services.Bookings
 
                     message = _localizedMessages[MessagesKey.BookingApproved];
 					title = _localizedMessages[MessagesKey.TitleBookingApproved];
-                    // إضافة قيمة الحجز إلى الحساب المالي للمدرس
-                    //var teacherFinanceAccount = await _context.FinanceAccounts.FirstOrDefaultAsync(f => f.UserId == booking.TeacherId && !f.IsDelete);
-                    //if (teacherFinanceAccount != null)
-                    //{
-                    //    teacherFinanceAccount.Balance += (double)booking.TotalPrice;
-
-                    //    _context.FinanceAccounts.Update(teacherFinanceAccount);
-                    //    await _context.SaveChangesAsync();
-                    //}
                     break;
                 case BookingStatus.Cancelled:
                     message = _localizedMessages[MessagesKey.BookingCancelled];
 					title = _localizedMessages[MessagesKey.TitleBookingCancelled];
                     // استدعاء خدمة PayPal لرد المبلغ
-                    var refundResponse = await _paymentService.RefundPaymentAsync(booking.PayPalTransactionId, booking.TotalPrice);
-
-                    if (refundResponse.StatusCode != System.Net.HttpStatusCode.Created)
+                    try
                     {
-                        await _notificationService.SendNotificationAsync(booking.StudentId, title, "الفلوس رجعت ", NotificationType.Booking);
+                        var refundResponse = await _paymentService.RefundPaymentAsync(booking.PayPalTransactionId, booking.TotalPriceUSD);
+                        await _notificationService.SendNotificationAsync(booking.StudentId, title, _localizedMessages[MessagesKey.RefundSuccess], NotificationType.Booking);
+
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        await _notificationService.SendNotificationAsync(booking.StudentId, title, "الفلوس مرجعتش ، كلم الدعم ", NotificationType.Booking);
-
+                        await _notificationService.SendNotificationAsync(booking.StudentId, title, _localizedMessages[MessagesKey.RefundFailed], NotificationType.Booking);
                     }
                     break;
                 case BookingStatus.Completed:

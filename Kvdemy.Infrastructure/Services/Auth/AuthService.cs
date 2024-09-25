@@ -111,14 +111,16 @@ namespace Kvdemy.Infrastructure.Services.Auth
             var verificationCode = random.Next(1000, 10000).ToString();
 
             // إرسال رمز التحقق إلى رقم الهاتف عبر خدمة SMS
+
+            // تخزين رمز التحقق في قاعدة البيانات
+            user.OtpCode = verificationCode;
+            await _userManager.UpdateAsync(user);
+
             if (!SendVerificationCode(phoneNumber, verificationCode))
             {
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
             }
 
-            // تخزين رمز التحقق في قاعدة البيانات
-            user.OtpCode = verificationCode;
-            await _userManager.UpdateAsync(user);
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], verificationCode);
 
         }

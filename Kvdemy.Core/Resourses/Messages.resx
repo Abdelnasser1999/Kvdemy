@@ -195,6 +195,12 @@
   <data name="question_not_found" xml:space="preserve">
     <value>Question not found</value>
   </data>
+  <data name="refund_Failed" xml:space="preserve">
+    <value>There was an error while refunding the amount to the account after canceling the lesson. Please contact support.</value>
+  </data>
+  <data name="refund_success" xml:space="preserve">
+    <value>After the lesson is cancelled by the teacher, the amount will be refunded to the account within 24 hours. If the amount is not refunded, please contact support.</value>
+  </data>
   <data name="teacher_unavailable" xml:space="preserve">
     <value>Teacher not available for booking</value>
   </data>

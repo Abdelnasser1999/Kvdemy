@@ -26,6 +26,7 @@ using Kvdemy.Infrastructure.Helpers;
 using Twilio;
 using Twilio.Types;
 using Twilio.Rest.Api.V2010.Account;
+using Twilio.TwiML.Voice;
 
 
 
@@ -49,6 +50,7 @@ namespace Kvdemy.Infrastructure.Services.Users
         private readonly string _accountSid = "AC52e248e2ddfbff058302728c84884754";
         private readonly string _authToken = "628e0a39dd0efeb6484de29d66a8dded";
         private readonly string _twilioPhoneNumber = "+12166779186";
+        private readonly SignInManager<User> _signInManager;
 
 
         public UserService(
@@ -60,7 +62,8 @@ namespace Kvdemy.Infrastructure.Services.Users
             UserManager<User> userManager,
             IWebHostEnvironment webHostEnvironment,
             IStringLocalizer<Messages> localizedMessages,
-            IFileService fileService
+            IFileService fileService,
+            SignInManager<User> signInManager
             )
         {
             _db = db;
@@ -75,8 +78,15 @@ namespace Kvdemy.Infrastructure.Services.Users
             //_interfaceServices = interfaceServices;
             _fileService = fileService;
             TwilioClient.Init(_accountSid, _authToken);
+            _signInManager = signInManager;
 
         }
+        public async Task<bool> AdminLoginAsync(string email, string password)
+        {
+            var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
+            return result.Succeeded;
+        }
+
         public bool SendVerificationCode(string phoneNumber, string verificationCode)
         {
             var to = new PhoneNumber(phoneNumber);
@@ -99,6 +109,33 @@ namespace Kvdemy.Infrastructure.Services.Users
                 // هنا يمكنك تسجيل الخطأ لتتبعه أو التعامل معه حسب الحاجة
                 return false;
 
+            }
+        }
+        public bool SendVerificationCodeViaCall(string phoneNumber, string verificationCode)
+        {
+            var to = new PhoneNumber(phoneNumber);
+            var from = new PhoneNumber(_twilioPhoneNumber);
+
+            try
+            {
+                // نص الرسالة الصوتية
+                var twiml = new Twilio.TwiML.VoiceResponse();
+                twiml.Say($"Your KVDEMY verification code is: {verificationCode}", voice: Say.VoiceEnum.Alice);
+
+                var call = CallResource.Create(
+                    to: to,
+                    from: from,
+                    twiml: new Twiml(twiml.ToString()) // تحويل الـ TwiML إلى نص XML لاستخدامه في المكالمة
+                );
+
+                Console.WriteLine($"Call SID: {call.Sid}");
+                return true;
+            }
+            catch (Twilio.Exceptions.ApiException ex)
+            {
+                Console.WriteLine($"Twilio Error: {ex.Message}");
+                // هنا يمكنك تسجيل الخطأ لتتبعه أو التعامل معه حسب الحاجة
+                return false;
             }
         }
 
@@ -146,7 +183,14 @@ namespace Kvdemy.Infrastructure.Services.Users
             {
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
             }
+            if (dto.PhoneNumber.Contains("+965"))
+            {
+                if(!SendVerificationCodeViaCall(dto.PhoneNumber, user.OtpCode))
+                {
+                    return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
+                }
 
+            }
             try
             {
                 var result =   _userManager.CreateAsync(user, dto.Password).GetAwaiter().GetResult();
@@ -235,9 +279,17 @@ namespace Kvdemy.Infrastructure.Services.Users
             //user.StartingPrice = 10;
             user.CreatedAt = DateTime.UtcNow;
             user.Status = UserStatus.inActive;
-            if(!SendVerificationCode(dto.PhoneNumber, user.OtpCode))
+            if (!SendVerificationCode(dto.PhoneNumber, user.OtpCode))
             {
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
+            }
+            if (dto.PhoneNumber.Contains("+965"))
+            {
+                if (!SendVerificationCodeViaCall(dto.PhoneNumber, user.OtpCode))
+                {
+                    return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.DataFailed]);
+                }
+
             }
 
             try

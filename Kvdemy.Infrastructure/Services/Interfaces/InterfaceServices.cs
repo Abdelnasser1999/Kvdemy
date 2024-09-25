@@ -77,7 +77,7 @@ namespace Kvdemy.Infrastructure.Services.Interfaces
             _memoryCache = memoryCache;
             _firebaseMessaging = firebaseMessaging;
             fileService = new FileService(_env);
-            userService = new UserService(_mapper, _db, authService, _memoryCache, _httpContextAccessor, _userManager, _env, _localizedMessages, fileService);
+            userService = new UserService(_mapper, _db, authService, _memoryCache, _httpContextAccessor, _userManager, _env, _localizedMessages, fileService, _signInManager);
             authService = new AuthService(_mapper, _db, _roleManger, _httpContextAccessor, _userManager, _options, _localizedMessages, _signInManager, fileService);
 			categoryService = new CategroyService(_db, _mapper, fileService);
 			settingsService = new SettingsService(_db, _mapper);
