@@ -32,7 +32,7 @@ namespace Kvdemy.Infrastructure.Services.Users
 		Task<dynamic> Delete(string id);
 		Task<List<NationalityViewModel>> GetNationalities();
 
-
+		Task<dynamic> DeleteAccount(string id);
 
     }
 }

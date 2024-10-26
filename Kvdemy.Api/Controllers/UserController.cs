@@ -55,5 +55,13 @@ namespace Kvdemy.Api.Controllers
             return Ok(GetRespons(result, MessageResults.GetSuccessResult()));
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> DeleteAccount(string userId)
+        {
+            var result = await _interfaceServices.userService.DeleteAccount(userId);
+            return Ok(GetRespons(result, MessageResults.GetSuccessResult()));
+        }
+
     }
 }
