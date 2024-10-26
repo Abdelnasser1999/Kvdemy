@@ -25,21 +25,21 @@ namespace Kvdemy.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendVerificationCode([FromForm] string PhoneNumber)
+        public async Task<IActionResult> SendVerificationCode([FromForm] string email)
         {
-            var response = await _interfaceServices.authService.SendVerificationCodeAsync(PhoneNumber);
+            var response = await _interfaceServices.authService.SendVerificationCodeAsync(email);
             return Ok(response);
         }
         [HttpPost]
-        public async Task<IActionResult> VerifyCode([FromForm] string phoneNumber, [FromForm] string verificationCode)
+        public async Task<IActionResult> VerifyCode([FromForm] string email, [FromForm] string verificationCode)
         {
-            var response = await _interfaceServices.authService.VerifyCodeAsync(phoneNumber, verificationCode);
+            var response = await _interfaceServices.authService.VerifyCodeAsync(email, verificationCode);
             return Ok(response);
         }
         [HttpPost]
-        public async Task<IActionResult> ResetPassword([FromForm] string phoneNumber, [FromForm] string newPassword)
+        public async Task<IActionResult> ResetPassword([FromForm] string email, [FromForm] string newPassword)
         {
-            var response = await _interfaceServices.authService.ResetPasswordAsync(phoneNumber, newPassword);
+            var response = await _interfaceServices.authService.ResetPasswordAsync(email, newPassword);
             return Ok(response);
         }
 

@@ -23,10 +23,10 @@ using Kvdemy.Core.Enums;
 using Azure;
 using Newtonsoft.Json;
 using Kvdemy.Infrastructure.Helpers;
-using Twilio;
-using Twilio.Types;
-using Twilio.Rest.Api.V2010.Account;
-using Twilio.TwiML.Voice;
+using Amazon.SimpleEmail;
+using Amazon.SimpleEmail.Model;
+using System.Net.Mail;
+using System.Net;
 
 
 
@@ -47,11 +47,10 @@ namespace Kvdemy.Infrastructure.Services.Users
         private readonly IAuthService _authService;
 
         private readonly IFileService _fileService;
-        private readonly string _accountSid = "AC52e248e2ddfbff058302728c84884754";
-        private readonly string _authToken = "628e0a39dd0efeb6484de29d66a8dded";
-        private readonly string _twilioPhoneNumber = "+12166779186";
         private readonly SignInManager<User> _signInManager;
-
+        private readonly string accessKeyId = "AKIA2UC3EQAXVONVLYVO";
+        private readonly string secretAccessKey = "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";
+        private readonly AmazonSimpleEmailServiceClient client;
 
         public UserService(
              IMapper mapper,
@@ -77,8 +76,8 @@ namespace Kvdemy.Infrastructure.Services.Users
             _authService = authService;
             //_interfaceServices = interfaceServices;
             _fileService = fileService;
-            TwilioClient.Init(_accountSid, _authToken);
             _signInManager = signInManager;
+            client = new AmazonSimpleEmailServiceClient(accessKeyId, secretAccessKey, Amazon.RegionEndpoint.USEast1);
 
         }
         public async Task<bool> AdminLoginAsync(string email, string password)
@@ -87,57 +86,47 @@ namespace Kvdemy.Infrastructure.Services.Users
             return result.Succeeded;
         }
 
-        public bool SendVerificationCode(string phoneNumber, string verificationCode)
+        public async Task<bool> SendVerificationCode(string emailAddress, string verificationCode)
         {
-            var to = new PhoneNumber(phoneNumber);
-            var from = new PhoneNumber(_twilioPhoneNumber);
-
             try
             {
-                var message = MessageResource.Create(
-                    body: $"KVDEMY verification code is: {verificationCode}",
-                    from: from,
-                    to: to
-                );
+                //var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
+                //{
+                //    Credentials = new NetworkCredential("829645233e884e", "63146993323d54"),
+                //    EnableSsl = true
+                //};
+                //client.Send("info@kvdemy.com", "abd.alnasser.m.alaraj@gmail.com", "KVDEMY Verification Code", $"Your KVDEMY verification code is: {verificationCode}");
 
-                Console.WriteLine($"Message SID: {message.Sid}");
+                var smtpClient = new SmtpClient("smtp.titan.email")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("no-reply@kvdemy.com", "_jcKhWs?NL_/D3C"),
+                    EnableSsl = true,
+                };
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("no-reply@kvdemy.com"),
+                    Subject = "KVDEMY Verification Code",
+                    Body = $"Your KVDEMY verification code is: {verificationCode}",
+                    IsBodyHtml = false,
+                };
+
+                mailMessage.To.Add(emailAddress);
+
+                await smtpClient.SendMailAsync(mailMessage);
+
+                Console.WriteLine("Verification email sent successfully.");
                 return true;
             }
-            catch (Twilio.Exceptions.ApiException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine($"Twilio Error: {ex.Message}");
-                // هنا يمكنك تسجيل الخطأ لتتبعه أو التعامل معه حسب الحاجة
-                return false;
-
-            }
-        }
-        public bool SendVerificationCodeViaCall(string phoneNumber, string verificationCode)
-        {
-            var to = new PhoneNumber(phoneNumber);
-            var from = new PhoneNumber(_twilioPhoneNumber);
-
-            try
-            {
-                // نص الرسالة الصوتية
-                var twiml = new Twilio.TwiML.VoiceResponse();
-                twiml.Say($"Your KVDEMY verification code is: {verificationCode}", voice: Say.VoiceEnum.Alice);
-
-                var call = CallResource.Create(
-                    to: to,
-                    from: from,
-                    twiml: new Twiml(twiml.ToString()) // تحويل الـ TwiML إلى نص XML لاستخدامه في المكالمة
-                );
-
-                Console.WriteLine($"Call SID: {call.Sid}");
-                return true;
-            }
-            catch (Twilio.Exceptions.ApiException ex)
-            {
-                Console.WriteLine($"Twilio Error: {ex.Message}");
-                // هنا يمكنك تسجيل الخطأ لتتبعه أو التعامل معه حسب الحاجة
+                Console.WriteLine($"Failed to send email via SMTP: {ex.Message}");
                 return false;
             }
         }
+
+
 
         public async Task<dynamic> CreateStudent(CreateStudentDto dto)
         {
@@ -179,17 +168,9 @@ namespace Kvdemy.Infrastructure.Services.Users
             {
                 throw new NationalityNotFoundException();
             }
-            if (!SendVerificationCode(dto.PhoneNumber, user.OtpCode))
+            if (!await SendVerificationCode(dto.Email, user.OtpCode))
             {
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
-            }
-            if (dto.PhoneNumber.Contains("+965"))
-            {
-                if(!SendVerificationCodeViaCall(dto.PhoneNumber, user.OtpCode))
-                {
-                    return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
-                }
-
             }
             try
             {
@@ -279,17 +260,9 @@ namespace Kvdemy.Infrastructure.Services.Users
             //user.StartingPrice = 10;
             user.CreatedAt = DateTime.UtcNow;
             user.Status = UserStatus.inActive;
-            if (!SendVerificationCode(dto.PhoneNumber, user.OtpCode))
+            if (!await SendVerificationCode(dto.Email, user.OtpCode))
             {
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
-            }
-            if (dto.PhoneNumber.Contains("+965"))
-            {
-                if (!SendVerificationCodeViaCall(dto.PhoneNumber, user.OtpCode))
-                {
-                    return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.DataFailed]);
-                }
-
             }
 
             try

@@ -21,9 +21,11 @@ using Kvdemy.Core.Exceptions;
 using Kvdemy.Core.Dtos;
 using Kvdemy.Core.Enums;
 using Newtonsoft.Json;
-using Twilio.Types;
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
+using Amazon;
+using Amazon.SimpleEmail;
+using Amazon.SimpleEmail.Model;
+using System.Net.Mail;
+using System.Net;
 
 
 
@@ -43,10 +45,9 @@ namespace Kvdemy.Infrastructure.Services.Auth
         private RoleManager<IdentityRole> _roleManger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFileService _fileService;
-        private readonly string _accountSid = "AC52e248e2ddfbff058302728c84884754";
-        private readonly string _authToken = "628e0a39dd0efeb6484de29d66a8dded";
-        private readonly string _twilioPhoneNumber = "+12166779186";
-
+        private readonly string accessKeyId = "AKIA2UC3EQAXVONVLYVO";
+        private readonly string secretAccessKey = "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";
+        private readonly AmazonSimpleEmailServiceClient client;
 
         public AuthService(
             IMapper mapper,
@@ -71,62 +72,78 @@ namespace Kvdemy.Infrastructure.Services.Auth
             _httpContextAccessor = httpContextAccessor;
             _roleManger = roleManger;
             _fileService = fileService;
-            TwilioClient.Init(_accountSid, _authToken);
+            client = new AmazonSimpleEmailServiceClient(accessKeyId, secretAccessKey, Amazon.RegionEndpoint.USEast1);
 
         }
-        public bool SendVerificationCode(string phoneNumber, string verificationCode)
+        static string mes = "";
+        public async Task<bool> SendVerificationCode(string emailAddress, string verificationCode)
         {
-            var to = new PhoneNumber(phoneNumber);
-            var from = new PhoneNumber(_twilioPhoneNumber);
-
             try
             {
-                var message = MessageResource.Create(
-                    body: $"KVDEMY verification code is: {verificationCode}",
-                    from: from,
-                    to: to
-                );
+                //var client = new SmtpClient("sandbox.smtp.mailtrap.io", 2525)
+                //{
+                //    Credentials = new NetworkCredential("829645233e884e", "63146993323d54"),
+                //    EnableSsl = true
+                //};
+                //client.Send("info@kvdemy.com", "abd.alnasser.m.alaraj@gmail.com", "KVDEMY Verification Code", $"Your KVDEMY verification code is: {verificationCode}");
 
-                Console.WriteLine($"Message SID: {message.Sid}");
+                var smtpClient = new SmtpClient("smtp.titan.email")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential("no-reply@kvdemy.com", "_jcKhWs?NL_/D3C"),
+                    EnableSsl = true,
+                };
+
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("no-reply@kvdemy.com"),
+                    Subject = "KVDEMY Verification Code",
+                    Body = $"Your KVDEMY verification code is: {verificationCode}",
+                    IsBodyHtml = false,
+                };
+
+                mailMessage.To.Add(emailAddress);
+
+                await smtpClient.SendMailAsync(mailMessage);
+
+                Console.WriteLine("Verification email sent successfully.");
                 return true;
             }
-            catch (Twilio.Exceptions.ApiException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine($"Twilio Error: {ex.Message}");
-                // هنا يمكنك تسجيل الخطأ لتتبعه أو التعامل معه حسب الحاجة
+                Console.WriteLine($"Failed to send email via SMTP: {ex.Message}");
+                mes = ex.Message;
                 return false;
-
             }
         }
 
-        public async Task<dynamic> SendVerificationCodeAsync(string phoneNumber)
+        public async Task<dynamic> SendVerificationCodeAsync(string email)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
-            if (user == null)
-            {
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
-            }
+            //var user = await _userManager.Users.SingleOrDefaultAsync(x => x.Email == email);
+            //if (user == null)
+            //{
+            //    return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
+            //}
 
             Random random = new Random();
             var verificationCode = random.Next(1000, 10000).ToString();
 
-            // إرسال رمز التحقق إلى رقم الهاتف عبر خدمة SMS
 
             // تخزين رمز التحقق في قاعدة البيانات
-            user.OtpCode = verificationCode;
-            await _userManager.UpdateAsync(user);
+            //user.OtpCode = verificationCode;
+            //await _userManager.UpdateAsync(user);
 
-            if (!SendVerificationCode(phoneNumber, verificationCode))
+            if (!await SendVerificationCode("moh.shaer7731636@gmail.com", verificationCode))
             {
-                return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.FailedSendOtp]);
+                return new ApiResponseFailedViewModel(mes);
             }
 
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], verificationCode);
 
         }
-        public async Task<dynamic> VerifyCodeAsync(string phoneNumber, string verificationCode)
+        public async Task<dynamic> VerifyCodeAsync(string email, string verificationCode)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.Email == email);
             if (user == null || user.OtpCode != verificationCode)
             {
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.OtpWrong]);
@@ -134,9 +151,9 @@ namespace Kvdemy.Infrastructure.Services.Auth
 
             return new ApiResponseSuccessViewModel(_localizedMessages[MessagesKey.DataSuccess], true);
         }
-        public async Task<dynamic> ResetPasswordAsync(string phoneNumber, string newPassword)
+        public async Task<dynamic> ResetPasswordAsync(string email, string newPassword)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+            var user = await _userManager.Users.SingleOrDefaultAsync(x => x.Email == email);
             if (user == null)
             {
                 return new ApiResponseFailedViewModel(_localizedMessages[MessagesKey.UserNotFound]);
